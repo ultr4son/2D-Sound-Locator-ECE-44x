@@ -11,9 +11,11 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.android.synthetic.main.activity_main.*
 import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 
 private const val PERMISSIONS_REQUEST_CODE = 10
-private val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA)
 
 class MainActivity : AppCompatActivity() {
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
@@ -22,41 +24,46 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    initCamera()
+                }
+            }
+        when(ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.CAMERA
+        )) {
+            PackageManager.PERMISSION_GRANTED -> {
+                initCamera()
+            }
+            else -> {
+                // You can directly ask for the permission.
+                // The registered ActivityResultCallback gets the result of this request.
+                requestPermissionLauncher.launch(
+                    Manifest.permission.CAMERA)
+            }
+        }
+
+
+
+
+
+
+
+    }
+
+    fun initCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener(Runnable {
             val cameraProvider = cameraProviderFuture.get()
             bindPreview(cameraProvider)
         }, ContextCompat.getMainExecutor(this))
 
-        val requestPermissionLauncher =
-            registerForActivityResult(RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    // Permission is granted. Continue the action or workflow in your
-                    // app.
-                } else {
-                    // Explain to the user that the feature is unavailable because the
-                    // features requires a permission that the user has denied. At the
-                    // same time, respect the user's decision. Don't link to system
-                    // settings in an effort to convince the user to change their
-                    // decision.
-                }
-            }
-
-
-
     }
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray) {
-        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-           if (PackageManager.PERMISSION_GRANTED == grantResults.firstOrNull()) {
-                startCamera()
-            } else {
-                finish()
-            }
-        }
-    }
+
 
     fun bindPreview(cameraProvider : ProcessCameraProvider) {
         var preview : Preview = Preview.Builder()
