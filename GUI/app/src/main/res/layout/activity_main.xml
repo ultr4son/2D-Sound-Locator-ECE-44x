@@ -7,13 +7,24 @@
     tools:context=".MainActivity">
 
 
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+    </androidx.camera.view.PreviewView>
 
     <org.florescu.android.rangeseekbar.RangeSeekBar
         android:id="@+id/frequencySelect"
         android:layout_width="305dp"
         android:layout_height="65dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
+        android:visibility="visible"
         app:absoluteMaxValue="2000"
         app:absoluteMinValue="20"
         app:layout_constraintBottom_toTopOf="@+id/stopRecordingButton"
@@ -24,44 +35,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:text="Record"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopRecordingButton"
-        app:layout_constraintTop_toTopOf="@+id/locateButton" />
+        app:layout_constraintTop_toTopOf="@+id/locateButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/stopRecordingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:text="Hold"
+        android:visibility="invisible"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/eraseRecordingButton"
-        app:layout_constraintTop_toTopOf="@+id/locateButton" />
+        app:layout_constraintTop_toTopOf="@+id/locateButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/eraseRecordingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:text="Erase"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/locateButton" />
-
-    <Switch
-        android:id="@+id/recordModeSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Record Mode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/locateButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/locateButton"
@@ -73,16 +77,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/viewFinder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Switch
+        android:id="@+id/recordModeSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:showText="false"
+        android:text="Record Mode"
+        android:textColor="#FFFFFF"
+        android:thumbTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.camera.view.PreviewView>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
