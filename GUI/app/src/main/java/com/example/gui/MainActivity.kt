@@ -1,9 +1,7 @@
 package com.example.gui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.*
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.CameraXConfig
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -11,20 +9,30 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.android.synthetic.main.activity_main.*
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
+import android.hardware.Camera
+import android.hardware.camera2.CameraManager
+import android.hardware.camera2.params.StreamConfigurationMap
 import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
+import androidx.camera.camera2.interop.Camera2CameraInfo
+import androidx.camera.camera2.interop.Camera2Interop
+import com.hoho.android.usbserial.util.SerialInputOutputManager
+import java.lang.Exception
 
 private const val PERMISSIONS_REQUEST_CODE = 10
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SerialInputOutputManager.Listener {
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private var locator: Locator? = null
     private var isLocating: Boolean = false
+    private var fovX: Int = 90
+    private var fovY: Int = 90
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.CAMERA
         )) {
             PackageManager.PERMISSION_GRANTED -> {
+
                 initCamera()
             }
             else -> {
@@ -54,7 +63,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         locator = connectToLocator(this)
-        initLocator()
+        if(locator != null) {
+            initLocator()
+            Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
+        }
 
         recordModeSwitch.setOnClickListener {
             if(recordModeSwitch.isChecked) {
@@ -78,6 +90,9 @@ class MainActivity : AppCompatActivity() {
         }
         locateButton.setOnClickListener {
             isLocating = !isLocating
+            if(!isLocating) {
+                coordnatesText.visibility = INVISIBLE
+            }
             locator?.setLocationEnable(asLocationState(isLocating))
         }
         startRecordingButton.setOnClickListener {
@@ -90,6 +105,16 @@ class MainActivity : AppCompatActivity() {
             locator?.clearRecord()
         }
 
+    }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if(intent.action.equals("android.hardware.usb.action.USB_DEVICE_ATTACHED")) {
+            locator = connectToLocator(this)
+            if(locator != null) {
+                initLocator()
+                Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun initLocator() {
@@ -122,9 +147,31 @@ class MainActivity : AppCompatActivity() {
         preview.setSurfaceProvider(viewFinder.surfaceProvider)
 
         var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview)
+
+
+
     }
 
+    override fun onRunError(e: Exception?) {
+        Log.e(null, e?.message ?: "")
+    }
 
+    override fun onNewData(data: ByteArray?) {
+        if(data == null) {
+            Log.e(null, "data is null")
+        }
+        else {
+            if(isLocating) {
+                val coordnates = bytesToAngles(data)
+                if(coordnatesText.visibility == INVISIBLE) {
+                    coordnatesText.visibility = VISIBLE
+                }
+                coordnatesText.text = coordnates.first.toString() + ", " + coordnates.second.toString()
+                coordnatesText.x = coordnates.first.toFloat()
+                coordnatesText.y = coordnates.second.toFloat()
+            }
+        }
+    }
 
 
 }

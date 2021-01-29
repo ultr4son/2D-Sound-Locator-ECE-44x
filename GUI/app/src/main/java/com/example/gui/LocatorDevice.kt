@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialPort.*
 import com.hoho.android.usbserial.driver.UsbSerialProber
+import java.lang.Exception
 import java.nio.ByteBuffer
 
 
@@ -33,7 +34,7 @@ interface Locator {
 private const val BAUD = 115200
 private const val TIMEOUT = 1000
 
-class LocatorSerial (private val port: UsbSerialPort, private val connection: UsbDeviceConnection) : Locator {
+class LocatorSerial (private val port: UsbSerialPort, connection: UsbDeviceConnection) : Locator {
     private enum class Command(val commandCode: Byte) {
         START_RECORD(0),
         STOP_RECORD(1),
@@ -81,6 +82,16 @@ class LocatorSerial (private val port: UsbSerialPort, private val connection: Us
 
 
 }
+fun bytesToAngles(bytes:ByteArray): Pair<Int, Int> {
+    if(bytes.size != Int.SIZE_BYTES * 2 + 1) {
+        throw Exception("Coordnates bytes are invalid length")
+    }
+
+    val x = ByteBuffer.wrap(bytes.slice(IntRange(0, Int.SIZE_BYTES - 1)).toByteArray()).int
+    val y = ByteBuffer.wrap(bytes.slice(IntRange(Int.SIZE_BYTES, Int.SIZE_BYTES*2 - 1)).toByteArray()).int
+
+    return Pair<Int,Int>(x, y)
+}
 
 fun connectToLocator(context: Context): Locator? {
     // Find all available drivers from attached devices.
@@ -89,8 +100,6 @@ fun connectToLocator(context: Context): Locator? {
     if (availableDrivers.isEmpty()) {
         return null
     }
-
-    // Open a connection to the first available driver.
 
     // Open a connection to the first available driver.
     val driver = availableDrivers[0]
