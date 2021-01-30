@@ -37,7 +37,7 @@ interface Locator {
 private const val BAUD = 115200
 private const val TIMEOUT = 1000
 
-class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: UsbDeviceConnection, val onCoordnates: (Pair<Int, Int>) -> Unit, val onError: (String) -> Unit, val onRecordingStopped: ()->Unit, val onOther: (ByteArray) -> Unit = {}) : Locator, SerialInputOutputManager.Listener {
+class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: UsbDeviceConnection, val onCoordnates: (Pair<Int, Int>?) -> Unit, val onError: (String) -> Unit, val onRecordingStopped: ()->Unit, val onOther: (ByteArray?) -> Unit = {}) : Locator, SerialInputOutputManager.Listener {
     //The next enums describe the possible commands that will be sent between the phone and locator.
     //In general, the transmission format follows:
 
@@ -77,7 +77,12 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
     }
     enum class LocatorToPhoneCommand(val commandCode: Byte) {
         //Set angle display to new angle: COMMAND_CODE(1) | X(2) | Y(2)
-        SET_COORDNATES(7),
+        SET_COORDNATES(7);
+        companion object {
+            private val map = values().associateBy(LocatorToPhoneCommand::commandCode)
+            fun fromByte(code: Byte) = map[code]
+            fun isCommand(code: Byte) = code in map
+        }
 
     }
 
@@ -93,11 +98,13 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
 
     override fun onNewData(data: ByteArray?) {
         if(data != null && data.size > 0) {
-            when(data[0]) {
-                LocatorToPhoneCommand.SET_COORDNATES.commandCode-> context.runOnUiThread {onCoordnates(bytesToAngles(data.sliceArray(IntRange(1, data.size))))}
-                else -> context.runOnUiThread {onOther(data)}
-            }
+            if(data[0].equals(LocatorToPhoneCommand.SET_COORDNATES.commandCode)) {
+                context.runOnUiThread {onCoordnates(bytesToAngles(data.sliceArray(IntRange(1, data.size - 1))))}
 
+            }
+            else {
+                context.runOnUiThread {onOther(data)}
+            }
 
         }
     }
@@ -141,13 +148,13 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
 
 
 }
-fun bytesToAngles(bytes:ByteArray): Pair<Int, Int> {
+fun bytesToAngles(bytes:ByteArray): Pair<Int, Int>? {
     if(bytes.size != Short.SIZE_BYTES * 2) {
-        throw Exception("Coordnates bytes are invalid length")
+        return null
     }
 
-    val x = ByteBuffer.wrap(bytes.sliceArray(IntRange(0, Short.SIZE_BYTES - 1))).int
-    val y = ByteBuffer.wrap(bytes.sliceArray(IntRange(Short.SIZE_BYTES, Short.SIZE_BYTES * 2 - 1))).int
+    val x = ByteBuffer.wrap(bytes.sliceArray(IntRange(0, Short.SIZE_BYTES - 1))).short.toInt()
+    val y = ByteBuffer.wrap(bytes.sliceArray(IntRange(Short.SIZE_BYTES, Short.SIZE_BYTES * 2 - 1))).short.toInt()
 
     return Pair<Int,Int>(x, y)
 }
@@ -160,7 +167,7 @@ fun bytesToAngles(bytes:ByteArray): Pair<Int, Int> {
  * @param onOther: Called when the locator sends something that is not coordnates or an error code
  * @return A Locator interface object
  */
-fun connectToLocator(context: Context, onCoordnates: (Pair<Int, Int>) -> Unit, onError: (String?) -> Unit, onOther: (ByteArray) -> Unit): Locator? {
+fun connectToLocator(context: Context, onCoordnates: (Pair<Int, Int>?) -> Unit, onError: (String?) -> Unit, onOther: (ByteArray?) -> Unit): Locator? {
     // Find all available drivers from attached devices.
     val manager = context.getSystemService(Context.USB_SERVICE) as UsbManager?
     val availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager)

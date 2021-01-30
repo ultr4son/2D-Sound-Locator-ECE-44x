@@ -7,12 +7,6 @@
     tools:context=".MainActivity">
 
 
-    <TextView
-        android:id="@+id/coordnatesText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible" />
-
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
         android:layout_width="match_parent"
@@ -36,17 +30,14 @@
         app:layout_constraintBottom_toTopOf="@+id/stopRecordingButton"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/startRecordingButton"
+    <TextView
+        android:id="@+id/coordnatesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="Record"
+        android:textColor="#FFFFFF"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/stopRecordingButton"
-        app:layout_constraintTop_toTopOf="@+id/locateButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/stopRecordingButton"
@@ -82,6 +73,28 @@
         android:text="Locate"
         app:layout_constraintBottom_toBottomOf="@+id/viewFinder"
         app:layout_constraintEnd_toStartOf="@+id/startRecordingButton" />
+
+    <ImageView
+        android:id="@+id/offscreenArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/coordnatesText"
+        app:layout_constraintEnd_toEndOf="@+id/coordnatesText"
+        app:layout_constraintStart_toStartOf="@+id/coordnatesText"
+        app:srcCompat="@drawable/abc_vector_test" />
+
+    <Button
+        android:id="@+id/startRecordingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Record"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/stopRecordingButton"
+        app:layout_constraintTop_toTopOf="@+id/locateButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Switch
         android:id="@+id/recordModeSwitch"
