@@ -108,7 +108,6 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
         }
     }
     override fun startRecord() {
-
         port.write(byteArrayOf(PhoneToLocatorCommand.START_RECORD.commandCode), TIMEOUT)
     }
 
@@ -143,12 +142,12 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
 
 }
 fun bytesToAngles(bytes:ByteArray): Pair<Int, Int> {
-    if(bytes.size != 2 * 2 + 1) {
+    if(bytes.size != Short.SIZE_BYTES * 2) {
         throw Exception("Coordnates bytes are invalid length")
     }
 
-    val x = ByteBuffer.wrap(bytes.slice(IntRange(0, Int.SIZE_BYTES - 1)).toByteArray()).int
-    val y = ByteBuffer.wrap(bytes.slice(IntRange(Int.SIZE_BYTES, Int.SIZE_BYTES*2 - 1)).toByteArray()).int
+    val x = ByteBuffer.wrap(bytes.sliceArray(IntRange(0, Short.SIZE_BYTES - 1))).int
+    val y = ByteBuffer.wrap(bytes.sliceArray(IntRange(Short.SIZE_BYTES, Short.SIZE_BYTES * 2 - 1))).int
 
     return Pair<Int,Int>(x, y)
 }

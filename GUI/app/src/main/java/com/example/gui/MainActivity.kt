@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
     fun onNewData(data: ByteArray) {
         if(data.size > 0) {
             if(LocatorSerial.PhoneToLocatorCommand.isCommand(data[0])) {
-                Toast.makeText(this, LocatorSerial.PhoneToLocatorCommand.fromByte(data[0]).toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, data.size.toString() + " " + LocatorSerial.PhoneToLocatorCommand.fromByte(data[0]).toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
