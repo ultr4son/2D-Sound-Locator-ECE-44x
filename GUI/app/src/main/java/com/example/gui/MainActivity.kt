@@ -27,7 +27,7 @@ import java.lang.Exception
 
 private const val PERMISSIONS_REQUEST_CODE = 10
 
-class MainActivity : AppCompatActivity(), SerialInputOutputManager.Listener {
+class MainActivity : AppCompatActivity() {
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private var locator: Locator? = null
     private var isLocating: Boolean = false
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), SerialInputOutputManager.Listener {
                     Manifest.permission.CAMERA)
             }
         }
-        locator = connectToLocator(this)
+        locator = connectToLocator(this,::onCoordnates, ::onRunError, ::onNewData)
         if(locator != null) {
             initLocator()
             Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
@@ -89,13 +89,16 @@ class MainActivity : AppCompatActivity(), SerialInputOutputManager.Listener {
             }
         }
         locateButton.setOnClickListener {
+            Toast.makeText(this, "wow", Toast.LENGTH_SHORT).show()
             isLocating = !isLocating
             if(!isLocating) {
                 coordnatesText.visibility = INVISIBLE
             }
             locator?.setLocationEnable(asLocationState(isLocating))
+
         }
         startRecordingButton.setOnClickListener {
+            Toast.makeText(this, "recording", Toast.LENGTH_SHORT).show()
             locator?.startRecord()
         }
         stopRecordingButton.setOnClickListener {
@@ -104,23 +107,30 @@ class MainActivity : AppCompatActivity(), SerialInputOutputManager.Listener {
         eraseRecordingButton.setOnClickListener {
             locator?.clearRecord()
         }
+        frequencySelect.setOnRangeSeekBarChangeListener { bar, number, number2 ->
+            locator?.setFrequencyRange(number.toShort(), number2.toShort())
+        }
 
     }
     override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
+        Toast.makeText(this, "Intent", Toast.LENGTH_SHORT).show()
         if(intent.action.equals("android.hardware.usb.action.USB_DEVICE_ATTACHED")) {
-            locator = connectToLocator(this)
+            Toast.makeText(this, "Usb device", Toast.LENGTH_SHORT).show()
+
+            locator = connectToLocator(this, ::onCoordnates , ::onRunError, ::onNewData)
             if(locator != null) {
                 initLocator()
                 Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
             }
         }
+        super.onNewIntent(intent)
+
     }
 
     fun initLocator() {
         locator?.setLocationEnable(asLocationState(isLocating))
         locator?.setLocationMode(if(recordModeSwitch.isChecked) LocationMode.RECORDING else LocationMode.FREQUENCY)
-        locator?.setFrequencyRange(frequencySelect.selectedMinValue.toInt(), frequencySelect.selectedMaxValue.toInt())
+        locator?.setFrequencyRange(frequencySelect.selectedMinValue.toShort(), frequencySelect.selectedMaxValue.toShort())
         locator?.stopRecord()
         locator?.clearRecord()
     }
@@ -152,26 +162,26 @@ class MainActivity : AppCompatActivity(), SerialInputOutputManager.Listener {
 
     }
 
-    override fun onRunError(e: Exception?) {
-        Log.e(null, e?.message ?: "")
+    fun onRunError(e: String?) {
+        Log.e(null, e.orEmpty())
     }
+    fun onCoordnates(coordnates: Pair<Int, Int>) {
+        if(isLocating) {
+            if(coordnatesText.visibility == INVISIBLE) {
+                coordnatesText.visibility = VISIBLE
+            }
+            coordnatesText.text = coordnates.first.toString() + ", " + coordnates.second.toString()
+            coordnatesText.x = coordnates.first.toFloat()
+            coordnatesText.y = coordnates.second.toFloat()
 
-    override fun onNewData(data: ByteArray?) {
-        if(data == null) {
-            Log.e(null, "data is null")
         }
-        else {
-            if(isLocating) {
-                val coordnates = bytesToAngles(data)
-                if(coordnatesText.visibility == INVISIBLE) {
-                    coordnatesText.visibility = VISIBLE
-                }
-                coordnatesText.text = coordnates.first.toString() + ", " + coordnates.second.toString()
-                coordnatesText.x = coordnates.first.toFloat()
-                coordnatesText.y = coordnates.second.toFloat()
+}
+    fun onNewData(data: ByteArray) {
+        if(data.size > 0) {
+            if(LocatorSerial.PhoneToLocatorCommand.isCommand(data[0])) {
+                Toast.makeText(this, LocatorSerial.PhoneToLocatorCommand.fromByte(data[0]).toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
-
 
 }
