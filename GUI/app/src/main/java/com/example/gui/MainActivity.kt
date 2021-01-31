@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Build
 import android.os.Bundle
@@ -28,6 +29,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.android.synthetic.main.activity_main.*
 import java.security.AccessController.getContext
 import java.util.Collections.min
+import kotlin.math.max
 import kotlin.math.min
 
 
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var isLocating: Boolean = false
     private var fovX: Float = 90f
     private var fovY: Float = 90f
+    private var time_millis: Long = System.currentTimeMillis()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -195,28 +198,37 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Error: " + e.orEmpty(), Toast.LENGTH_SHORT).show()
     }
     fun anglesToScreenTranslation(coordnates: Pair<Int, Int>): Pair<Float, Float> {
-        val boundsX = viewFinder.width
-        val boundsY = viewFinder.height
-        return Pair(boundsX * (coordnates.first / fovX), boundsY * (coordnates.second / fovY))
+        val boundsX = viewFinder.width / 2
+        val boundsY = viewFinder.height / 2
+        return Pair(boundsX + boundsX * (coordnates.first / (fovX)), boundsY + boundsY * (coordnates.second / (fovY)))
     }
+
     fun onCoordnates(coordnates: Pair<Int, Int>?) {
-        Toast.makeText(this, "onCoordnates", Toast.LENGTH_SHORT).show()
         if(isLocating && coordnates != null) {
+            val currentTimeMillis = System.currentTimeMillis()
+            val dt = currentTimeMillis - time_millis
+            time_millis = currentTimeMillis
+            reciveRate.text = dt.toString()
             if(coordnatesText.visibility == INVISIBLE) {
                 coordnatesText.visibility = VISIBLE
             }
 
 
             coordnatesText.text = coordnates.first.toString() + ", " + coordnates.second.toString()
+            coordnatesText.measure(0, 0)
             var translation = anglesToScreenTranslation(coordnates)
-            if(translation.first > viewFinder.width - coordnatesText.width || translation.second > viewFinder.height - coordnatesText.width) {
-                translation = translation.copy(min(viewFinder.width.toFloat() - coordnatesText.width, translation.first), min(viewFinder.height.toFloat() - coordnatesText.height, translation.second))
-                offscreenArrow.visibility = VISIBLE
+            if(translation.first > viewFinder.width - coordnatesText.measuredWidth || translation.second > viewFinder.height - coordnatesText.measuredHeight) {
+                translation = translation.copy(min(viewFinder.width.toFloat() - coordnatesText.measuredWidth, translation.first), min(viewFinder.height.toFloat() - coordnatesText.measuredHeight, translation.second))
+                coordnatesText.setTextColor(Color.YELLOW)
+            }
+            else if(translation.first < coordnatesText.width || translation.second < coordnatesText.height) {
+                translation = translation.copy(max(coordnatesText.measuredWidth.toFloat(), translation.first), max(coordnatesText.measuredHeight.toFloat(), translation.second))
+                coordnatesText.setTextColor(Color.YELLOW)
             }
             else {
-                offscreenArrow.visibility = INVISIBLE
+                coordnatesText.setTextColor(Color.WHITE)
+//                offscreenArrow.visibility = INVISIBLE
             }
-            Toast.makeText(this, "locating: " + translation.first.toString() + " " + translation.second.toString(), Toast.LENGTH_SHORT).show()
 
             val rotate = ObjectAnimator.ofFloat(offscreenArrow, "rotation", Math.toDegrees(Math.atan2(coordnates.second.toDouble() , coordnates.first.toDouble())).toFloat())
             val param = coordnatesText.layoutParams as ViewGroup.MarginLayoutParams

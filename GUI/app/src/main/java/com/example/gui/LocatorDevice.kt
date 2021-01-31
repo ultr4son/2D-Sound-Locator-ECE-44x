@@ -88,7 +88,7 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
 
     init {
         port.open(connection)
-        port.setParameters(BAUD, DATABITS_8, STOPBITS_1, PARITY_NONE)
+        port.setParameters(115200, DATABITS_8, STOPBITS_1, PARITY_NONE)
         port.setDTR(true); // for arduino, ...
         port.setRTS(true);
         val ioManager = SerialInputOutputManager(port, this)
