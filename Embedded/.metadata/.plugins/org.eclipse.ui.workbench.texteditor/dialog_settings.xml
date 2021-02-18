@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="&#x09;HAL_ADC_Start_DMA(hadc1, &amp;ADC_RC, 4);"/>
+		<list key="findhistory">
+			<item value="&#x09;HAL_ADC_Start_DMA(hadc1, &amp;ADC_RC, 4);"/>
+		</list>
+	</section>
+</section>
