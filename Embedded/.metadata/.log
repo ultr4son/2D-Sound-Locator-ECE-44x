@@ -113,3 +113,2085 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 4 4 2021-02-18 14:25:36.292
 !MESSAGE com.st.stm32cube.ide.mcu.ide/META-INF/version/build_ref file not found, build reference will not be reported into properties
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 2 2 2021-02-18 15:11:45.718
+!MESSAGE ST-LINK firmware verification, No latest info found: 2
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 104 2021-02-18 15:30:04.010
+!MESSAGE Program file does not exist
+!STACK 0
+java.io.FileNotFoundException: C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:131)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:315)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:142)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 104 2021-02-18 15:30:04.010
+!MESSAGE C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+!STACK 0
+java.io.FileNotFoundException: C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:131)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:315)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:142)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.cdt.core 1 0 2021-02-18 22:37:09.142
+!MESSAGE Indexed 'Locator' (26 sources, 133 headers) in 2.55 sec: 12,731 declarations; 51,653 references; 2 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.23%)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2021-02-18 22:37:14.388
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2021-02-18 22:37:47.512
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY org.eclipse.core.resources 4 2 2021-02-18 23:01:15.133
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.core.resources".
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions)[368]: java.lang.Exception: Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:244)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:231)
+	at com.st.stm32cube.ide.mcu.toolchain.armnone.oss.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:597)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:854)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:766)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:515)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:461)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:832)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:220)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:316)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:319)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:371)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:392)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:515)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:412)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:291)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2021-02-18 23:01:15.135
+!MESSAGE Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:244)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:231)
+	at com.st.stm32cube.ide.mcu.toolchain.armnone.oss.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:597)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:854)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:766)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:515)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:461)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:832)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:220)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:316)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:319)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:371)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:392)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:515)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:412)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:291)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2021-02-18 23:01:15.135
+!MESSAGE Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:244)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:231)
+	at com.st.stm32cube.ide.mcu.toolchain.armnone.oss.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:597)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:854)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:766)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:515)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:461)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:832)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:220)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:316)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:319)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:371)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:392)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:515)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:412)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:291)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 75 2021-02-18 23:01:15.430
+!MESSAGE Errors occurred during the build.
+!SUBENTRY 1 org.eclipse.cdt.managedbuilder.core 4 75 2021-02-18 23:01:15.430
+!MESSAGE Errors running builder 'CDT Builder' on project 'Locator'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions)[368]: java.lang.Exception: Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:244)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:231)
+	at com.st.stm32cube.ide.mcu.toolchain.armnone.oss.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:597)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:854)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:766)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:515)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:461)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:832)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:220)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:316)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:319)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:371)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:392)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:515)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:412)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:291)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 2 org.eclipse.core.resources 4 368 2021-02-18 23:01:15.430
+!MESSAGE Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:244)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:231)
+	at com.st.stm32cube.ide.mcu.toolchain.armnone.oss.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:597)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:854)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:766)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:515)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:461)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:832)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:220)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:316)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:319)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:371)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:392)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:515)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:412)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:291)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.resources 4 368 2021-02-18 23:01:15.430
+!MESSAGE Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+!STACK 0
+java.lang.Exception: Resource '/Locator/Debug/CMSIS/CMSIS/DSP/Source/TransformFunctions' does not exist.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Resource.checkExists(Resource.java:330)
+	at org.eclipse.core.internal.resources.Resource.checkAccessible(Resource.java:204)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:244)
+	at org.eclipse.core.internal.resources.Container.members(Container.java:231)
+	at com.st.stm32cube.ide.mcu.toolchain.armnone.oss.makefile.MakefileGenerator.generateDependencies(MakefileGenerator.java:597)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPostbuildGeneration(CommonBuilder.java:854)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:766)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:515)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:461)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:832)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:220)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:263)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:316)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:319)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:371)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:392)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:515)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:412)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:291)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.cdt.core 1 0 2021-02-18 23:17:25.961
+!MESSAGE Indexed 'Locator' (26 sources, 113 headers) in 1.64 sec: 12,548 declarations; 51,489 references; 3 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.23%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2021-02-18 23:20:59.537
+!MESSAGE Indexed 'Locator' (26 sources, 113 headers) in 1.39 sec: 12,548 declarations; 51,489 references; 3 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.23%)
+!SESSION 2021-02-18 23:29:24.394 -----------------------------------------------
+eclipse.buildId=Version 1.5.1
+java.version=1.8.0_272
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2021-02-18 23:29:48.324
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2021-02-18 23:29:48.538
+!MESSAGE Log4j initialized with config file C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2021-02-18 23:30:06.819
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 4 4 2021-02-18 23:30:07.394
+!MESSAGE com.st.stm32cube.ide.mcu.ide/META-INF/version/build_ref file not found, build reference will not be reported into properties
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-18 23:34:20.167
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-18 23:34:20.167
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-18 23:41:45.260
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-18 23:41:45.261
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-18 23:48:26.405
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-18 23:48:26.405
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-18 23:48:37.921
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-18 23:48:37.922
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SESSION 2021-02-19 00:10:46.095 -----------------------------------------------
+eclipse.buildId=Version 1.5.1
+java.version=1.8.0_272
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data file:/C:/Users/catsr/source/repos/2D-Sound-Locator-ECE-44x/Embedded/
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2021-02-19 00:10:55.383
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2021-02-19 00:10:55.453
+!MESSAGE Log4j initialized with config file C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2021-02-19 00:11:04.816
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 4 4 2021-02-19 00:11:05.438
+!MESSAGE com.st.stm32cube.ide.mcu.ide/META-INF/version/build_ref file not found, build reference will not be reported into properties
+
+!ENTRY mirur.mirur-ui 1 0 2021-02-19 00:12:05.725
+!MESSAGE 2021-02-19 00:12:05 PST
+00:12:05    INFO: main-Display-.windows_nil-1-EDT-1 - GLCapabilityEventListener2.init: OpenGL Capabilities List
+OpenGL Vendor: Intel
+OpenGL Vendor Documentation: The company responsible for this GL implementation. This name does not change from release to release.
+OpenGL Renderer: Intel(R) UHD Graphics 620
+OpenGL Renderer Documentation: The name of the renderer. This name is typically specific to a particular configuration of a hardware platform. It does not change from release to release.
+OpenGL Version: 4.4.0 - Build 27.20.100.8681
+OpenGL Version Documentation: A version or release number.
+OpenGL Shader Version: 4.40 - Build 27.20.100.8681
+OpenGL Shader Version Documentation: A version or release number for the shading language.
+OpenGL Max Vertex Attributes: 16
+OpenGL Max Geometry Outputs: 1024
+OpenGL Max Texture Edge Length: 16384
+OpenGL Max Texture Buffer Size: 134217728
+OpenGL Max Element Indices: 1048576
+OpenGL Max Element Vertices: 1048576
+init(): buffer-properties:  0 bits depth
+init(): buffer-properties:  0 bits stencil
+init(): buffer-properties:  0 bits red
+init(): buffer-properties:  0 bits green
+init(): buffer-properties:  0 bits blue
+init(): buffer-properties:  0 bits alpha
+init(): buffer-properties: 0 bits TOTAL
+init(): buffer-properties: is double buffered
+init(): buffer-properties: is NOT stereo
+230 OpenGL extenstions found: GL_3DFX_texture_compression_FXT1 GL_AMD_depth_clamp_separate GL_AMD_vertex_shader_layer GL_AMD_vertex_shader_viewport_index GL_ARB_ES2_compatibility GL_ARB_ES3_1_compatibility GL_ARB_ES3_compatibility GL_ARB_arrays_of_arrays GL_ARB_base_instance GL_ARB_bindless_texture GL_ARB_blend_func_extended GL_ARB_buffer_storage GL_ARB_cl_event GL_ARB_clear_buffer_object GL_ARB_clear_texture GL_ARB_clip_control GL_ARB_color_buffer_float GL_ARB_compressed_texture_pixel_storage GL_ARB_compute_shader GL_ARB_conditional_render_inverted GL_ARB_conservative_depth GL_ARB_copy_buffer GL_ARB_copy_image GL_ARB_cull_distance GL_ARB_debug_output GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_depth_texture GL_ARB_derivative_control GL_ARB_direct_state_access GL_ARB_draw_buffers GL_ARB_draw_buffers_blend GL_ARB_draw_elements_base_vertex GL_ARB_draw_indirect GL_ARB_draw_instanced GL_ARB_enhanced_layouts GL_ARB_explicit_attrib_location GL_ARB_explicit_uniform_location GL_ARB_fragment_coord_conventions GL_ARB_fragment_layer_viewport GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_fragment_shader_interlock GL_ARB_framebuffer_no_attachments GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_geometry_shader4 GL_ARB_get_program_binary GL_ARB_get_texture_sub_image GL_ARB_gl_spirv GL_ARB_gpu_shader5 GL_ARB_gpu_shader_fp64 GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_indirect_parameters GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_internalformat_query2 GL_ARB_invalidate_subdata GL_ARB_map_buffer_alignment GL_ARB_map_buffer_range GL_ARB_multi_bind GL_ARB_multi_draw_indirect GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_occlusion_query2 GL_ARB_pipeline_statistics_query GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_polygon_offset_clamp GL_ARB_post_depth_coverage GL_ARB_program_interface_query GL_ARB_provoking_vertex GL_ARB_query_buffer_object GL_ARB_robust_buffer_access_behavior GL_ARB_robustness GL_ARB_robustness_isolation GL_ARB_sample_shading GL_ARB_sampler_objects GL_ARB_seamless_cube_map GL_ARB_seamless_cubemap_per_texture GL_ARB_separate_shader_objects GL_ARB_shader_atomic_counter_ops GL_ARB_shader_atomic_counters GL_ARB_shader_bit_encoding GL_ARB_shader_draw_parameters GL_ARB_shader_group_vote GL_ARB_shader_image_load_store GL_ARB_shader_image_size GL_ARB_shader_objects GL_ARB_shader_precision GL_ARB_shader_stencil_export GL_ARB_shader_storage_buffer_object GL_ARB_shader_subroutine GL_ARB_shader_texture_image_samples GL_ARB_shading_language_100 GL_ARB_shading_language_420pack GL_ARB_shading_language_packing GL_ARB_shadow GL_ARB_spirv_extensions GL_ARB_stencil_texturing GL_ARB_sync GL_ARB_tessellation_shader GL_ARB_texture_barrier GL_ARB_texture_border_clamp GL_ARB_texture_buffer_object GL_ARB_texture_buffer_object_rgb32 GL_ARB_texture_buffer_range GL_ARB_texture_compression GL_ARB_texture_compression_bptc GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_cube_map_array GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_filter_anisotropic GL_ARB_texture_float GL_ARB_texture_gather GL_ARB_texture_mirror_clamp_to_edge GL_ARB_texture_mirrored_repeat GL_ARB_texture_multisample GL_ARB_texture_non_power_of_two GL_ARB_texture_query_levels GL_ARB_texture_query_lod GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_rgb10_a2ui GL_ARB_texture_stencil8 GL_ARB_texture_storage GL_ARB_texture_storage_multisample GL_ARB_texture_swizzle GL_ARB_texture_view GL_ARB_timer_query GL_ARB_transform_feedback2 GL_ARB_transform_feedback3 GL_ARB_transform_feedback_instanced GL_ARB_transform_feedback_overflow_query GL_ARB_transpose_matrix GL_ARB_uniform_buffer_object GL_ARB_vertex_array_bgra GL_ARB_vertex_array_object GL_ARB_vertex_attrib_64bit GL_ARB_vertex_attrib_binding GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_vertex_type_10f_11f_11f_rev GL_ARB_vertex_type_2_10_10_10_rev GL_ARB_viewport_array GL_ARB_window_pos GL_ATI_separate_stencil GL_EXT_abgr GL_EXT_bgra GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_clip_volume_hint GL_EXT_compiled_vertex_array GL_EXT_direct_state_access GL_EXT_draw_buffers2 GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_object GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_packed_pixels GL_EXT_polygon_offset_clamp GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_specular_color GL_EXT_shader_framebuffer_fetch GL_EXT_shader_integer_mix GL_EXT_shadow_funcs GL_EXT_stencil_two_side GL_EXT_stencil_wrap GL_EXT_texture3D GL_EXT_texture_array GL_EXT_texture_compression_s3tc GL_EXT_texture_edge_clamp GL_EXT_texture_env_add GL_EXT_texture_env_combine GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_lod_bias GL_EXT_texture_rectangle GL_EXT_texture_sRGB GL_EXT_texture_sRGB_decode GL_EXT_texture_shared_exponent GL_EXT_texture_snorm GL_EXT_texture_storage GL_EXT_texture_swizzle GL_EXT_timer_query GL_EXT_transform_feedback GL_IBM_texture_mirrored_repeat GL_INTEL_conservative_rasterization GL_INTEL_fragment_shader_ordering GL_INTEL_framebuffer_CMAA GL_INTEL_map_texture GL_INTEL_multi_rate_fragment_shader GL_INTEL_performance_query GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_KHR_context_flush_control GL_KHR_debug GL_KHR_no_error GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_NV_blend_square GL_NV_conditional_render GL_NV_primitive_restart GL_NV_texgen_reflection GL_SGIS_generate_mipmap GL_SGIS_texture_edge_clamp GL_SGIS_texture_lod GL_SUN_multi_draw_arrays GL_WIN_swap_hint WGL_EXT_swap_control
+230 OpenGL extenstions found.
+OpenGL extension found: GL_3DFX_texture_compression_FXT1
+OpenGL extension found: GL_AMD_depth_clamp_separate
+OpenGL extension found: GL_AMD_vertex_shader_layer
+OpenGL extension found: GL_AMD_vertex_shader_viewport_index
+OpenGL extension found: GL_ARB_ES2_compatibility
+OpenGL extension found: GL_ARB_ES3_1_compatibility
+OpenGL extension found: GL_ARB_ES3_compatibility
+OpenGL extension found: GL_ARB_arrays_of_arrays
+OpenGL extension found: GL_ARB_base_instance
+OpenGL extension found: GL_ARB_bindless_texture
+OpenGL extension found: GL_ARB_blend_func_extended
+OpenGL extension found: GL_ARB_buffer_storage
+OpenGL extension found: GL_ARB_cl_event
+OpenGL extension found: GL_ARB_clear_buffer_object
+OpenGL extension found: GL_ARB_clear_texture
+OpenGL extension found: GL_ARB_clip_control
+OpenGL extension found: GL_ARB_color_buffer_float
+OpenGL extension found: GL_ARB_compressed_texture_pixel_storage
+OpenGL extension found: GL_ARB_compute_shader
+OpenGL extension found: GL_ARB_conditional_render_inverted
+OpenGL extension found: GL_ARB_conservative_depth
+OpenGL extension found: GL_ARB_copy_buffer
+OpenGL extension found: GL_ARB_copy_image
+OpenGL extension found: GL_ARB_cull_distance
+OpenGL extension found: GL_ARB_debug_output
+OpenGL extension found: GL_ARB_depth_buffer_float
+OpenGL extension found: GL_ARB_depth_clamp
+OpenGL extension found: GL_ARB_depth_texture
+OpenGL extension found: GL_ARB_derivative_control
+OpenGL extension found: GL_ARB_direct_state_access
+OpenGL extension found: GL_ARB_draw_buffers
+OpenGL extension found: GL_ARB_draw_buffers_blend
+OpenGL extension found: GL_ARB_draw_elements_base_vertex
+OpenGL extension found: GL_ARB_draw_indirect
+OpenGL extension found: GL_ARB_draw_instanced
+OpenGL extension found: GL_ARB_enhanced_layouts
+OpenGL extension found: GL_ARB_explicit_attrib_location
+OpenGL extension found: GL_ARB_explicit_uniform_location
+OpenGL extension found: GL_ARB_fragment_coord_conventions
+OpenGL extension found: GL_ARB_fragment_layer_viewport
+OpenGL extension found: GL_ARB_fragment_program
+OpenGL extension found: GL_ARB_fragment_program_shadow
+OpenGL extension found: GL_ARB_fragment_shader
+OpenGL extension found: GL_ARB_fragment_shader_interlock
+OpenGL extension found: GL_ARB_framebuffer_no_attachments
+OpenGL extension found: GL_ARB_framebuffer_object
+OpenGL extension found: GL_ARB_framebuffer_sRGB
+OpenGL extension found: GL_ARB_geometry_shader4
+OpenGL extension found: GL_ARB_get_program_binary
+OpenGL extension found: GL_ARB_get_texture_sub_image
+OpenGL extension found: GL_ARB_gl_spirv
+OpenGL extension found: GL_ARB_gpu_shader5
+OpenGL extension found: GL_ARB_gpu_shader_fp64
+OpenGL extension found: GL_ARB_half_float_pixel
+OpenGL extension found: GL_ARB_half_float_vertex
+OpenGL extension found: GL_ARB_indirect_parameters
+OpenGL extension found: GL_ARB_instanced_arrays
+OpenGL extension found: GL_ARB_internalformat_query
+OpenGL extension found: GL_ARB_internalformat_query2
+OpenGL extension found: GL_ARB_invalidate_subdata
+OpenGL extension found: GL_ARB_map_buffer_alignment
+OpenGL extension found: GL_ARB_map_buffer_range
+OpenGL extension found: GL_ARB_multi_bind
+OpenGL extension found: GL_ARB_multi_draw_indirect
+OpenGL extension found: GL_ARB_multisample
+OpenGL extension found: GL_ARB_multitexture
+OpenGL extension found: GL_ARB_occlusion_query
+OpenGL extension found: GL_ARB_occlusion_query2
+OpenGL extension found: GL_ARB_pipeline_statistics_query
+OpenGL extension found: GL_ARB_pixel_buffer_object
+OpenGL extension found: GL_ARB_point_parameters
+OpenGL extension found: GL_ARB_point_sprite
+OpenGL extension found: GL_ARB_polygon_offset_clamp
+OpenGL extension found: GL_ARB_post_depth_coverage
+OpenGL extension found: GL_ARB_program_interface_query
+OpenGL extension found: GL_ARB_provoking_vertex
+OpenGL extension found: GL_ARB_query_buffer_object
+OpenGL extension found: GL_ARB_robust_buffer_access_behavior
+OpenGL extension found: GL_ARB_robustness
+OpenGL extension found: GL_ARB_robustness_isolation
+OpenGL extension found: GL_ARB_sample_shading
+OpenGL extension found: GL_ARB_sampler_objects
+OpenGL extension found: GL_ARB_seamless_cube_map
+OpenGL extension found: GL_ARB_seamless_cubemap_per_texture
+OpenGL extension found: GL_ARB_separate_shader_objects
+OpenGL extension found: GL_ARB_shader_atomic_counter_ops
+OpenGL extension found: GL_ARB_shader_atomic_counters
+OpenGL extension found: GL_ARB_shader_bit_encoding
+OpenGL extension found: GL_ARB_shader_draw_parameters
+OpenGL extension found: GL_ARB_shader_group_vote
+OpenGL extension found: GL_ARB_shader_image_load_store
+OpenGL extension found: GL_ARB_shader_image_size
+OpenGL extension found: GL_ARB_shader_objects
+OpenGL extension found: GL_ARB_shader_precision
+OpenGL extension found: GL_ARB_shader_stencil_export
+OpenGL extension found: GL_ARB_shader_storage_buffer_object
+OpenGL extension found: GL_ARB_shader_subroutine
+OpenGL extension found: GL_ARB_shader_texture_image_samples
+OpenGL extension found: GL_ARB_shading_language_100
+OpenGL extension found: GL_ARB_shading_language_420pack
+OpenGL extension found: GL_ARB_shading_language_packing
+OpenGL extension found: GL_ARB_shadow
+OpenGL extension found: GL_ARB_spirv_extensions
+OpenGL extension found: GL_ARB_stencil_texturing
+OpenGL extension found: GL_ARB_sync
+OpenGL extension found: GL_ARB_tessellation_shader
+OpenGL extension found: GL_ARB_texture_barrier
+OpenGL extension found: GL_ARB_texture_border_clamp
+OpenGL extension found: GL_ARB_texture_buffer_object
+OpenGL extension found: GL_ARB_texture_buffer_object_rgb32
+OpenGL extension found: GL_ARB_texture_buffer_range
+OpenGL extension found: GL_ARB_texture_compression
+OpenGL extension found: GL_ARB_texture_compression_bptc
+OpenGL extension found: GL_ARB_texture_compression_rgtc
+OpenGL extension found: GL_ARB_texture_cube_map
+OpenGL extension found: GL_ARB_texture_cube_map_array
+OpenGL extension found: GL_ARB_texture_env_add
+OpenGL extension found: GL_ARB_texture_env_combine
+OpenGL extension found: GL_ARB_texture_env_crossbar
+OpenGL extension found: GL_ARB_texture_env_dot3
+OpenGL extension found: GL_ARB_texture_filter_anisotropic
+OpenGL extension found: GL_ARB_texture_float
+OpenGL extension found: GL_ARB_texture_gather
+OpenGL extension found: GL_ARB_texture_mirror_clamp_to_edge
+OpenGL extension found: GL_ARB_texture_mirrored_repeat
+OpenGL extension found: GL_ARB_texture_multisample
+OpenGL extension found: GL_ARB_texture_non_power_of_two
+OpenGL extension found: GL_ARB_texture_query_levels
+OpenGL extension found: GL_ARB_texture_query_lod
+OpenGL extension found: GL_ARB_texture_rectangle
+OpenGL extension found: GL_ARB_texture_rg
+OpenGL extension found: GL_ARB_texture_rgb10_a2ui
+OpenGL extension found: GL_ARB_texture_stencil8
+OpenGL extension found: GL_ARB_texture_storage
+OpenGL extension found: GL_ARB_texture_storage_multisample
+OpenGL extension found: GL_ARB_texture_swizzle
+OpenGL extension found: GL_ARB_texture_view
+OpenGL extension found: GL_ARB_timer_query
+OpenGL extension found: GL_ARB_transform_feedback2
+OpenGL extension found: GL_ARB_transform_feedback3
+OpenGL extension found: GL_ARB_transform_feedback_instanced
+OpenGL extension found: GL_ARB_transform_feedback_overflow_query
+OpenGL extension found: GL_ARB_transpose_matrix
+OpenGL extension found: GL_ARB_uniform_buffer_object
+OpenGL extension found: GL_ARB_vertex_array_bgra
+OpenGL extension found: GL_ARB_vertex_array_object
+OpenGL extension found: GL_ARB_vertex_attrib_64bit
+OpenGL extension found: GL_ARB_vertex_attrib_binding
+OpenGL extension found: GL_ARB_vertex_buffer_object
+OpenGL extension found: GL_ARB_vertex_program
+OpenGL extension found: GL_ARB_vertex_shader
+OpenGL extension found: GL_ARB_vertex_type_10f_11f_11f_rev
+OpenGL extension found: GL_ARB_vertex_type_2_10_10_10_rev
+OpenGL extension found: GL_ARB_viewport_array
+OpenGL extension found: GL_ARB_window_pos
+OpenGL extension found: GL_ATI_separate_stencil
+OpenGL extension found: GL_EXT_abgr
+OpenGL extension found: GL_EXT_bgra
+OpenGL extension found: GL_EXT_blend_color
+OpenGL extension found: GL_EXT_blend_equation_separate
+OpenGL extension found: GL_EXT_blend_func_separate
+OpenGL extension found: GL_EXT_blend_minmax
+OpenGL extension found: GL_EXT_blend_subtract
+OpenGL extension found: GL_EXT_clip_volume_hint
+OpenGL extension found: GL_EXT_compiled_vertex_array
+OpenGL extension found: GL_EXT_direct_state_access
+OpenGL extension found: GL_EXT_draw_buffers2
+OpenGL extension found: GL_EXT_draw_range_elements
+OpenGL extension found: GL_EXT_fog_coord
+OpenGL extension found: GL_EXT_framebuffer_blit
+OpenGL extension found: GL_EXT_framebuffer_multisample
+OpenGL extension found: GL_EXT_framebuffer_object
+OpenGL extension found: GL_EXT_geometry_shader4
+OpenGL extension found: GL_EXT_gpu_program_parameters
+OpenGL extension found: GL_EXT_gpu_shader4
+OpenGL extension found: GL_EXT_multi_draw_arrays
+OpenGL extension found: GL_EXT_packed_depth_stencil
+OpenGL extension found: GL_EXT_packed_float
+OpenGL extension found: GL_EXT_packed_pixels
+OpenGL extension found: GL_EXT_polygon_offset_clamp
+OpenGL extension found: GL_EXT_rescale_normal
+OpenGL extension found: GL_EXT_secondary_color
+OpenGL extension found: GL_EXT_separate_specular_color
+OpenGL extension found: GL_EXT_shader_framebuffer_fetch
+OpenGL extension found: GL_EXT_shader_integer_mix
+OpenGL extension found: GL_EXT_shadow_funcs
+OpenGL extension found: GL_EXT_stencil_two_side
+OpenGL extension found: GL_EXT_stencil_wrap
+OpenGL extension found: GL_EXT_texture3D
+OpenGL extension found: GL_EXT_texture_array
+OpenGL extension found: GL_EXT_texture_compression_s3tc
+OpenGL extension found: GL_EXT_texture_edge_clamp
+OpenGL extension found: GL_EXT_texture_env_add
+OpenGL extension found: GL_EXT_texture_env_combine
+OpenGL extension found: GL_EXT_texture_filter_anisotropic
+OpenGL extension found: GL_EXT_texture_integer
+OpenGL extension found: GL_EXT_texture_lod_bias
+OpenGL extension found: GL_EXT_texture_rectangle
+OpenGL extension found: GL_EXT_texture_sRGB
+OpenGL extension found: GL_EXT_texture_sRGB_decode
+OpenGL extension found: GL_EXT_texture_shared_exponent
+OpenGL extension found: GL_EXT_texture_snorm
+OpenGL extension found: GL_EXT_texture_storage
+OpenGL extension found: GL_EXT_texture_swizzle
+OpenGL extension found: GL_EXT_timer_query
+OpenGL extension found: GL_EXT_transform_feedback
+OpenGL extension found: GL_IBM_texture_mirrored_repeat
+OpenGL extension found: GL_INTEL_conservative_rasterization
+OpenGL extension found: GL_INTEL_fragment_shader_ordering
+OpenGL extension found: GL_INTEL_framebuffer_CMAA
+OpenGL extension found: GL_INTEL_map_texture
+OpenGL extension found: GL_INTEL_multi_rate_fragment_shader
+OpenGL extension found: GL_INTEL_performance_query
+OpenGL extension found: GL_KHR_blend_equation_advanced
+OpenGL extension found: GL_KHR_blend_equation_advanced_coherent
+OpenGL extension found: GL_KHR_context_flush_control
+OpenGL extension found: GL_KHR_debug
+OpenGL extension found: GL_KHR_no_error
+OpenGL extension found: GL_KHR_texture_compression_astc_hdr
+OpenGL extension found: GL_KHR_texture_compression_astc_ldr
+OpenGL extension found: GL_NV_blend_square
+OpenGL extension found: GL_NV_conditional_render
+OpenGL extension found: GL_NV_primitive_restart
+OpenGL extension found: GL_NV_texgen_reflection
+OpenGL extension found: GL_SGIS_generate_mipmap
+OpenGL extension found: GL_SGIS_texture_edge_clamp
+OpenGL extension found: GL_SGIS_texture_lod
+OpenGL extension found: GL_SUN_multi_draw_arrays
+OpenGL extension found: GL_WIN_swap_hint
+OpenGL extension found: WGL_EXT_swap_control
+
+
+!ENTRY mirur.mirur-ui 1 0 2021-02-19 00:12:20.001
+!MESSAGE 00:12:20    INFO: main-Display-.windows_nil-1-EDT-1 - GLCapabilityEventListener2.init: OpenGL Capabilities List
+OpenGL Vendor: Intel
+OpenGL Vendor Documentation: The company responsible for this GL implementation. This name does not change from release to release.
+OpenGL Renderer: Intel(R) UHD Graphics 620
+OpenGL Renderer Documentation: The name of the renderer. This name is typically specific to a particular configuration of a hardware platform. It does not change from release to release.
+OpenGL Version: 4.4.0 - Build 27.20.100.8681
+OpenGL Version Documentation: A version or release number.
+OpenGL Shader Version: 4.40 - Build 27.20.100.8681
+OpenGL Shader Version Documentation: A version or release number for the shading language.
+OpenGL Max Vertex Attributes: 16
+OpenGL Max Geometry Outputs: 1024
+OpenGL Max Texture Edge Length: 16384
+OpenGL Max Texture Buffer Size: 134217728
+OpenGL Max Element Indices: 1048576
+OpenGL Max Element Vertices: 1048576
+init(): buffer-properties:  0 bits depth
+init(): buffer-properties:  0 bits stencil
+init(): buffer-properties:  0 bits red
+init(): buffer-properties:  0 bits green
+init(): buffer-properties:  0 bits blue
+init(): buffer-properties:  0 bits alpha
+init(): buffer-properties: 0 bits TOTAL
+init(): buffer-properties: is double buffered
+init(): buffer-properties: is NOT stereo
+230 OpenGL extenstions found: GL_3DFX_texture_compression_FXT1 GL_AMD_depth_clamp_separate GL_AMD_vertex_shader_layer GL_AMD_vertex_shader_viewport_index GL_ARB_ES2_compatibility GL_ARB_ES3_1_compatibility GL_ARB_ES3_compatibility GL_ARB_arrays_of_arrays GL_ARB_base_instance GL_ARB_bindless_texture GL_ARB_blend_func_extended GL_ARB_buffer_storage GL_ARB_cl_event GL_ARB_clear_buffer_object GL_ARB_clear_texture GL_ARB_clip_control GL_ARB_color_buffer_float GL_ARB_compressed_texture_pixel_storage GL_ARB_compute_shader GL_ARB_conditional_render_inverted GL_ARB_conservative_depth GL_ARB_copy_buffer GL_ARB_copy_image GL_ARB_cull_distance GL_ARB_debug_output GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_depth_texture GL_ARB_derivative_control GL_ARB_direct_state_access GL_ARB_draw_buffers GL_ARB_draw_buffers_blend GL_ARB_draw_elements_base_vertex GL_ARB_draw_indirect GL_ARB_draw_instanced GL_ARB_enhanced_layouts GL_ARB_explicit_attrib_location GL_ARB_explicit_uniform_location GL_ARB_fragment_coord_conventions GL_ARB_fragment_layer_viewport GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_fragment_shader_interlock GL_ARB_framebuffer_no_attachments GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_geometry_shader4 GL_ARB_get_program_binary GL_ARB_get_texture_sub_image GL_ARB_gl_spirv GL_ARB_gpu_shader5 GL_ARB_gpu_shader_fp64 GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_indirect_parameters GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_internalformat_query2 GL_ARB_invalidate_subdata GL_ARB_map_buffer_alignment GL_ARB_map_buffer_range GL_ARB_multi_bind GL_ARB_multi_draw_indirect GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_occlusion_query2 GL_ARB_pipeline_statistics_query GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_polygon_offset_clamp GL_ARB_post_depth_coverage GL_ARB_program_interface_query GL_ARB_provoking_vertex GL_ARB_query_buffer_object GL_ARB_robust_buffer_access_behavior GL_ARB_robustness GL_ARB_robustness_isolation GL_ARB_sample_shading GL_ARB_sampler_objects GL_ARB_seamless_cube_map GL_ARB_seamless_cubemap_per_texture GL_ARB_separate_shader_objects GL_ARB_shader_atomic_counter_ops GL_ARB_shader_atomic_counters GL_ARB_shader_bit_encoding GL_ARB_shader_draw_parameters GL_ARB_shader_group_vote GL_ARB_shader_image_load_store GL_ARB_shader_image_size GL_ARB_shader_objects GL_ARB_shader_precision GL_ARB_shader_stencil_export GL_ARB_shader_storage_buffer_object GL_ARB_shader_subroutine GL_ARB_shader_texture_image_samples GL_ARB_shading_language_100 GL_ARB_shading_language_420pack GL_ARB_shading_language_packing GL_ARB_shadow GL_ARB_spirv_extensions GL_ARB_stencil_texturing GL_ARB_sync GL_ARB_tessellation_shader GL_ARB_texture_barrier GL_ARB_texture_border_clamp GL_ARB_texture_buffer_object GL_ARB_texture_buffer_object_rgb32 GL_ARB_texture_buffer_range GL_ARB_texture_compression GL_ARB_texture_compression_bptc GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_cube_map_array GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_filter_anisotropic GL_ARB_texture_float GL_ARB_texture_gather GL_ARB_texture_mirror_clamp_to_edge GL_ARB_texture_mirrored_repeat GL_ARB_texture_multisample GL_ARB_texture_non_power_of_two GL_ARB_texture_query_levels GL_ARB_texture_query_lod GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_rgb10_a2ui GL_ARB_texture_stencil8 GL_ARB_texture_storage GL_ARB_texture_storage_multisample GL_ARB_texture_swizzle GL_ARB_texture_view GL_ARB_timer_query GL_ARB_transform_feedback2 GL_ARB_transform_feedback3 GL_ARB_transform_feedback_instanced GL_ARB_transform_feedback_overflow_query GL_ARB_transpose_matrix GL_ARB_uniform_buffer_object GL_ARB_vertex_array_bgra GL_ARB_vertex_array_object GL_ARB_vertex_attrib_64bit GL_ARB_vertex_attrib_binding GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_vertex_type_10f_11f_11f_rev GL_ARB_vertex_type_2_10_10_10_rev GL_ARB_viewport_array GL_ARB_window_pos GL_ATI_separate_stencil GL_EXT_abgr GL_EXT_bgra GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_clip_volume_hint GL_EXT_compiled_vertex_array GL_EXT_direct_state_access GL_EXT_draw_buffers2 GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_object GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_packed_pixels GL_EXT_polygon_offset_clamp GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_specular_color GL_EXT_shader_framebuffer_fetch GL_EXT_shader_integer_mix GL_EXT_shadow_funcs GL_EXT_stencil_two_side GL_EXT_stencil_wrap GL_EXT_texture3D GL_EXT_texture_array GL_EXT_texture_compression_s3tc GL_EXT_texture_edge_clamp GL_EXT_texture_env_add GL_EXT_texture_env_combine GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_lod_bias GL_EXT_texture_rectangle GL_EXT_texture_sRGB GL_EXT_texture_sRGB_decode GL_EXT_texture_shared_exponent GL_EXT_texture_snorm GL_EXT_texture_storage GL_EXT_texture_swizzle GL_EXT_timer_query GL_EXT_transform_feedback GL_IBM_texture_mirrored_repeat GL_INTEL_conservative_rasterization GL_INTEL_fragment_shader_ordering GL_INTEL_framebuffer_CMAA GL_INTEL_map_texture GL_INTEL_multi_rate_fragment_shader GL_INTEL_performance_query GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_KHR_context_flush_control GL_KHR_debug GL_KHR_no_error GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_NV_blend_square GL_NV_conditional_render GL_NV_primitive_restart GL_NV_texgen_reflection GL_SGIS_generate_mipmap GL_SGIS_texture_edge_clamp GL_SGIS_texture_lod GL_SUN_multi_draw_arrays GL_WIN_swap_hint WGL_EXT_swap_control
+230 OpenGL extenstions found.
+OpenGL extension found: GL_3DFX_texture_compression_FXT1
+OpenGL extension found: GL_AMD_depth_clamp_separate
+OpenGL extension found: GL_AMD_vertex_shader_layer
+OpenGL extension found: GL_AMD_vertex_shader_viewport_index
+OpenGL extension found: GL_ARB_ES2_compatibility
+OpenGL extension found: GL_ARB_ES3_1_compatibility
+OpenGL extension found: GL_ARB_ES3_compatibility
+OpenGL extension found: GL_ARB_arrays_of_arrays
+OpenGL extension found: GL_ARB_base_instance
+OpenGL extension found: GL_ARB_bindless_texture
+OpenGL extension found: GL_ARB_blend_func_extended
+OpenGL extension found: GL_ARB_buffer_storage
+OpenGL extension found: GL_ARB_cl_event
+OpenGL extension found: GL_ARB_clear_buffer_object
+OpenGL extension found: GL_ARB_clear_texture
+OpenGL extension found: GL_ARB_clip_control
+OpenGL extension found: GL_ARB_color_buffer_float
+OpenGL extension found: GL_ARB_compressed_texture_pixel_storage
+OpenGL extension found: GL_ARB_compute_shader
+OpenGL extension found: GL_ARB_conditional_render_inverted
+OpenGL extension found: GL_ARB_conservative_depth
+OpenGL extension found: GL_ARB_copy_buffer
+OpenGL extension found: GL_ARB_copy_image
+OpenGL extension found: GL_ARB_cull_distance
+OpenGL extension found: GL_ARB_debug_output
+OpenGL extension found: GL_ARB_depth_buffer_float
+OpenGL extension found: GL_ARB_depth_clamp
+OpenGL extension found: GL_ARB_depth_texture
+OpenGL extension found: GL_ARB_derivative_control
+OpenGL extension found: GL_ARB_direct_state_access
+OpenGL extension found: GL_ARB_draw_buffers
+OpenGL extension found: GL_ARB_draw_buffers_blend
+OpenGL extension found: GL_ARB_draw_elements_base_vertex
+OpenGL extension found: GL_ARB_draw_indirect
+OpenGL extension found: GL_ARB_draw_instanced
+OpenGL extension found: GL_ARB_enhanced_layouts
+OpenGL extension found: GL_ARB_explicit_attrib_location
+OpenGL extension found: GL_ARB_explicit_uniform_location
+OpenGL extension found: GL_ARB_fragment_coord_conventions
+OpenGL extension found: GL_ARB_fragment_layer_viewport
+OpenGL extension found: GL_ARB_fragment_program
+OpenGL extension found: GL_ARB_fragment_program_shadow
+OpenGL extension found: GL_ARB_fragment_shader
+OpenGL extension found: GL_ARB_fragment_shader_interlock
+OpenGL extension found: GL_ARB_framebuffer_no_attachments
+OpenGL extension found: GL_ARB_framebuffer_object
+OpenGL extension found: GL_ARB_framebuffer_sRGB
+OpenGL extension found: GL_ARB_geometry_shader4
+OpenGL extension found: GL_ARB_get_program_binary
+OpenGL extension found: GL_ARB_get_texture_sub_image
+OpenGL extension found: GL_ARB_gl_spirv
+OpenGL extension found: GL_ARB_gpu_shader5
+OpenGL extension found: GL_ARB_gpu_shader_fp64
+OpenGL extension found: GL_ARB_half_float_pixel
+OpenGL extension found: GL_ARB_half_float_vertex
+OpenGL extension found: GL_ARB_indirect_parameters
+OpenGL extension found: GL_ARB_instanced_arrays
+OpenGL extension found: GL_ARB_internalformat_query
+OpenGL extension found: GL_ARB_internalformat_query2
+OpenGL extension found: GL_ARB_invalidate_subdata
+OpenGL extension found: GL_ARB_map_buffer_alignment
+OpenGL extension found: GL_ARB_map_buffer_range
+OpenGL extension found: GL_ARB_multi_bind
+OpenGL extension found: GL_ARB_multi_draw_indirect
+OpenGL extension found: GL_ARB_multisample
+OpenGL extension found: GL_ARB_multitexture
+OpenGL extension found: GL_ARB_occlusion_query
+OpenGL extension found: GL_ARB_occlusion_query2
+OpenGL extension found: GL_ARB_pipeline_statistics_query
+OpenGL extension found: GL_ARB_pixel_buffer_object
+OpenGL extension found: GL_ARB_point_parameters
+OpenGL extension found: GL_ARB_point_sprite
+OpenGL extension found: GL_ARB_polygon_offset_clamp
+OpenGL extension found: GL_ARB_post_depth_coverage
+OpenGL extension found: GL_ARB_program_interface_query
+OpenGL extension found: GL_ARB_provoking_vertex
+OpenGL extension found: GL_ARB_query_buffer_object
+OpenGL extension found: GL_ARB_robust_buffer_access_behavior
+OpenGL extension found: GL_ARB_robustness
+OpenGL extension found: GL_ARB_robustness_isolation
+OpenGL extension found: GL_ARB_sample_shading
+OpenGL extension found: GL_ARB_sampler_objects
+OpenGL extension found: GL_ARB_seamless_cube_map
+OpenGL extension found: GL_ARB_seamless_cubemap_per_texture
+OpenGL extension found: GL_ARB_separate_shader_objects
+OpenGL extension found: GL_ARB_shader_atomic_counter_ops
+OpenGL extension found: GL_ARB_shader_atomic_counters
+OpenGL extension found: GL_ARB_shader_bit_encoding
+OpenGL extension found: GL_ARB_shader_draw_parameters
+OpenGL extension found: GL_ARB_shader_group_vote
+OpenGL extension found: GL_ARB_shader_image_load_store
+OpenGL extension found: GL_ARB_shader_image_size
+OpenGL extension found: GL_ARB_shader_objects
+OpenGL extension found: GL_ARB_shader_precision
+OpenGL extension found: GL_ARB_shader_stencil_export
+OpenGL extension found: GL_ARB_shader_storage_buffer_object
+OpenGL extension found: GL_ARB_shader_subroutine
+OpenGL extension found: GL_ARB_shader_texture_image_samples
+OpenGL extension found: GL_ARB_shading_language_100
+OpenGL extension found: GL_ARB_shading_language_420pack
+OpenGL extension found: GL_ARB_shading_language_packing
+OpenGL extension found: GL_ARB_shadow
+OpenGL extension found: GL_ARB_spirv_extensions
+OpenGL extension found: GL_ARB_stencil_texturing
+OpenGL extension found: GL_ARB_sync
+OpenGL extension found: GL_ARB_tessellation_shader
+OpenGL extension found: GL_ARB_texture_barrier
+OpenGL extension found: GL_ARB_texture_border_clamp
+OpenGL extension found: GL_ARB_texture_buffer_object
+OpenGL extension found: GL_ARB_texture_buffer_object_rgb32
+OpenGL extension found: GL_ARB_texture_buffer_range
+OpenGL extension found: GL_ARB_texture_compression
+OpenGL extension found: GL_ARB_texture_compression_bptc
+OpenGL extension found: GL_ARB_texture_compression_rgtc
+OpenGL extension found: GL_ARB_texture_cube_map
+OpenGL extension found: GL_ARB_texture_cube_map_array
+OpenGL extension found: GL_ARB_texture_env_add
+OpenGL extension found: GL_ARB_texture_env_combine
+OpenGL extension found: GL_ARB_texture_env_crossbar
+OpenGL extension found: GL_ARB_texture_env_dot3
+OpenGL extension found: GL_ARB_texture_filter_anisotropic
+OpenGL extension found: GL_ARB_texture_float
+OpenGL extension found: GL_ARB_texture_gather
+OpenGL extension found: GL_ARB_texture_mirror_clamp_to_edge
+OpenGL extension found: GL_ARB_texture_mirrored_repeat
+OpenGL extension found: GL_ARB_texture_multisample
+OpenGL extension found: GL_ARB_texture_non_power_of_two
+OpenGL extension found: GL_ARB_texture_query_levels
+OpenGL extension found: GL_ARB_texture_query_lod
+OpenGL extension found: GL_ARB_texture_rectangle
+OpenGL extension found: GL_ARB_texture_rg
+OpenGL extension found: GL_ARB_texture_rgb10_a2ui
+OpenGL extension found: GL_ARB_texture_stencil8
+OpenGL extension found: GL_ARB_texture_storage
+OpenGL extension found: GL_ARB_texture_storage_multisample
+OpenGL extension found: GL_ARB_texture_swizzle
+OpenGL extension found: GL_ARB_texture_view
+OpenGL extension found: GL_ARB_timer_query
+OpenGL extension found: GL_ARB_transform_feedback2
+OpenGL extension found: GL_ARB_transform_feedback3
+OpenGL extension found: GL_ARB_transform_feedback_instanced
+OpenGL extension found: GL_ARB_transform_feedback_overflow_query
+OpenGL extension found: GL_ARB_transpose_matrix
+OpenGL extension found: GL_ARB_uniform_buffer_object
+OpenGL extension found: GL_ARB_vertex_array_bgra
+OpenGL extension found: GL_ARB_vertex_array_object
+OpenGL extension found: GL_ARB_vertex_attrib_64bit
+OpenGL extension found: GL_ARB_vertex_attrib_binding
+OpenGL extension found: GL_ARB_vertex_buffer_object
+OpenGL extension found: GL_ARB_vertex_program
+OpenGL extension found: GL_ARB_vertex_shader
+OpenGL extension found: GL_ARB_vertex_type_10f_11f_11f_rev
+OpenGL extension found: GL_ARB_vertex_type_2_10_10_10_rev
+OpenGL extension found: GL_ARB_viewport_array
+OpenGL extension found: GL_ARB_window_pos
+OpenGL extension found: GL_ATI_separate_stencil
+OpenGL extension found: GL_EXT_abgr
+OpenGL extension found: GL_EXT_bgra
+OpenGL extension found: GL_EXT_blend_color
+OpenGL extension found: GL_EXT_blend_equation_separate
+OpenGL extension found: GL_EXT_blend_func_separate
+OpenGL extension found: GL_EXT_blend_minmax
+OpenGL extension found: GL_EXT_blend_subtract
+OpenGL extension found: GL_EXT_clip_volume_hint
+OpenGL extension found: GL_EXT_compiled_vertex_array
+OpenGL extension found: GL_EXT_direct_state_access
+OpenGL extension found: GL_EXT_draw_buffers2
+OpenGL extension found: GL_EXT_draw_range_elements
+OpenGL extension found: GL_EXT_fog_coord
+OpenGL extension found: GL_EXT_framebuffer_blit
+OpenGL extension found: GL_EXT_framebuffer_multisample
+OpenGL extension found: GL_EXT_framebuffer_object
+OpenGL extension found: GL_EXT_geometry_shader4
+OpenGL extension found: GL_EXT_gpu_program_parameters
+OpenGL extension found: GL_EXT_gpu_shader4
+OpenGL extension found: GL_EXT_multi_draw_arrays
+OpenGL extension found: GL_EXT_packed_depth_stencil
+OpenGL extension found: GL_EXT_packed_float
+OpenGL extension found: GL_EXT_packed_pixels
+OpenGL extension found: GL_EXT_polygon_offset_clamp
+OpenGL extension found: GL_EXT_rescale_normal
+OpenGL extension found: GL_EXT_secondary_color
+OpenGL extension found: GL_EXT_separate_specular_color
+OpenGL extension found: GL_EXT_shader_framebuffer_fetch
+OpenGL extension found: GL_EXT_shader_integer_mix
+OpenGL extension found: GL_EXT_shadow_funcs
+OpenGL extension found: GL_EXT_stencil_two_side
+OpenGL extension found: GL_EXT_stencil_wrap
+OpenGL extension found: GL_EXT_texture3D
+OpenGL extension found: GL_EXT_texture_array
+OpenGL extension found: GL_EXT_texture_compression_s3tc
+OpenGL extension found: GL_EXT_texture_edge_clamp
+OpenGL extension found: GL_EXT_texture_env_add
+OpenGL extension found: GL_EXT_texture_env_combine
+OpenGL extension found: GL_EXT_texture_filter_anisotropic
+OpenGL extension found: GL_EXT_texture_integer
+OpenGL extension found: GL_EXT_texture_lod_bias
+OpenGL extension found: GL_EXT_texture_rectangle
+OpenGL extension found: GL_EXT_texture_sRGB
+OpenGL extension found: GL_EXT_texture_sRGB_decode
+OpenGL extension found: GL_EXT_texture_shared_exponent
+OpenGL extension found: GL_EXT_texture_snorm
+OpenGL extension found: GL_EXT_texture_storage
+OpenGL extension found: GL_EXT_texture_swizzle
+OpenGL extension found: GL_EXT_timer_query
+OpenGL extension found: GL_EXT_transform_feedback
+OpenGL extension found: GL_IBM_texture_mirrored_repeat
+OpenGL extension found: GL_INTEL_conservative_rasterization
+OpenGL extension found: GL_INTEL_fragment_shader_ordering
+OpenGL extension found: GL_INTEL_framebuffer_CMAA
+OpenGL extension found: GL_INTEL_map_texture
+OpenGL extension found: GL_INTEL_multi_rate_fragment_shader
+OpenGL extension found: GL_INTEL_performance_query
+OpenGL extension found: GL_KHR_blend_equation_advanced
+OpenGL extension found: GL_KHR_blend_equation_advanced_coherent
+OpenGL extension found: GL_KHR_context_flush_control
+OpenGL extension found: GL_KHR_debug
+OpenGL extension found: GL_KHR_no_error
+OpenGL extension found: GL_KHR_texture_compression_astc_hdr
+OpenGL extension found: GL_KHR_texture_compression_astc_ldr
+OpenGL extension found: GL_NV_blend_square
+OpenGL extension found: GL_NV_conditional_render
+OpenGL extension found: GL_NV_primitive_restart
+OpenGL extension found: GL_NV_texgen_reflection
+OpenGL extension found: GL_SGIS_generate_mipmap
+OpenGL extension found: GL_SGIS_texture_edge_clamp
+OpenGL extension found: GL_SGIS_texture_lod
+OpenGL extension found: GL_SUN_multi_draw_arrays
+OpenGL extension found: GL_WIN_swap_hint
+OpenGL extension found: WGL_EXT_swap_control
+
+
+!ENTRY org.eclipse.ui 4 0 2021-02-19 00:14:38.798
+!MESSAGE Unhandled event loop exception
+!STACK 0
+java.lang.NullPointerException
+	at com.st.stm32cube.ide.mcu.debug.swv.core.ui.datatraceTimeline.SWVDatatraceTimeline.handleClearEvent(SWVDatatraceTimeline.java:404)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.ui.SWVView.handleSWVEvent(SWVView.java:181)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.SessionManager.lambda$0(SessionManager.java:154)
+	at com.st.stm32cube.ide.common.utils.ThreadHelper.runInUiThreadAsync(ThreadHelper.java:25)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.SessionManager.notifyListeners(SessionManager.java:146)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.SessionManager.clear(SessionManager.java:270)
+	at com.st.stm32cube.ide.mcu.debug.swv.core.ui.SWVView$ClearAction.run(SWVView.java:117)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:579)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$5(ActionContributionItem.java:452)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4213)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1037)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4030)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3630)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1158)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1047)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:658)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:557)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:154)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:19.018
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:19.977
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:20.967
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:21.970
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:22.975
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:23.995
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:24.969
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:25.973
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:26.978
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:27.968
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:28.974
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:29.995
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:30.971
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:31.975
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:32.979
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:33.969
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:34.972
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 4 0 2021-02-19 00:39:35.978
+!MESSAGE Failed to parse wmic output
+!STACK 0
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Premature end of file.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at com.st.stm32cube.ide.mpu.remote.serial.internal.SerialPortProviderWindows.run(SerialPortProviderWindows.java:123)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+!SESSION 2021-02-19 18:25:06.643 -----------------------------------------------
+eclipse.buildId=Version 1.5.1
+java.version=1.8.0_272
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2021-02-19 18:25:18.019
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2021-02-19 18:25:18.076
+!MESSAGE Log4j initialized with config file C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2021-02-19 18:25:28.604
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 4 4 2021-02-19 18:25:29.190
+!MESSAGE com.st.stm32cube.ide.mcu.ide/META-INF/version/build_ref file not found, build reference will not be reported into properties
+
+!ENTRY mirur.mirur-ui 1 0 2021-02-19 18:27:19.755
+!MESSAGE 2021-02-19 18:27:19 PST
+18:27:19    INFO: main-FPSAWTAnimator#00-Timer0 - GLCapabilityEventListener2.init: OpenGL Capabilities List
+OpenGL Vendor: Intel
+OpenGL Vendor Documentation: The company responsible for this GL implementation. This name does not change from release to release.
+OpenGL Renderer: Intel(R) UHD Graphics 620
+OpenGL Renderer Documentation: The name of the renderer. This name is typically specific to a particular configuration of a hardware platform. It does not change from release to release.
+OpenGL Version: 4.4.0 - Build 27.20.100.8681
+OpenGL Version Documentation: A version or release number.
+OpenGL Shader Version: 4.40 - Build 27.20.100.8681
+OpenGL Shader Version Documentation: A version or release number for the shading language.
+OpenGL Max Vertex Attributes: 16
+OpenGL Max Geometry Outputs: 1024
+OpenGL Max Texture Edge Length: 16384
+OpenGL Max Texture Buffer Size: 134217728
+OpenGL Max Element Indices: 1048576
+OpenGL Max Element Vertices: 1048576
+init(): buffer-properties:  0 bits depth
+init(): buffer-properties:  0 bits stencil
+init(): buffer-properties:  0 bits red
+init(): buffer-properties:  0 bits green
+init(): buffer-properties:  0 bits blue
+init(): buffer-properties:  0 bits alpha
+init(): buffer-properties: 0 bits TOTAL
+init(): buffer-properties: is double buffered
+init(): buffer-properties: is NOT stereo
+230 OpenGL extenstions found: GL_3DFX_texture_compression_FXT1 GL_AMD_depth_clamp_separate GL_AMD_vertex_shader_layer GL_AMD_vertex_shader_viewport_index GL_ARB_ES2_compatibility GL_ARB_ES3_1_compatibility GL_ARB_ES3_compatibility GL_ARB_arrays_of_arrays GL_ARB_base_instance GL_ARB_bindless_texture GL_ARB_blend_func_extended GL_ARB_buffer_storage GL_ARB_cl_event GL_ARB_clear_buffer_object GL_ARB_clear_texture GL_ARB_clip_control GL_ARB_color_buffer_float GL_ARB_compressed_texture_pixel_storage GL_ARB_compute_shader GL_ARB_conditional_render_inverted GL_ARB_conservative_depth GL_ARB_copy_buffer GL_ARB_copy_image GL_ARB_cull_distance GL_ARB_debug_output GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_depth_texture GL_ARB_derivative_control GL_ARB_direct_state_access GL_ARB_draw_buffers GL_ARB_draw_buffers_blend GL_ARB_draw_elements_base_vertex GL_ARB_draw_indirect GL_ARB_draw_instanced GL_ARB_enhanced_layouts GL_ARB_explicit_attrib_location GL_ARB_explicit_uniform_location GL_ARB_fragment_coord_conventions GL_ARB_fragment_layer_viewport GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_fragment_shader_interlock GL_ARB_framebuffer_no_attachments GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_geometry_shader4 GL_ARB_get_program_binary GL_ARB_get_texture_sub_image GL_ARB_gl_spirv GL_ARB_gpu_shader5 GL_ARB_gpu_shader_fp64 GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_indirect_parameters GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_internalformat_query2 GL_ARB_invalidate_subdata GL_ARB_map_buffer_alignment GL_ARB_map_buffer_range GL_ARB_multi_bind GL_ARB_multi_draw_indirect GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_occlusion_query2 GL_ARB_pipeline_statistics_query GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_polygon_offset_clamp GL_ARB_post_depth_coverage GL_ARB_program_interface_query GL_ARB_provoking_vertex GL_ARB_query_buffer_object GL_ARB_robust_buffer_access_behavior GL_ARB_robustness GL_ARB_robustness_isolation GL_ARB_sample_shading GL_ARB_sampler_objects GL_ARB_seamless_cube_map GL_ARB_seamless_cubemap_per_texture GL_ARB_separate_shader_objects GL_ARB_shader_atomic_counter_ops GL_ARB_shader_atomic_counters GL_ARB_shader_bit_encoding GL_ARB_shader_draw_parameters GL_ARB_shader_group_vote GL_ARB_shader_image_load_store GL_ARB_shader_image_size GL_ARB_shader_objects GL_ARB_shader_precision GL_ARB_shader_stencil_export GL_ARB_shader_storage_buffer_object GL_ARB_shader_subroutine GL_ARB_shader_texture_image_samples GL_ARB_shading_language_100 GL_ARB_shading_language_420pack GL_ARB_shading_language_packing GL_ARB_shadow GL_ARB_spirv_extensions GL_ARB_stencil_texturing GL_ARB_sync GL_ARB_tessellation_shader GL_ARB_texture_barrier GL_ARB_texture_border_clamp GL_ARB_texture_buffer_object GL_ARB_texture_buffer_object_rgb32 GL_ARB_texture_buffer_range GL_ARB_texture_compression GL_ARB_texture_compression_bptc GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_cube_map_array GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_filter_anisotropic GL_ARB_texture_float GL_ARB_texture_gather GL_ARB_texture_mirror_clamp_to_edge GL_ARB_texture_mirrored_repeat GL_ARB_texture_multisample GL_ARB_texture_non_power_of_two GL_ARB_texture_query_levels GL_ARB_texture_query_lod GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_rgb10_a2ui GL_ARB_texture_stencil8 GL_ARB_texture_storage GL_ARB_texture_storage_multisample GL_ARB_texture_swizzle GL_ARB_texture_view GL_ARB_timer_query GL_ARB_transform_feedback2 GL_ARB_transform_feedback3 GL_ARB_transform_feedback_instanced GL_ARB_transform_feedback_overflow_query GL_ARB_transpose_matrix GL_ARB_uniform_buffer_object GL_ARB_vertex_array_bgra GL_ARB_vertex_array_object GL_ARB_vertex_attrib_64bit GL_ARB_vertex_attrib_binding GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_vertex_type_10f_11f_11f_rev GL_ARB_vertex_type_2_10_10_10_rev GL_ARB_viewport_array GL_ARB_window_pos GL_ATI_separate_stencil GL_EXT_abgr GL_EXT_bgra GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_clip_volume_hint GL_EXT_compiled_vertex_array GL_EXT_direct_state_access GL_EXT_draw_buffers2 GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_object GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_packed_pixels GL_EXT_polygon_offset_clamp GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_specular_color GL_EXT_shader_framebuffer_fetch GL_EXT_shader_integer_mix GL_EXT_shadow_funcs GL_EXT_stencil_two_side GL_EXT_stencil_wrap GL_EXT_texture3D GL_EXT_texture_array GL_EXT_texture_compression_s3tc GL_EXT_texture_edge_clamp GL_EXT_texture_env_add GL_EXT_texture_env_combine GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_lod_bias GL_EXT_texture_rectangle GL_EXT_texture_sRGB GL_EXT_texture_sRGB_decode GL_EXT_texture_shared_exponent GL_EXT_texture_snorm GL_EXT_texture_storage GL_EXT_texture_swizzle GL_EXT_timer_query GL_EXT_transform_feedback GL_IBM_texture_mirrored_repeat GL_INTEL_conservative_rasterization GL_INTEL_fragment_shader_ordering GL_INTEL_framebuffer_CMAA GL_INTEL_map_texture GL_INTEL_multi_rate_fragment_shader GL_INTEL_performance_query GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_KHR_context_flush_control GL_KHR_debug GL_KHR_no_error GL_KHR_texture_compression_astc_hdr GL_KHR_texture_compression_astc_ldr GL_NV_blend_square GL_NV_conditional_render GL_NV_primitive_restart GL_NV_texgen_reflection GL_SGIS_generate_mipmap GL_SGIS_texture_edge_clamp GL_SGIS_texture_lod GL_SUN_multi_draw_arrays GL_WIN_swap_hint WGL_EXT_swap_control
+230 OpenGL extenstions found.
+OpenGL extension found: GL_3DFX_texture_compression_FXT1
+OpenGL extension found: GL_AMD_depth_clamp_separate
+OpenGL extension found: GL_AMD_vertex_shader_layer
+OpenGL extension found: GL_AMD_vertex_shader_viewport_index
+OpenGL extension found: GL_ARB_ES2_compatibility
+OpenGL extension found: GL_ARB_ES3_1_compatibility
+OpenGL extension found: GL_ARB_ES3_compatibility
+OpenGL extension found: GL_ARB_arrays_of_arrays
+OpenGL extension found: GL_ARB_base_instance
+OpenGL extension found: GL_ARB_bindless_texture
+OpenGL extension found: GL_ARB_blend_func_extended
+OpenGL extension found: GL_ARB_buffer_storage
+OpenGL extension found: GL_ARB_cl_event
+OpenGL extension found: GL_ARB_clear_buffer_object
+OpenGL extension found: GL_ARB_clear_texture
+OpenGL extension found: GL_ARB_clip_control
+OpenGL extension found: GL_ARB_color_buffer_float
+OpenGL extension found: GL_ARB_compressed_texture_pixel_storage
+OpenGL extension found: GL_ARB_compute_shader
+OpenGL extension found: GL_ARB_conditional_render_inverted
+OpenGL extension found: GL_ARB_conservative_depth
+OpenGL extension found: GL_ARB_copy_buffer
+OpenGL extension found: GL_ARB_copy_image
+OpenGL extension found: GL_ARB_cull_distance
+OpenGL extension found: GL_ARB_debug_output
+OpenGL extension found: GL_ARB_depth_buffer_float
+OpenGL extension found: GL_ARB_depth_clamp
+OpenGL extension found: GL_ARB_depth_texture
+OpenGL extension found: GL_ARB_derivative_control
+OpenGL extension found: GL_ARB_direct_state_access
+OpenGL extension found: GL_ARB_draw_buffers
+OpenGL extension found: GL_ARB_draw_buffers_blend
+OpenGL extension found: GL_ARB_draw_elements_base_vertex
+OpenGL extension found: GL_ARB_draw_indirect
+OpenGL extension found: GL_ARB_draw_instanced
+OpenGL extension found: GL_ARB_enhanced_layouts
+OpenGL extension found: GL_ARB_explicit_attrib_location
+OpenGL extension found: GL_ARB_explicit_uniform_location
+OpenGL extension found: GL_ARB_fragment_coord_conventions
+OpenGL extension found: GL_ARB_fragment_layer_viewport
+OpenGL extension found: GL_ARB_fragment_program
+OpenGL extension found: GL_ARB_fragment_program_shadow
+OpenGL extension found: GL_ARB_fragment_shader
+OpenGL extension found: GL_ARB_fragment_shader_interlock
+OpenGL extension found: GL_ARB_framebuffer_no_attachments
+OpenGL extension found: GL_ARB_framebuffer_object
+OpenGL extension found: GL_ARB_framebuffer_sRGB
+OpenGL extension found: GL_ARB_geometry_shader4
+OpenGL extension found: GL_ARB_get_program_binary
+OpenGL extension found: GL_ARB_get_texture_sub_image
+OpenGL extension found: GL_ARB_gl_spirv
+OpenGL extension found: GL_ARB_gpu_shader5
+OpenGL extension found: GL_ARB_gpu_shader_fp64
+OpenGL extension found: GL_ARB_half_float_pixel
+OpenGL extension found: GL_ARB_half_float_vertex
+OpenGL extension found: GL_ARB_indirect_parameters
+OpenGL extension found: GL_ARB_instanced_arrays
+OpenGL extension found: GL_ARB_internalformat_query
+OpenGL extension found: GL_ARB_internalformat_query2
+OpenGL extension found: GL_ARB_invalidate_subdata
+OpenGL extension found: GL_ARB_map_buffer_alignment
+OpenGL extension found: GL_ARB_map_buffer_range
+OpenGL extension found: GL_ARB_multi_bind
+OpenGL extension found: GL_ARB_multi_draw_indirect
+OpenGL extension found: GL_ARB_multisample
+OpenGL extension found: GL_ARB_multitexture
+OpenGL extension found: GL_ARB_occlusion_query
+OpenGL extension found: GL_ARB_occlusion_query2
+OpenGL extension found: GL_ARB_pipeline_statistics_query
+OpenGL extension found: GL_ARB_pixel_buffer_object
+OpenGL extension found: GL_ARB_point_parameters
+OpenGL extension found: GL_ARB_point_sprite
+OpenGL extension found: GL_ARB_polygon_offset_clamp
+OpenGL extension found: GL_ARB_post_depth_coverage
+OpenGL extension found: GL_ARB_program_interface_query
+OpenGL extension found: GL_ARB_provoking_vertex
+OpenGL extension found: GL_ARB_query_buffer_object
+OpenGL extension found: GL_ARB_robust_buffer_access_behavior
+OpenGL extension found: GL_ARB_robustness
+OpenGL extension found: GL_ARB_robustness_isolation
+OpenGL extension found: GL_ARB_sample_shading
+OpenGL extension found: GL_ARB_sampler_objects
+OpenGL extension found: GL_ARB_seamless_cube_map
+OpenGL extension found: GL_ARB_seamless_cubemap_per_texture
+OpenGL extension found: GL_ARB_separate_shader_objects
+OpenGL extension found: GL_ARB_shader_atomic_counter_ops
+OpenGL extension found: GL_ARB_shader_atomic_counters
+OpenGL extension found: GL_ARB_shader_bit_encoding
+OpenGL extension found: GL_ARB_shader_draw_parameters
+OpenGL extension found: GL_ARB_shader_group_vote
+OpenGL extension found: GL_ARB_shader_image_load_store
+OpenGL extension found: GL_ARB_shader_image_size
+OpenGL extension found: GL_ARB_shader_objects
+OpenGL extension found: GL_ARB_shader_precision
+OpenGL extension found: GL_ARB_shader_stencil_export
+OpenGL extension found: GL_ARB_shader_storage_buffer_object
+OpenGL extension found: GL_ARB_shader_subroutine
+OpenGL extension found: GL_ARB_shader_texture_image_samples
+OpenGL extension found: GL_ARB_shading_language_100
+OpenGL extension found: GL_ARB_shading_language_420pack
+OpenGL extension found: GL_ARB_shading_language_packing
+OpenGL extension found: GL_ARB_shadow
+OpenGL extension found: GL_ARB_spirv_extensions
+OpenGL extension found: GL_ARB_stencil_texturing
+OpenGL extension found: GL_ARB_sync
+OpenGL extension found: GL_ARB_tessellation_shader
+OpenGL extension found: GL_ARB_texture_barrier
+OpenGL extension found: GL_ARB_texture_border_clamp
+OpenGL extension found: GL_ARB_texture_buffer_object
+OpenGL extension found: GL_ARB_texture_buffer_object_rgb32
+OpenGL extension found: GL_ARB_texture_buffer_range
+OpenGL extension found: GL_ARB_texture_compression
+OpenGL extension found: GL_ARB_texture_compression_bptc
+OpenGL extension found: GL_ARB_texture_compression_rgtc
+OpenGL extension found: GL_ARB_texture_cube_map
+OpenGL extension found: GL_ARB_texture_cube_map_array
+OpenGL extension found: GL_ARB_texture_env_add
+OpenGL extension found: GL_ARB_texture_env_combine
+OpenGL extension found: GL_ARB_texture_env_crossbar
+OpenGL extension found: GL_ARB_texture_env_dot3
+OpenGL extension found: GL_ARB_texture_filter_anisotropic
+OpenGL extension found: GL_ARB_texture_float
+OpenGL extension found: GL_ARB_texture_gather
+OpenGL extension found: GL_ARB_texture_mirror_clamp_to_edge
+OpenGL extension found: GL_ARB_texture_mirrored_repeat
+OpenGL extension found: GL_ARB_texture_multisample
+OpenGL extension found: GL_ARB_texture_non_power_of_two
+OpenGL extension found: GL_ARB_texture_query_levels
+OpenGL extension found: GL_ARB_texture_query_lod
+OpenGL extension found: GL_ARB_texture_rectangle
+OpenGL extension found: GL_ARB_texture_rg
+OpenGL extension found: GL_ARB_texture_rgb10_a2ui
+OpenGL extension found: GL_ARB_texture_stencil8
+OpenGL extension found: GL_ARB_texture_storage
+OpenGL extension found: GL_ARB_texture_storage_multisample
+OpenGL extension found: GL_ARB_texture_swizzle
+OpenGL extension found: GL_ARB_texture_view
+OpenGL extension found: GL_ARB_timer_query
+OpenGL extension found: GL_ARB_transform_feedback2
+OpenGL extension found: GL_ARB_transform_feedback3
+OpenGL extension found: GL_ARB_transform_feedback_instanced
+OpenGL extension found: GL_ARB_transform_feedback_overflow_query
+OpenGL extension found: GL_ARB_transpose_matrix
+OpenGL extension found: GL_ARB_uniform_buffer_object
+OpenGL extension found: GL_ARB_vertex_array_bgra
+OpenGL extension found: GL_ARB_vertex_array_object
+OpenGL extension found: GL_ARB_vertex_attrib_64bit
+OpenGL extension found: GL_ARB_vertex_attrib_binding
+OpenGL extension found: GL_ARB_vertex_buffer_object
+OpenGL extension found: GL_ARB_vertex_program
+OpenGL extension found: GL_ARB_vertex_shader
+OpenGL extension found: GL_ARB_vertex_type_10f_11f_11f_rev
+OpenGL extension found: GL_ARB_vertex_type_2_10_10_10_rev
+OpenGL extension found: GL_ARB_viewport_array
+OpenGL extension found: GL_ARB_window_pos
+OpenGL extension found: GL_ATI_separate_stencil
+OpenGL extension found: GL_EXT_abgr
+OpenGL extension found: GL_EXT_bgra
+OpenGL extension found: GL_EXT_blend_color
+OpenGL extension found: GL_EXT_blend_equation_separate
+OpenGL extension found: GL_EXT_blend_func_separate
+OpenGL extension found: GL_EXT_blend_minmax
+OpenGL extension found: GL_EXT_blend_subtract
+OpenGL extension found: GL_EXT_clip_volume_hint
+OpenGL extension found: GL_EXT_compiled_vertex_array
+OpenGL extension found: GL_EXT_direct_state_access
+OpenGL extension found: GL_EXT_draw_buffers2
+OpenGL extension found: GL_EXT_draw_range_elements
+OpenGL extension found: GL_EXT_fog_coord
+OpenGL extension found: GL_EXT_framebuffer_blit
+OpenGL extension found: GL_EXT_framebuffer_multisample
+OpenGL extension found: GL_EXT_framebuffer_object
+OpenGL extension found: GL_EXT_geometry_shader4
+OpenGL extension found: GL_EXT_gpu_program_parameters
+OpenGL extension found: GL_EXT_gpu_shader4
+OpenGL extension found: GL_EXT_multi_draw_arrays
+OpenGL extension found: GL_EXT_packed_depth_stencil
+OpenGL extension found: GL_EXT_packed_float
+OpenGL extension found: GL_EXT_packed_pixels
+OpenGL extension found: GL_EXT_polygon_offset_clamp
+OpenGL extension found: GL_EXT_rescale_normal
+OpenGL extension found: GL_EXT_secondary_color
+OpenGL extension found: GL_EXT_separate_specular_color
+OpenGL extension found: GL_EXT_shader_framebuffer_fetch
+OpenGL extension found: GL_EXT_shader_integer_mix
+OpenGL extension found: GL_EXT_shadow_funcs
+OpenGL extension found: GL_EXT_stencil_two_side
+OpenGL extension found: GL_EXT_stencil_wrap
+OpenGL extension found: GL_EXT_texture3D
+OpenGL extension found: GL_EXT_texture_array
+OpenGL extension found: GL_EXT_texture_compression_s3tc
+OpenGL extension found: GL_EXT_texture_edge_clamp
+OpenGL extension found: GL_EXT_texture_env_add
+OpenGL extension found: GL_EXT_texture_env_combine
+OpenGL extension found: GL_EXT_texture_filter_anisotropic
+OpenGL extension found: GL_EXT_texture_integer
+OpenGL extension found: GL_EXT_texture_lod_bias
+OpenGL extension found: GL_EXT_texture_rectangle
+OpenGL extension found: GL_EXT_texture_sRGB
+OpenGL extension found: GL_EXT_texture_sRGB_decode
+OpenGL extension found: GL_EXT_texture_shared_exponent
+OpenGL extension found: GL_EXT_texture_snorm
+OpenGL extension found: GL_EXT_texture_storage
+OpenGL extension found: GL_EXT_texture_swizzle
+OpenGL extension found: GL_EXT_timer_query
+OpenGL extension found: GL_EXT_transform_feedback
+OpenGL extension found: GL_IBM_texture_mirrored_repeat
+OpenGL extension found: GL_INTEL_conservative_rasterization
+OpenGL extension found: GL_INTEL_fragment_shader_ordering
+OpenGL extension found: GL_INTEL_framebuffer_CMAA
+OpenGL extension found: GL_INTEL_map_texture
+OpenGL extension found: GL_INTEL_multi_rate_fragment_shader
+OpenGL extension found: GL_INTEL_performance_query
+OpenGL extension found: GL_KHR_blend_equation_advanced
+OpenGL extension found: GL_KHR_blend_equation_advanced_coherent
+OpenGL extension found: GL_KHR_context_flush_control
+OpenGL extension found: GL_KHR_debug
+OpenGL extension found: GL_KHR_no_error
+OpenGL extension found: GL_KHR_texture_compression_astc_hdr
+OpenGL extension found: GL_KHR_texture_compression_astc_ldr
+OpenGL extension found: GL_NV_blend_square
+OpenGL extension found: GL_NV_conditional_render
+OpenGL extension found: GL_NV_primitive_restart
+OpenGL extension found: GL_NV_texgen_reflection
+OpenGL extension found: GL_SGIS_generate_mipmap
+OpenGL extension found: GL_SGIS_texture_edge_clamp
+OpenGL extension found: GL_SGIS_texture_lod
+OpenGL extension found: GL_SUN_multi_draw_arrays
+OpenGL extension found: GL_WIN_swap_hint
+OpenGL extension found: WGL_EXT_swap_control
+
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 104 2021-02-19 19:24:44.400
+!MESSAGE Program file does not exist
+!STACK 0
+java.io.FileNotFoundException: C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:131)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:315)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:142)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 104 2021-02-19 19:24:44.401
+!MESSAGE C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+!STACK 0
+java.io.FileNotFoundException: C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:131)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:315)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:142)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-19 20:01:16.208
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-19 20:01:16.209
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-19 20:04:30.893
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-19 20:04:30.893
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:04:44.772
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 45 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:04:44.779
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:04:44.785
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 45 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:04:44.793
+!MESSAGE Existing sessions are:
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-19 20:22:21.196
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-19 20:22:21.197
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-19 20:30:43.220
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-19 20:30:43.221
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-19 20:43:39.617
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-19 20:43:39.617
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:46:24.498
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 68 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:46:24.505
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:46:24.512
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 68 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:46:24.518
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:48:59.497
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 71 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:48:59.504
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:48:59.510
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 71 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:48:59.517
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:56:26.235
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 73 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:56:26.241
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:56:26.247
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 73 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 20:56:26.253
+!MESSAGE Existing sessions are:
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-19 20:59:22.810
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2021-02-19 20:59:22.810
+!MESSAGE Failed to execute MI command:
+-exec-continue
+
+Error message from debugger back end:
+Cannot execute this command while the selected thread is running.
+!STACK 0
+java.lang.Exception: Cannot execute this command while the selected thread is running.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:993)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:822)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:03:53.737
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 78 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:03:53.742
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:03:53.748
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 78 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:03:53.754
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:05:43.631
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 79 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:05:43.637
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:05:43.643
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 79 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:05:43.649
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:12:58.176
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 82 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:12:58.183
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:12:58.189
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 82 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:12:58.195
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:15:14.811
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 85 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:15:14.817
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:15:14.823
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 85 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 21:15:14.829
+!MESSAGE Existing sessions are:
+
+!ENTRY org.eclipse.cdt.ui 4 0 2021-02-19 21:51:33.843
+!MESSAGE Error in CDT UI during reconcile
+!STACK 1
+C Model Exception: C Model Status [Element main.c does not exist.]
+	at org.eclipse.cdt.internal.core.model.CElement.newNotPresentException(CElement.java:485)
+	at org.eclipse.cdt.internal.core.model.TranslationUnit.makeConsistent(TranslationUnit.java:583)
+	at org.eclipse.cdt.internal.core.model.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:65)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.execute(CModelOperation.java:346)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.run(CModelOperation.java:613)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.runOperation(CModelOperation.java:641)
+	at org.eclipse.cdt.internal.core.model.WorkingCopy.reconcile(WorkingCopy.java:365)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:79)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:64)
+	at org.eclipse.cdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:89)
+	at org.eclipse.cdt.internal.ui.text.CCompositeReconcilingStrategy.reconcile(CCompositeReconcilingStrategy.java:90)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.cdt.internal.ui.text.CReconciler.process(CReconciler.java:346)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+!SUBENTRY 1 org.eclipse.cdt.core 4 969 2021-02-19 21:51:33.843
+!MESSAGE Element main.c does not exist.
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 104 2021-02-19 22:01:02.617
+!MESSAGE Program file does not exist
+!STACK 0
+java.io.FileNotFoundException: C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:131)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:315)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:142)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 104 2021-02-19 22:01:02.617
+!MESSAGE C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+!STACK 0
+java.io.FileNotFoundException: C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\Debug\Locator.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:131)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:315)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:142)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:06:32.200
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 112 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:06:32.205
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:06:32.211
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 112 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:06:32.216
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:20:21.282
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 119 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:20:21.658
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:20:21.663
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 119 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:20:21.668
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:21:01.829
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 120 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:21:01.834
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:21:01.839
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 120 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:21:01.844
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:40:09.039
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 127 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:40:09.046
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:40:09.053
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 127 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:40:09.058
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:47:10.363
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 131 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:47:10.373
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:47:10.383
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 131 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:47:10.390
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:59:26.580
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 134 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:59:26.586
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:59:26.592
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 134 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 22:59:26.597
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.stlink 4 4 2021-02-19 23:03:29.264
+!MESSAGE ST-LINK GDB server failed to start (exit code = 1)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2021-02-19 23:03:29.299
+!MESSAGE Error in final launch sequence:
+
+Failed to start GDB server
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to start GDB server
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:106)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:94)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:298)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:807)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:718)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.runtime.CoreException: Error in initializing ST-LINK device.
+Reason: (1) Failed to connect to device. Please check power and cabling to target.
+	at com.st.stm32cube.ide.mcu.debug.stlink.StLinkDebugHardware.verifyServer(StLinkDebugHardware.java:1683)
+	at com.st.stm32cube.ide.mcu.debug.launch.export.HardwareDebugUtil.startServer(HardwareDebugUtil.java:159)
+	at com.st.stm32cube.ide.mcu.debug.launch.export.HardwareDebugUtil.startServer(HardwareDebugUtil.java:79)
+	at com.st.stm32cube.ide.mcu.debug.launch.LaunchSequenceUtil.stepStartGDBServer(LaunchSequenceUtil.java:227)
+	at com.st.stm32cube.ide.mcu.debug.launch.GDBExtendedJtagDSFFinalLaunchSequence_7_12.stepStartGDBServer(GDBExtendedJtagDSFFinalLaunchSequence_7_12.java:100)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.cdt.dsf.concurrent.ReflectionSequence$ReflectionStep.execute(ReflectionSequence.java:160)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.executeStep(Sequence.java:475)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.access$2(Sequence.java:390)
+	at org.eclipse.cdt.dsf.concurrent.Sequence$2.handleSuccess(Sequence.java:437)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:391)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:317)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+!SUBENTRY 1 com.st.stm32cube.ide.mcu.debug.launch 4 0 2021-02-19 23:03:29.300
+!MESSAGE Failed to start GDB server
+!STACK 1
+org.eclipse.core.runtime.CoreException: Error in initializing ST-LINK device.
+Reason: (1) Failed to connect to device. Please check power and cabling to target.
+	at com.st.stm32cube.ide.mcu.debug.stlink.StLinkDebugHardware.verifyServer(StLinkDebugHardware.java:1683)
+	at com.st.stm32cube.ide.mcu.debug.launch.export.HardwareDebugUtil.startServer(HardwareDebugUtil.java:159)
+	at com.st.stm32cube.ide.mcu.debug.launch.export.HardwareDebugUtil.startServer(HardwareDebugUtil.java:79)
+	at com.st.stm32cube.ide.mcu.debug.launch.LaunchSequenceUtil.stepStartGDBServer(LaunchSequenceUtil.java:227)
+	at com.st.stm32cube.ide.mcu.debug.launch.GDBExtendedJtagDSFFinalLaunchSequence_7_12.stepStartGDBServer(GDBExtendedJtagDSFFinalLaunchSequence_7_12.java:100)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.eclipse.cdt.dsf.concurrent.ReflectionSequence$ReflectionStep.execute(ReflectionSequence.java:160)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.executeStep(Sequence.java:475)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.access$2(Sequence.java:390)
+	at org.eclipse.cdt.dsf.concurrent.Sequence$2.handleSuccess(Sequence.java:437)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:391)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:317)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+!SUBENTRY 2 com.st.stm32cube.ide.mcu.debug.stlink 4 0 2021-02-19 23:03:29.300
+!MESSAGE Error in initializing ST-LINK device.
+Reason: (1) Failed to connect to device. Please check power and cabling to target.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:04:14.052
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 142 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:04:14.058
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:04:14.065
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 142 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:04:14.070
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:05:05.505
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 143 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:05:05.511
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:05:05.521
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 143 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:05:05.527
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:07:34.596
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 145 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:07:34.605
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:07:34.616
+!MESSAGE 144
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:07:34.626
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 145 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:07:34.634
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:07:34.643
+!MESSAGE 144
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:10:02.672
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 148 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:10:02.682
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:10:02.690
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 148 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:10:02.701
+!MESSAGE Existing sessions are:
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2021-02-19 23:10:17.247
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.concurrent.RequestMonitor@768a6d02): Status OK: unknown code=0 OK null' resulted in a rejected execution exception.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2021-02-19 23:11:31.366
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.concurrent.RequestMonitor@7932a509): Status OK: unknown code=0 OK null' resulted in a rejected execution exception.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:14:20.138
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 152 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:14:20.148
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:14:20.156
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 152 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:14:20.165
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:02.226
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 153 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:02.237
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:02.245
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 153 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:02.253
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:46.927
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 154 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:46.936
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:46.944
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 154 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-02-19 23:15:46.952
+!MESSAGE Existing sessions are:
