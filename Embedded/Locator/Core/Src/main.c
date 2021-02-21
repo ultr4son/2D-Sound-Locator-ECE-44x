@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include  <errno.h>
+#include <string.h>
 #include  <sys/unistd.h> // STDOUT_FILENO, STDERR_FILENO
 #include "arm_math.h"
 
@@ -39,8 +40,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define SAMPLES 1024
-#define SIN_SAMPLES 2048
-#define SIN_FREQUENCY 1
+#define SIN_SAMPLING_RATE 10000
+#define SIN_FREQUENCY 300
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -49,46 +50,52 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-ADC_HandleTypeDef hadc1;
-ADC_HandleTypeDef hadc2;
-
-DAC_HandleTypeDef hdac;
-DMA_HandleTypeDef hdma_dac1;
-DMA_HandleTypeDef hdma_dac2;
-
-TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim4;
-
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-float f0 = 1000;
+float32_t fL = 20;
+float32_t fH = 2000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
 static void MX_USART2_UART_Init(void);
-static void MX_ADC1_Init(void);
-static void MX_ADC2_Init(void);
-static void MX_DAC_Init(void);
-static void MX_TIM2_Init(void);
-static void MX_TIM4_Init(void);
 /* USER CODE BEGIN PFP */
-static void PollChannel(ADC_HandleTypeDef*, ADC_HandleTypeDef*, uint32_t, uint32_t, uint32_t*, uint32_t*);
+static void to_float(uint32_t*, float32_t*, uint32_t);
+static void do_fft(float32_t*, float32_t*, float32_t*, uint32_t);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint16_t ADC_top[SAMPLES];
-uint16_t ADC_bottom[SAMPLES];
-uint16_t ADC_right[SAMPLES];
-uint16_t ADC_left[SAMPLES];
+uint32_t ADC_top[SAMPLES];
+uint32_t ADC_bottom[SAMPLES];
+uint32_t ADC_right[SAMPLES];
+uint32_t ADC_left[SAMPLES];
+
+float32_t top_float[SAMPLES];
+float32_t top_mag[SAMPLES / 2];
+float32_t top_phase[SAMPLES / 2];
+
+float32_t bottom_float[SAMPLES];
+float32_t bottom_mag[SAMPLES / 2];
+float32_t bottom_phase[SAMPLES / 2];
+
+float32_t left_float[SAMPLES];
+float32_t left_mag[SAMPLES / 2];
+float32_t left_phase[SAMPLES / 2];
+
+float32_t right_float[SAMPLES];
+float32_t right_mag[SAMPLES / 2];
+float32_t right_phase[SAMPLES / 2];
+
+uint32_t top_max_idx;
+uint32_t bottom_max_idx;
+uint32_t right_max_idx;
+uint32_t left_max_idx;
+
 int si = 0;
-uint32_t sin_signal[SIN_SAMPLES];
-uint32_t sin_offset[SIN_SAMPLES];
-float32_t ADC_bins[SAMPLES/2];
 
 arm_cfft_instance_f32 fft_instance;
 
@@ -111,13 +118,8 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  arm_cfft_init_f32(&fft_instance, 1024);
+  arm_cfft_init_f32(&fft_instance, SAMPLES);
 
-  for(int i = 0; i < SIN_SAMPLES; i++) {
-	  sin_signal[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * (double)i / SIN_SAMPLES) + 1) * (double) ((0xFFF + 1) / 2));
-	  sin_offset[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * (double)i / SIN_SAMPLES + M_PI / 32) + 1) * (double) ((0xFFF + 1) / 2));
-
-  }
 //  arm_cfft_f32(&fft_instance, testInput_f32_10khz, 0, 1);
 //  arm_cmplx_mag_f32(testInput_f32_10khz, testOutput, 2048);
 //  float32_t maxValue;
@@ -137,41 +139,89 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_USART2_UART_Init();
-  MX_ADC1_Init();
-  MX_ADC2_Init();
-  MX_DAC_Init();
-  MX_TIM2_Init();
-  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_DAC_Start_DMA(&hdac, DAC1_CHANNEL_1, sin_signal, SIN_SAMPLES, DAC_ALIGN_12B_R);
-  HAL_DAC_Start_DMA(&hdac, DAC1_CHANNEL_2, sin_offset, SIN_SAMPLES, DAC_ALIGN_12B_R);
-//  HAL_ADC_Start(&hadc2);
-//  HAL_ADCEx_MultiModeStart_DMA(&hadc1, &ADC_samples, SAMPLES * 4);
+//  HAL_DAC_Start_DMA(&hdac, DAC1_CHANNEL_1, sin_signal, SIN_SAMPLES, DAC_ALIGN_12B_R);
+//  HAL_DAC_Start_DMA(&hdac, DAC1_CHANNEL_2, sin_offset, SIN_SAMPLES, DAC_ALIGN_12B_R);
+//  HAL_ADC_Start_DMA(&hadc1, ADC_samples, SAMPLES);
+//  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*) ADC_samples, SAMPLES * 4);
 
-  HAL_TIM_Base_Start(&htim2);
-  HAL_TIM_Base_Start_IT(&htim4);
+//  HAL_TIM_Base_Start(&htim2);
+  //HAL_TIM_Base_Start_IT(&htim4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  uint16_t i = 0;
 
   while (1)
   {
+	  for(int i = 0; i < SAMPLES; i++) {
+		  ADC_top[i] = ADC_right[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE)) + 1) * (double) ((0xFFF + 1) / 2));
+		  ADC_bottom[i] = ADC_left[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE) + M_PI / 32) + 1) * (double) ((0xFFF + 1) / 2));
 
-//	  	HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, sin_signal[i]);
-//	  	HAL_DAC_SetValue(&hdac, DAC_CHANNEL_2, DAC_ALIGN_12B_R, sin_offset[i]);
-//	  	i++;
-//		if(i > SIN_SAMPLES) {
-//				i = 0;
+	  }
+
+		to_float(ADC_top, top_float, SAMPLES);
+		to_float(ADC_bottom, bottom_float, SAMPLES);
+		to_float(ADC_right, right_float, SAMPLES);
+		to_float(ADC_left, left_float, SAMPLES);
+
+		arm_cfft_init_f32(&fft_instance, SAMPLES);
+		arm_cfft_f32(&fft_instance, top_float, 0, 1);
+		arm_cmplx_mag_f32(top_float, top_mag, SAMPLES);
+
+		//calculate phase for each bin
+		for(int i = 0; i < SAMPLES; i+=2) {
+			top_phase[i/2] = atan(top_float[i + 1] / top_float[i]);
+		}
+
+		arm_cfft_init_f32(&fft_instance, SAMPLES);
+		arm_cfft_f32(&fft_instance, bottom_float, 0, 1);
+		arm_cmplx_mag_f32(bottom_float, bottom_mag, SAMPLES);
+
+		//calculate phase for each bin
+		for(int i = 0; i < SAMPLES; i+=2) {
+			bottom_phase[i/2] = atan(bottom_float[i + 1] / bottom_float[i]);
+		}
+
+//		arm_cfft_init_f32(&fft_instance, SAMPLES);
+//		arm_cfft_f32(&fft_instance, right_float, 0, 1);
+//		arm_cmplx_mag_f32(right_float, right_mag, SAMPLES);
+//
+//		//calculate phase for each bin
+//		for(int i = 0; i < SAMPLES; i+=2) {
+//			right_phase[i/2] = atan(right_float[i + 1] / right_float[i]);
 //		}
-//		HAL_Delay(1);
-//	  	HAL_ADC_Start(&hadc1);
-//		HAL_ADC_PollForConversion(&hadc1, 1000);
+//
+//		arm_cfft_init_f32(&fft_instance, SAMPLES);
+//		arm_cfft_f32(&fft_instance, left_float, 0, 1);
+//		arm_cmplx_mag_f32(left_float, left_mag, SAMPLES);
+//
+//		//calculate phase for each bin
+//		for(int i = 0; i < SAMPLES; i+=2) {
+//			left_phase[i/2] = atan(left_float[i + 1] / left_float[i]);
+//		}
+		float32_t max;
+		uint32_t index;
+		arm_max_f32(top_mag, SAMPLES / 2, &max, &index);
+
+		int frequency = (index * SIN_SAMPLING_RATE) / SAMPLES / 2;
+		if(frequency >= fL && frequency <= fH) {
+			float32_t t_phase = top_phase[index];
+			float32_t b_phase = bottom_phase[index];
+			float32_t tb_t_diff = ((t_phase - b_phase) * SAMPLES)/(2 * M_PI);
+			printf("%d\n\r",(uint32_t) tb_t_diff);
+		}
+
+
+
+
+//		do_fft(top_float, top_phase, top_mag, SAMPLES);
+//		do_fft(bottom_float, bottom_phase, bottom_mag, SAMPLES);
+
+
 
     /* USER CODE END WHILE */
 
@@ -201,9 +251,9 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 84;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -217,246 +267,12 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief ADC1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_ADC1_Init(void)
-{
-
-  /* USER CODE BEGIN ADC1_Init 0 */
-
-  /* USER CODE END ADC1_Init 0 */
-
-  ADC_ChannelConfTypeDef sConfig = {0};
-
-  /* USER CODE BEGIN ADC1_Init 1 */
-
-  /* USER CODE END ADC1_Init 1 */
-  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
-  */
-  hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
-  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc1.Init.ScanConvMode = DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
-  hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 1;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-  */
-  sConfig.Channel = ADC_CHANNEL_0;
-  sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN ADC1_Init 2 */
-
-  /* USER CODE END ADC1_Init 2 */
-
-}
-
-/**
-  * @brief ADC2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_ADC2_Init(void)
-{
-
-  /* USER CODE BEGIN ADC2_Init 0 */
-
-  /* USER CODE END ADC2_Init 0 */
-
-  ADC_ChannelConfTypeDef sConfig = {0};
-
-  /* USER CODE BEGIN ADC2_Init 1 */
-
-  /* USER CODE END ADC2_Init 1 */
-  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
-  */
-  hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
-  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
-  hadc2.Init.ScanConvMode = DISABLE;
-  hadc2.Init.ContinuousConvMode = DISABLE;
-  hadc2.Init.DiscontinuousConvMode = DISABLE;
-  hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc2.Init.NbrOfConversion = 1;
-  hadc2.Init.DMAContinuousRequests = DISABLE;
-  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  if (HAL_ADC_Init(&hadc2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-  */
-  sConfig.Channel = ADC_CHANNEL_6;
-  sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN ADC2_Init 2 */
-
-  /* USER CODE END ADC2_Init 2 */
-
-}
-
-/**
-  * @brief DAC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_DAC_Init(void)
-{
-
-  /* USER CODE BEGIN DAC_Init 0 */
-
-  /* USER CODE END DAC_Init 0 */
-
-  DAC_ChannelConfTypeDef sConfig = {0};
-
-  /* USER CODE BEGIN DAC_Init 1 */
-
-  /* USER CODE END DAC_Init 1 */
-  /** DAC Initialization
-  */
-  hdac.Instance = DAC;
-  if (HAL_DAC_Init(&hdac) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** DAC channel OUT1 config
-  */
-  sConfig.DAC_Trigger = DAC_TRIGGER_T2_TRGO;
-  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
-  if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** DAC channel OUT2 config
-  */
-  if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN DAC_Init 2 */
-
-  /* USER CODE END DAC_Init 2 */
-
-}
-
-/**
-  * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM2_Init(void)
-{
-
-  /* USER CODE BEGIN TIM2_Init 0 */
-
-  /* USER CODE END TIM2_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 1000;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 186;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
-
-  /* USER CODE END TIM2_Init 2 */
-
-}
-
-/**
-  * @brief TIM4 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM4_Init(void)
-{
-
-  /* USER CODE BEGIN TIM4_Init 0 */
-
-  /* USER CODE END TIM4_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM4_Init 1 */
-
-  /* USER CODE END TIM4_Init 1 */
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 10;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 42;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM4_Init 2 */
-
-  /* USER CODE END TIM4_Init 2 */
-
 }
 
 /**
@@ -493,25 +309,6 @@ static void MX_USART2_UART_Init(void)
 }
 
 /**
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void)
-{
-
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA1_Stream5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
-  /* DMA1_Stream6_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream6_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -532,6 +329,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -551,48 +354,79 @@ int _write(int file, char *data, int len)
    return (status == HAL_OK ? len : 0);
 }
 
-void PollChannel(ADC_HandleTypeDef* hadcA, ADC_HandleTypeDef* hadcB, uint32_t channelA, uint32_t channelB, uint32_t* aValue, uint32_t* bValue) {
-	ADC_ChannelConfTypeDef sConfig = {0};
+//void PollChannel(ADC_HandleTypeDef* hadcA, ADC_HandleTypeDef* hadcB, uint32_t channelA, uint32_t channelB, uint32_t* aValue, uint32_t* bValue) {
+//	ADC_ChannelConfTypeDef sConfig = {0};
+//
+//	sConfig.Channel = channelA;
+//	sConfig.Rank = 1;
+//	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+//
+//	HAL_ADC_ConfigChannel(hadcA, &sConfig);
+//
+//	sConfig.Channel = channelB;
+//	sConfig.Rank = 1;
+//	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+//
+//	HAL_ADC_ConfigChannel(hadcB, &sConfig);
+//	HAL_ADC_Start(hadcA);
+//	HAL_ADC_Start(hadcB);
+//
+//	HAL_ADC_PollForConversion(hadcA, 1000);
+//	HAL_ADC_PollForConversion(hadcB, 1000);
+//	*aValue = HAL_ADC_GetValue(hadcA);
+//	*bValue = HAL_ADC_GetValue(hadcB);
+//}
+//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
+//	if(htim == &htim4) {
+//		uint32_t top_sample;
+//		uint32_t bottom_sample;
+//		uint32_t right_sample;
+//		uint32_t left_sample;
+//
+//		PollChannel(&hadc1, &hadc2, ADC_CHANNEL_0, ADC_CHANNEL_6, &top_sample, &bottom_sample);
+//		PollChannel(&hadc1, &hadc2, ADC_CHANNEL_1, ADC_CHANNEL_7, &right_sample, &left_sample);
+//		printf("%d: %d %d %d %d\n\r", si, top_sample, bottom_sample, right_sample, left_sample);
+//		ADC_top[si] = top_sample;
+//		ADC_bottom[si] = bottom_sample;
+//		ADC_right[si] = right_sample;
+//		ADC_left[si] = left_sample;
+//		if(si == SAMPLES - 1) {
+//			float32_t top_float[SAMPLES];
+//			float32_t top_mag[SAMPLES / 2];
+//			float32_t top_phase[SAMPLES / 2];
+//
+//			float32_t bottom_float[SAMPLES];
+//			float32_t bottom_mag[SAMPLES / 2];
+//			float32_t bottom_phase[SAMPLES / 2];
+//
+//			to_float(ADC_top, top_float, SAMPLES);
+//			to_float(ADC_bottom, bottom_float, SAMPLES);
+//
+//			do_fft(top_float, top_phase, top_mag, SAMPLES);
+//			do_fft(bottom_float, bottom_phase, bottom_mag, SAMPLES);
+//
+//		}
+//		si = (si + 1) % SAMPLES;
+//
+//
+//	}
+//}
+void do_fft(float32_t* signal, float32_t* angle_bins, float32_t* mag_bins, uint32_t length) {
+	arm_cfft_init_f32(&fft_instance, length);
+	arm_cfft_f32(&fft_instance, signal, 0, 1);
+	arm_cmplx_mag_f32(signal, mag_bins, length);
 
-	sConfig.Channel = channelA;
-	sConfig.Rank = 1;
-	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
 
-	HAL_ADC_ConfigChannel(hadcA, &sConfig);
-
-	sConfig.Channel = channelB;
-	sConfig.Rank = 1;
-	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-
-	HAL_ADC_ConfigChannel(hadcB, &sConfig);
-	HAL_ADC_Start(hadcA);
-	HAL_ADC_Start(hadcB);
-
-	HAL_ADC_PollForConversion(hadcA, 1000);
-	HAL_ADC_PollForConversion(hadcB, 1000);
-	*aValue = HAL_ADC_GetValue(hadcA);
-	*bValue = HAL_ADC_GetValue(hadcB);
+	//calculate phase for each bin
+	for(int i = 0; i < length; i+=2) {
+		angle_bins[i/2] = atan(signal[i + 1] / signal[i]);
+	}
 }
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
-	if(htim == &htim4) {
-		uint32_t top_sample;
-		uint32_t bottom_sample;
-		uint32_t right_sample;
-		uint32_t left_sample;
 
-		PollChannel(&hadc1, &hadc2, ADC_CHANNEL_0, ADC_CHANNEL_6, &top_sample, &bottom_sample);
-		PollChannel(&hadc1, &hadc2, ADC_CHANNEL_1, ADC_CHANNEL_7, &right_sample, &left_sample);
-		printf("%d: %d %d %d %d\n\r", si, top_sample, bottom_sample, right_sample, left_sample);
-		ADC_top[si] = top_sample;
-		ADC_bottom[si] = bottom_sample;
-		ADC_right[si] = right_sample;
-		ADC_left[si] = left_sample;
-		if(si == SAMPLES - 1) {
+void to_float(uint32_t* int_array, float32_t* float_array, uint32_t length) {
 
-		}
-		si = (si + 1) % SAMPLES;
-
-
+	for(int i = 0; i < length; i++) {
+		float_array[i] = ((float32_t)int_array[i] / (4096.0 / 2)) - 1;
 	}
 }
 /* USER CODE END 4 */
