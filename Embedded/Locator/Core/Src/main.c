@@ -40,8 +40,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define SAMPLES 1024
-#define SIN_SAMPLING_RATE 10000
-#define SIN_FREQUENCY 300
+#define SIN_SAMPLING_RATE 9000
+#define SIN_FREQUENCY 20
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -63,7 +63,7 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 static void to_float(uint32_t*, float32_t*, uint32_t);
-static void do_fft(float32_t*, float32_t*, float32_t*, uint32_t);
+static float32_t do_fft(uint32_t* ADC_a, uint32_t* ADC_b);
 
 /* USER CODE END PFP */
 
@@ -74,30 +74,9 @@ uint32_t ADC_bottom[SAMPLES];
 uint32_t ADC_right[SAMPLES];
 uint32_t ADC_left[SAMPLES];
 
-float32_t top_float[SAMPLES];
-float32_t top_mag[SAMPLES / 2];
-float32_t top_phase[SAMPLES / 2];
-
-float32_t bottom_float[SAMPLES];
-float32_t bottom_mag[SAMPLES / 2];
-float32_t bottom_phase[SAMPLES / 2];
-
-float32_t left_float[SAMPLES];
-float32_t left_mag[SAMPLES / 2];
-float32_t left_phase[SAMPLES / 2];
-
-float32_t right_float[SAMPLES];
-float32_t right_mag[SAMPLES / 2];
-float32_t right_phase[SAMPLES / 2];
-
-uint32_t top_max_idx;
-uint32_t bottom_max_idx;
-uint32_t right_max_idx;
-uint32_t left_max_idx;
-
-int si = 0;
-
 arm_cfft_instance_f32 fft_instance;
+
+uint8_t startLocating = 1;
 
 
 /* USER CODE END 0 */
@@ -142,87 +121,58 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
-//  HAL_DAC_Start_DMA(&hdac, DAC1_CHANNEL_1, sin_signal, SIN_SAMPLES, DAC_ALIGN_12B_R);
-//  HAL_DAC_Start_DMA(&hdac, DAC1_CHANNEL_2, sin_offset, SIN_SAMPLES, DAC_ALIGN_12B_R);
-//  HAL_ADC_Start_DMA(&hadc1, ADC_samples, SAMPLES);
-//  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*) ADC_samples, SAMPLES * 4);
-
-//  HAL_TIM_Base_Start(&htim2);
-  //HAL_TIM_Base_Start_IT(&htim4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+  for(int i = 0; i < SAMPLES; i++) {
+	  ADC_top[i] = ADC_right[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE)) + 1) * (double) ((1023 + 1) / 2));
+	  ADC_bottom[i] = ADC_left[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE) + M_PI / 32) + 1) * (double) ((1023 + 1) / 2));
+
+  }
 
   while (1)
   {
-	  for(int i = 0; i < SAMPLES; i++) {
-		  ADC_top[i] = ADC_right[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE)) + 1) * (double) ((0xFFF + 1) / 2));
-		  ADC_bottom[i] = ADC_left[i] = (uint32_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE) + M_PI / 32) + 1) * (double) ((0xFFF + 1) / 2));
+
+	  uint8_t command;
+	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart2, &command, 1, 0);
+
+	  if(status == HAL_UART_ERROR_NONE && command == 3) {
+		  uint8_t fLSetting[sizeof(uint32_t)];
+		  if(HAL_UART_Receive(&huart2, fLSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
+			  fL = fLSetting[3] << 24 | fLSetting[2] << 16 | fLSetting[1] << 8 | fLSetting[0];
+		  }
+
+
+		  uint8_t fHSetting[sizeof(uint32_t)];
+		  if(HAL_UART_Receive(&huart2, fHSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
+			  fL = fHSetting[3] << 24 | fHSetting[2] << 16 | fHSetting[1] << 8 | fHSetting[0];
+		  }
+
 
 	  }
+	  if(status == HAL_UART_ERROR_NONE && command == 5) {
+		  startLocating = 1;
+	  }
+	  if(status == HAL_UART_ERROR_NONE && command == 6) {
+		  startLocating = 0;
+	  }
 
-		to_float(ADC_top, top_float, SAMPLES);
-		to_float(ADC_bottom, bottom_float, SAMPLES);
-		to_float(ADC_right, right_float, SAMPLES);
-		to_float(ADC_left, left_float, SAMPLES);
+	  if(startLocating) {
 
-		arm_cfft_init_f32(&fft_instance, SAMPLES);
-		arm_cfft_f32(&fft_instance, top_float, 0, 1);
-		arm_cmplx_mag_f32(top_float, top_mag, SAMPLES);
+		  uint32_t start = HAL_GetTick();
 
-		//calculate phase for each bin
-		for(int i = 0; i < SAMPLES; i+=2) {
-			top_phase[i/2] = atan(top_float[i + 1] / top_float[i]);
-		}
+		  float32_t diff_tb = do_fft(ADC_top, ADC_bottom);
+		  float32_t diff_lr = do_fft(ADC_right, ADC_left);
 
-		arm_cfft_init_f32(&fft_instance, SAMPLES);
-		arm_cfft_f32(&fft_instance, bottom_float, 0, 1);
-		arm_cmplx_mag_f32(bottom_float, bottom_mag, SAMPLES);
+		  uint32_t end = HAL_GetTick();
 
-		//calculate phase for each bin
-		for(int i = 0; i < SAMPLES; i+=2) {
-			bottom_phase[i/2] = atan(bottom_float[i + 1] / bottom_float[i]);
-		}
-
-//		arm_cfft_init_f32(&fft_instance, SAMPLES);
-//		arm_cfft_f32(&fft_instance, right_float, 0, 1);
-//		arm_cmplx_mag_f32(right_float, right_mag, SAMPLES);
-//
-//		//calculate phase for each bin
-//		for(int i = 0; i < SAMPLES; i+=2) {
-//			right_phase[i/2] = atan(right_float[i + 1] / right_float[i]);
-//		}
-//
-//		arm_cfft_init_f32(&fft_instance, SAMPLES);
-//		arm_cfft_f32(&fft_instance, left_float, 0, 1);
-//		arm_cmplx_mag_f32(left_float, left_mag, SAMPLES);
-//
-//		//calculate phase for each bin
-//		for(int i = 0; i < SAMPLES; i+=2) {
-//			left_phase[i/2] = atan(left_float[i + 1] / left_float[i]);
-//		}
-		float32_t max;
-		uint32_t index;
-		arm_max_f32(top_mag, SAMPLES / 2, &max, &index);
-
-		int frequency = (index * SIN_SAMPLING_RATE) / SAMPLES / 2;
-		if(frequency >= fL && frequency <= fH) {
-			float32_t t_phase = top_phase[index];
-			float32_t b_phase = bottom_phase[index];
-			float32_t tb_t_diff = ((t_phase - b_phase) * SAMPLES)/(2 * M_PI);
-			printf("%d\n\r",(uint32_t) tb_t_diff);
-		}
+		  uint32_t elapsed = end - start;
+		  elapsed++;
 
 
-
-
-//		do_fft(top_float, top_phase, top_mag, SAMPLES);
-//		do_fft(bottom_float, bottom_phase, bottom_mag, SAMPLES);
-
-
-
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -354,6 +304,7 @@ int _write(int file, char *data, int len)
    return (status == HAL_OK ? len : 0);
 }
 
+
 //void PollChannel(ADC_HandleTypeDef* hadcA, ADC_HandleTypeDef* hadcB, uint32_t channelA, uint32_t channelB, uint32_t* aValue, uint32_t* bValue) {
 //	ADC_ChannelConfTypeDef sConfig = {0};
 //
@@ -411,22 +362,57 @@ int _write(int file, char *data, int len)
 //
 //	}
 //}
-void do_fft(float32_t* signal, float32_t* angle_bins, float32_t* mag_bins, uint32_t length) {
-	arm_cfft_init_f32(&fft_instance, length);
-	arm_cfft_f32(&fft_instance, signal, 0, 1);
-	arm_cmplx_mag_f32(signal, mag_bins, length);
+float32_t a_float[SAMPLES];
+float32_t b_float[SAMPLES];
+float32_t a_mag[SAMPLES / 2];
+float32_t a_phase[SAMPLES / 2];
+float32_t b_phase[SAMPLES / 2];
 
+float32_t do_fft(uint32_t* ADC_a, uint32_t* ADC_b) {
+	memset(a_float, 0, SAMPLES * sizeof(float32_t));
+	memset(b_float, 0, SAMPLES  * sizeof(float32_t));
+	memset(a_mag, 0, SAMPLES / 2  * sizeof(float32_t));
+	memset(a_phase, 0, SAMPLES / 2  * sizeof(float32_t));
+	memset(b_phase, 0, SAMPLES / 2  * sizeof(float32_t));
+	to_float(ADC_a, a_float, SAMPLES);
+	to_float(ADC_b, b_float, SAMPLES);
+
+	arm_cfft_init_f32(&fft_instance, SAMPLES);
+	arm_cfft_f32(&fft_instance, a_float, 0, 1);
+	arm_cmplx_mag_f32(a_float, a_mag, SAMPLES / 2);
 
 	//calculate phase for each bin
-	for(int i = 0; i < length; i+=2) {
-		angle_bins[i/2] = atan(signal[i + 1] / signal[i]);
+	for(int i = 0; i < SAMPLES; i+=2) {
+		a_phase[i/2] = atan(a_float[i + 1] / a_float[i]);
 	}
+
+	arm_cfft_init_f32(&fft_instance, SAMPLES);
+	arm_cfft_f32(&fft_instance, b_float, 0, 1);
+
+	//calculate phase for each bin
+	for(int i = 0; i < SAMPLES; i+=2) {
+		b_phase[i/2] = atan(b_float[i + 1] / b_float[i]);
+	}
+
+	float32_t max;
+	uint32_t index;
+	arm_max_f32(a_mag, SAMPLES / 2, &max, &index);
+
+	int frequency = (index * SIN_SAMPLING_RATE) / SAMPLES / 2;
+	if(frequency >= fL && frequency <= fH) {
+		float32_t a_phase_max = a_phase[index];
+		float32_t b_phase_max = b_phase[index];
+		float32_t tb_t_diff = ((a_phase_max - b_phase_max) * SAMPLES)/(2 * M_PI);
+		return tb_t_diff;
+	}
+	return NAN;
+
 }
 
 void to_float(uint32_t* int_array, float32_t* float_array, uint32_t length) {
 
 	for(int i = 0; i < length; i++) {
-		float_array[i] = ((float32_t)int_array[i] / (4096.0 / 2)) - 1;
+		float_array[i] = ((float32_t)int_array[i] / (1024.0 / 2)) - 1;
 	}
 }
 /* USER CODE END 4 */
