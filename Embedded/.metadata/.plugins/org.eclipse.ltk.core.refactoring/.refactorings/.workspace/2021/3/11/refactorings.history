@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos; Recorded Sound Loctaro&apos; to &apos; Recorded Sound Locator&apos;" description="Rename resource &apos; Recorded Sound Loctaro&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/ Recorded Sound Loctaro" name=" Recorded Sound Locator" stamp="1615348878542" updateReferences="true"/>&#x0A;<refactoring comment="Delete 2 resources" deleteContents="true" description="Delete 2 resources" element1="/Recorded Locator" element2="/ Recorded Sound Locator" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="2" stamp="1615360949333"/>
+</session>
