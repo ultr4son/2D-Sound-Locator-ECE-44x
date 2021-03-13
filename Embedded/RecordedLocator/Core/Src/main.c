@@ -39,9 +39,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLES 512
+#define SAMPLES 1024
 #define SIN_SAMPLING_RATE 9000
 #define SIN_FREQUENCY 20
+#define SIN_RECORDING_FREQUENCY 20
+#define DIFF_THRESHOLD 30
 union int_float {
 	uint16_t int_val;
 	float32_t float_val;
@@ -75,9 +77,9 @@ static void to_float(uint16_t*, float32_t*, uint32_t);
 void do_recording();
 void convert_recording();
 void reverse_recording();
-//void autocorrelate_recording();
-float32_t tdoa_recording(uint16_t* ADC_a, uint16_t* ADC_b);
-
+void autocorrelate_recording();
+uint8_t recording_is_present(uint16_t* ADC_a);
+float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thresh);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -88,14 +90,15 @@ uint16_t ADC_right[SAMPLES];
 uint16_t ADC_left[SAMPLES];
 
 union int_float recording[SAMPLES / 2];
-//float32_t recording_autocorrelation[SAMPLES];
-arm_fir_instance_f32 matched_filter;
-float32_t matched_filter_state[SAMPLES / 2 + SAMPLES];
-//arm_cfft_instance_f32 fft_instance;
+float32_t recording_autocorrelation[SAMPLES];
+float32_t recording_max_correlation;
+//arm_fir_instance_f32 matched_filter;
+//float32_t matched_filter_state[SAMPLES / 2 + SAMPLES];
+arm_cfft_instance_f32 fft_instance;
 
 
 uint8_t startLocating = 1;
-
+uint8_t start_recording = 1;
 
 /* USER CODE END 0 */
 
@@ -115,9 +118,9 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  //arm_cfft_init_f32(&fft_instance, SAMPLES);
+  arm_cfft_init_f32(&fft_instance, SAMPLES);
 
-//  arm_cfft_f32(&fft_instance, testInput_f32_10khz, 0, 1);
+ // arm_cfft_f32(&fft_instance, testInput_f32_10khz, 0, 1);
 //  arm_cmplx_mag_f32(testInput_f32_10khz, testOutput, 2048);
 //  float32_t maxValue;
 //  int testIndex;
@@ -147,7 +150,13 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  for(int i = 0; i < SAMPLES * 2; i++) {
+//  for(int i = SAMPLES / 2 ; i < SAMPLES; i++) {
+//	  ADC_top[i] = 0;
+//	  ADC_right[i] = 0;
+//	  ADC_bottom[i] = 0;
+//	  ADC_top[i] = 0;
+//  }
+  for(int i = 0; i < SAMPLES; i++) {
 	  ADC_top[i] = ADC_right[i] = (uint16_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE)) + 1) * (double) ((1023 + 1) / 2));
 	  ADC_bottom[i] = ADC_left[i] = (uint16_t) ((sin(2 * M_PI * SIN_FREQUENCY * ((double)i / SIN_SAMPLING_RATE) + M_PI / 32) + 1) * (double) ((1023 + 1) / 2));
   }
@@ -159,15 +168,15 @@ int main(void)
 	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart2, &command, 1, 0);
 
 	  if(status == HAL_UART_ERROR_NONE && command == 3) {
-		  uint8_t fLSetting[sizeof(uint32_t)];
-		  if(HAL_UART_Receive(&huart2, fLSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
-			  fL = fLSetting[3] << 24 | fLSetting[2] << 16 | fLSetting[1] << 8 | fLSetting[0];
-		  }
-
-		  uint8_t fHSetting[sizeof(uint32_t)];
-		  if(HAL_UART_Receive(&huart2, fHSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
-			  fL = fHSetting[3] << 24 | fHSetting[2] << 16 | fHSetting[1] << 8 | fHSetting[0];
-		  }
+//		  uint8_t fLSetting[sizeof(uint32_t)];
+//		  if(HAL_UART_Receive(&huart2, fLSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
+//			  fL = fLSetting[3] << 24 | fLSetting[2] << 16 | fLSetting[1] << 8 | fLSetting[0];
+//		  }
+//
+//		  uint8_t fHSetting[sizeof(uint32_t)];
+//		  if(HAL_UART_Receive(&huart2, fHSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
+//			  fL = fHSetting[3] << 24 | fHSetting[2] << 16 | fHSetting[1] << 8 | fHSetting[0];
+//		  }
 
 	  }
 	  if(status == HAL_UART_ERROR_NONE && command == 5) {
@@ -179,22 +188,32 @@ int main(void)
 
 	  if(status == HAL_UART_ERROR_NONE && command == 7) {
 		  start_recording = 1;
+
 	  }
 	  if(status == HAL_UART_ERROR_NONE && command == 8) {
 		  start_recording = 0;
 	  }
-
+	  if(start_recording) {
+		  do_recording();
+		  convert_recording();
+		  autocorrelate_recording();
+		  start_recording = 0;
+	  }
 	  if(startLocating) {
 
 		  uint32_t start = HAL_GetTick();
+		  if(recording_is_present(ADC_top)) {
+			  float32_t diff_tb = do_fft(ADC_top, ADC_bottom, 0, INT_MAX);
+			  float32_t diff_lr = do_fft(ADC_right, ADC_left, 0, INT_MAX);
 
-		  float32_t diff_tb = do_fft(ADC_top, ADC_bottom);
-		  float32_t diff_lr = do_fft(ADC_right, ADC_left);
+		  }
 
 		  uint32_t end = HAL_GetTick();
 
 		  uint32_t elapsed = end - start;
 		  elapsed++;
+
+
 
 
 	  }
@@ -530,14 +549,26 @@ int _write(int file, char *data, int len)
 
 void do_recording() {
 	for(int i = 0; i < SAMPLES / 2; i++) {
-		recording[i].int_val = ADC_top[i];
-	}
+		recording[i].int_val =  (uint16_t) ((sin(2 * M_PI * SIN_RECORDING_FREQUENCY * ((double)i / SIN_SAMPLING_RATE)) + 1) * (double) ((1023 + 1) / 2));	}
 }
 
 void convert_recording() {
+
+	float32_t max = 0.0;
+
 	for(int i = 0; i < SAMPLES / 2; i++) {
-		recording[i].float_val = (float32_t) recording[i].int_val;
+		recording[i].float_val = (float32_t) ((float32_t)recording[i].int_val);
+		if(fabs(recording[i].float_val) > max) {
+			max = fabs(recording[i].float_val);
+		}
 	}
+
+	for(int i = 0; i < SAMPLES / 2; i++) {
+		recording[i].float_val = recording[i].float_val / (max / 2) - 1;
+	}
+
+
+
 }
 
 void reverse_recording() {
@@ -548,94 +579,106 @@ void reverse_recording() {
 
 }
 
-//void autocorrelate_recording() {
-//	arm_correlate_f32((const float32_t*) recording, SAMPLES, (const float32_t*) recording, SAMPLES, recording_autocorrelation);
-//}
-
-void init_filter() {
-	arm_fir_init_f32(&matched_filter, SAMPLES / 2, recording, matched_filter_state, SAMPLES);
+void autocorrelate_recording() {
+	arm_correlate_f32((const float32_t*) recording, SAMPLES, (const float32_t*) recording, SAMPLES, recording_autocorrelation);
+	static int max_index;
+	arm_max_f32(recording_autocorrelation, SAMPLES, &recording_max_correlation, &max_index);
 }
 
-float32_t tdoa_recording(uint16_t* ADC_a, uint16_t* ADC_b) {
+//void init_filter() {
+//	arm_fir_init_f32(&matched_filter, SAMPLES / 2, recording, (float32_t*)matched_filter_state, SAMPLES);
+//}
+
+
+uint8_t recording_is_present(uint16_t* ADC_a) {
 	static float32_t recording_samples_correlation[SAMPLES * 2];
 	static float32_t a_float[SAMPLES];
-	static float32_t b_float[SAMPLES];
-
-	static float32_t a_filtered[SAMPLES];
 
 	memset(recording_samples_correlation, 0, SAMPLES * 2 * sizeof(float32_t));
 	memset(a_float, 0, SAMPLES * sizeof(float32_t));
-	memset(b_float, 0, SAMPLES * sizeof(float32_t));
-	memset(a_filtered, 0, SAMPLES * sizeof(float32_t));
 
 	to_float(ADC_a, a_float, SAMPLES);
 
-	reverse_recording();
-	convert_recording();
-	init_filter();
-
-	arm_fir_f32(matched_filter, a_float, a_filtered, SAMPLES);
+	arm_correlate_f32(a_float, SAMPLES, (float32_t*) recording, SAMPLES / 2, recording_samples_correlation);
 
 
+	float32_t max_corr;
+	arm_max_no_idx_f32(recording_samples_correlation, SAMPLES * 2, &max_corr);
+
+	float32_t corr_diff = fabs(recording_max_correlation - max_corr);
+
+	if(corr_diff < DIFF_THRESHOLD) {
+		return 1;
+	}
 
 
+	return 0;
 
 }
 
 
 
-//float32_t a_float[SAMPLES];
-//float32_t b_float[SAMPLES];
-//float32_t a_mag[SAMPLES / 2];
-//float32_t a_phase[SAMPLES / 2];
-//float32_t b_phase[SAMPLES / 2];
-//
-//float32_t do_fft(uint32_t* ADC_a, uint32_t* ADC_b) {
-//	memset(a_float, 0, SAMPLES * sizeof(float32_t));
-//	memset(b_float, 0, SAMPLES  * sizeof(float32_t));
-//	memset(a_mag, 0, SAMPLES / 2  * sizeof(float32_t));
-//	memset(a_phase, 0, SAMPLES / 2  * sizeof(float32_t));
-//	memset(b_phase, 0, SAMPLES / 2  * sizeof(float32_t));
-//	to_float(ADC_a, a_float, SAMPLES);
-//	to_float(ADC_b, b_float, SAMPLES);
-//
-//	arm_cfft_init_f32(&fft_instance, SAMPLES);
-//	arm_cfft_f32(&fft_instance, a_float, 0, 1);
-//	arm_cmplx_mag_f32(a_float, a_mag, SAMPLES / 2);
-//
-//	//calculate phase for each bin
-//	for(int i = 0; i < SAMPLES; i+=2) {
-//		a_phase[i/2] = atan(a_float[i + 1] / a_float[i]);
-//	}
-//
-//	arm_cfft_init_f32(&fft_instance, SAMPLES);
-//	arm_cfft_f32(&fft_instance, b_float, 0, 1);
-//
-//	//calculate phase for each bin
-//	for(int i = 0; i < SAMPLES; i+=2) {
-//		b_phase[i/2] = atan(b_float[i + 1] / b_float[i]);
-//	}
-//
-//	float32_t max;
-//	uint32_t index;
-//	arm_max_f32(a_mag, SAMPLES / 2, &max, &index);
-//
-//	int frequency = (index * SIN_SAMPLING_RATE) / SAMPLES / 2;
-//	if(frequency >= fL && frequency <= fH) {
-//		float32_t a_phase_max = a_phase[index];
-//		float32_t b_phase_max = b_phase[index];
-//		float32_t tb_t_diff = ((a_phase_max - b_phase_max) * SAMPLES)/(2 * M_PI);
-//		return tb_t_diff;
-//	}
-//	return NAN;
-//
-//}
+
+float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thresh) {
+
+	static float32_t a_float[SAMPLES];
+	static float32_t b_float[SAMPLES];
+	static float32_t a_mag[SAMPLES / 2];
+	static float32_t a_phase[SAMPLES / 2];
+	static float32_t b_phase[SAMPLES / 2];
+	memset(a_float, 0, SAMPLES * sizeof(float32_t));
+	memset(b_float, 0, SAMPLES  * sizeof(float32_t));
+	memset(a_mag, 0, SAMPLES / 2  * sizeof(float32_t));
+	memset(a_phase, 0, SAMPLES / 2  * sizeof(float32_t));
+	memset(b_phase, 0, SAMPLES / 2  * sizeof(float32_t));
+	to_float(ADC_a, a_float, SAMPLES);
+	to_float(ADC_b, b_float, SAMPLES);
+
+	arm_cfft_init_f32(&fft_instance, SAMPLES);
+	arm_cfft_f32(&fft_instance, a_float, 0, 1);
+	arm_cmplx_mag_f32(a_float, a_mag, SAMPLES / 2);
+
+	//calculate phase for each bin
+	for(int i = 0; i < SAMPLES; i+=2) {
+		a_phase[i/2] = atan(a_float[i + 1] / a_float[i]);
+	}
+
+	arm_cfft_init_f32(&fft_instance, SAMPLES);
+	arm_cfft_f32(&fft_instance, b_float, 0, 1);
+
+	//calculate phase for each bin
+	for(int i = 0; i < SAMPLES; i+=2) {
+		b_phase[i/2] = atan(b_float[i + 1] / b_float[i]);
+	}
+
+	float32_t max;
+	uint32_t index;
+	arm_max_f32(a_mag, SAMPLES / 2, &max, &index);
+
+	int frequency = (index * SIN_SAMPLING_RATE) / SAMPLES / 2;
+	if(frequency >= low_thresh && frequency <= high_thresh) {
+		float32_t a_phase_max = a_phase[index];
+		float32_t b_phase_max = b_phase[index];
+		float32_t tb_t_diff = ((a_phase_max - b_phase_max) * SAMPLES)/(2 * M_PI);
+		return tb_t_diff;
+	}
+	return NAN;
+
+}
 
 void to_float(uint16_t* int_array, float32_t* float_array, uint32_t length) {
 
+	float32_t max = 0.0;
 	for(int i = 0; i < length; i++) {
-		float_array[i] = ((float32_t)int_array[i] / (1024.0 / 2)) - 1;
+		float_array[i] = ((float32_t)int_array[i]);
+		if(fabs(float_array[i]) > max) {
+			max = fabs(float_array[i]);
+		}
 	}
+	for(int i = 0; i < length; i++) {
+		float_array[i] = float_array[i] / (1024 / 2) - 1;
+	}
+
 }
 /* USER CODE END 4 */
 

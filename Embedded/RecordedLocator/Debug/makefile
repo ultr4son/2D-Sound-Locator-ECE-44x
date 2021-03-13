@@ -28,34 +28,34 @@ endif
 
 -include ../makefile.defs
 
-BUILD_ARTIFACT_NAME := Locator
+BUILD_ARTIFACT_NAME := RecordedLocator
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX := 
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME).$(BUILD_ARTIFACT_EXTENSION)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Locator.elf \
+RecordedLocator.elf \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Locator.list \
+RecordedLocator.list \
 
 OBJCOPY_BIN += \
-Locator.bin \
+RecordedLocator.bin \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Locator.elf secondary-outputs
+main-build: RecordedLocator.elf secondary-outputs
 
 # Tool invocations
-Locator.elf: $(OBJS) $(USER_OBJS) C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\STM32F446RETX_FLASH.ld
-	arm-none-eabi-gcc -o "Locator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Locator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+RecordedLocator.elf: $(OBJS) $(USER_OBJS) C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld
+	arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -64,13 +64,13 @@ default.size.stdout: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Locator.list: $(EXECUTABLES)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Locator.list"
+RecordedLocator.list: $(EXECUTABLES)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "RecordedLocator.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Locator.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Locator.bin"
+RecordedLocator.bin: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "RecordedLocator.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
