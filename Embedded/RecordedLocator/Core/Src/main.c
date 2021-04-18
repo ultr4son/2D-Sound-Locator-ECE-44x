@@ -57,7 +57,7 @@
 #define MODE_RECORDING 0
 #define MODE_FREQUENCY 1
 
-#define SENSOR_DISTANCE
+#define SENSOR_DISTANCE 0.0367
 #define SPEED 343
 
 union int_float {
