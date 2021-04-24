@@ -1,27 +1,10 @@
-19:11:00 **** Incremental Build of configuration Debug for project Locator ****
+18:06:53 **** Incremental Build of configuration Debug for project Locator ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:167:15: warning: unused variable 'diff_lr' [-Wunused-variable]
-     float32_t diff_lr = do_fft(ADC_right, ADC_left);
-               ^~~~~~~
-../Core/Src/main.c:166:15: warning: unused variable 'diff_tb' [-Wunused-variable]
-     float32_t diff_tb = do_fft(ADC_top, ADC_bottom);
-               ^~~~~~~
-arm-none-eabi-gcc -o "Locator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\Locator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Locator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Locator.elf
- 
-arm-none-eabi-objdump -h -S  Locator.elf  > "Locator.list"
-arm-none-eabi-objcopy  -O binary  Locator.elf  "Locator.bin"
 arm-none-eabi-size   Locator.elf 
    text	   data	    bss	    dec	    hex	filename
  110056	    136	  32368	 142560	  22ce0	Locator.elf
 Finished building: default.size.stdout
  
-Finished building: Locator.bin
- 
-Finished building: Locator.list
- 
 
-19:11:02 Build Finished. 0 errors, 2 warnings. (took 1s.818ms)
+18:06:53 Build Finished. 0 errors, 0 warnings. (took 602ms)
 

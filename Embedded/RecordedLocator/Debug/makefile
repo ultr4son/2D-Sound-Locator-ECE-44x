@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include subdir.mk
@@ -53,8 +54,8 @@ all: main-build
 main-build: RecordedLocator.elf secondary-outputs
 
 # Tool invocations
-RecordedLocator.elf: $(OBJS) $(USER_OBJS) C:\Users\Tristan\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld
-	arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Tristan\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+RecordedLocator.elf: $(OBJS) $(USER_OBJS) C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld
+	arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
