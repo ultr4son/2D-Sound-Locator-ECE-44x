@@ -1,106 +1,25 @@
-18:07:50 **** Incremental Build of configuration Debug for project RecordedLocator ****
+00:41:32 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:744:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
                  from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:732:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
-arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RecordedLocator.elf
- 
-arm-none-eabi-size   RecordedLocator.elf 
-   text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
-Finished building: default.size.stdout
- 
-18:07:54 **** Incremental Build of configuration Debug for project RecordedLocator ****
-make -j8 all 
-arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
-arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
-arm-none-eabi-size   RecordedLocator.elf 
-   text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
-Finished building: default.size.stdout
- 
-Finished building: RecordedLocator.bin
- 
-Finished building: RecordedLocator.list
- 
-18:08:43 **** Incremental Build of configuration Debug for project RecordedLocator ****
-make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:732:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: RecordedLocator.elf
  
@@ -108,124 +27,21 @@ arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
 arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
+ 120272	    132	  71548	 191952	  2edd0	RecordedLocator.elf
 Finished building: default.size.stdout
  
 Finished building: RecordedLocator.bin
  
 Finished building: RecordedLocator.list
  
-18:14:25 **** Incremental Build of configuration Debug for project RecordedLocator ****
+00:41:38 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:732:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
-arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RecordedLocator.elf
- 
-arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
-arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
+ 120272	    132	  71548	 191952	  2edd0	RecordedLocator.elf
 Finished building: default.size.stdout
  
-Finished building: RecordedLocator.bin
- 
-Finished building: RecordedLocator.list
- 
-18:41:04 **** Incremental Build of configuration Debug for project RecordedLocator ****
-make -j8 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
-                 from ../Core/Inc/main.h:31,
-                 from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:732:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
-arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RecordedLocator.elf
- 
-arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
-arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
-arm-none-eabi-size   RecordedLocator.elf 
-   text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
-Finished building: default.size.stdout
- 
-Finished building: RecordedLocator.bin
- 
-Finished building: RecordedLocator.list
- 
-18:43:37 **** Incremental Build of configuration Debug for project RecordedLocator ****
+00:46:13 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
 arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
 arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"
@@ -249,44 +65,25 @@ arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_
 arm-none-eabi-gcc "../Core/Src/stm32f4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_hal_msp.o"
 arm-none-eabi-gcc "../Core/Src/stm32f4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_it.o"
 arm-none-eabi-gcc "../Core/Src/system_stm32f4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system_stm32f4xx.d" -MT"Core/Src/system_stm32f4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/system_stm32f4xx.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:744:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
                  from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:732:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: RecordedLocator.elf
  
@@ -294,14 +91,86 @@ arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
 arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120168	    136	  98168	 218472	  35568	RecordedLocator.elf
+ 120272	    132	  71548	 191952	  2edd0	RecordedLocator.elf
 Finished building: default.size.stdout
  
 Finished building: RecordedLocator.bin
  
 Finished building: RecordedLocator.list
  
-18:46:01 **** Incremental Build of configuration Debug for project RecordedLocator ****
+00:48:48 **** Incremental Build of configuration Debug for project RecordedLocator ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:748:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/main.c:21:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RecordedLocator.elf
+ 
+arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
+arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
+arm-none-eabi-size   RecordedLocator.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 117512	    132	  63348	 180992	  2c300	RecordedLocator.elf
+Finished building: default.size.stdout
+ 
+Finished building: RecordedLocator.bin
+ 
+Finished building: RecordedLocator.list
+ 
+00:49:25 **** Incremental Build of configuration Debug for project RecordedLocator ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:748:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/main.c:21:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RecordedLocator.elf
+ 
+arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
+arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
+arm-none-eabi-size   RecordedLocator.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 117512	    132	  63348	 180992	  2c300	RecordedLocator.elf
+Finished building: default.size.stdout
+ 
+Finished building: RecordedLocator.bin
+ 
+Finished building: RecordedLocator.list
+ 
+00:51:20 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
 arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
 arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"
@@ -325,44 +194,25 @@ arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_
 arm-none-eabi-gcc "../Core/Src/stm32f4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_hal_msp.o"
 arm-none-eabi-gcc "../Core/Src/stm32f4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_it.o"
 arm-none-eabi-gcc "../Core/Src/system_stm32f4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system_stm32f4xx.d" -MT"Core/Src/system_stm32f4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/system_stm32f4xx.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:748:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
                  from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:732:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: RecordedLocator.elf
  
@@ -370,54 +220,49 @@ arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
 arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120160	    136	  98168	 218464	  35560	RecordedLocator.elf
+ 117512	    132	  63348	 180992	  2c300	RecordedLocator.elf
 Finished building: default.size.stdout
  
 Finished building: RecordedLocator.bin
  
 Finished building: RecordedLocator.list
  
-18:47:00 **** Incremental Build of configuration Debug for project RecordedLocator ****
+00:51:47 **** Incremental Build of configuration Debug for project RecordedLocator ****
+make -j8 all 
+arm-none-eabi-size   RecordedLocator.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 117512	    132	  63348	 180992	  2c300	RecordedLocator.elf
+Finished building: default.size.stdout
+ 
+00:53:18 **** Incremental Build of configuration Debug for project RecordedLocator ****
+make -j8 all 
+arm-none-eabi-size   RecordedLocator.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 117512	    132	  63348	 180992	  2c300	RecordedLocator.elf
+Finished building: default.size.stdout
+ 
+00:55:41 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:748:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
                  from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:732:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: RecordedLocator.elf
  
@@ -425,54 +270,42 @@ arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
 arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
+ 120272	    132	  71548	 191952	  2edd0	RecordedLocator.elf
 Finished building: default.size.stdout
  
 Finished building: RecordedLocator.bin
  
 Finished building: RecordedLocator.list
  
-19:00:17 **** Incremental Build of configuration Debug for project RecordedLocator ****
+00:55:54 **** Incremental Build of configuration Debug for project RecordedLocator ****
+make -j8 all 
+arm-none-eabi-size   RecordedLocator.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 120272	    132	  71548	 191952	  2edd0	RecordedLocator.elf
+Finished building: default.size.stdout
+ 
+01:02:27 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:748:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
                  from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:733:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: RecordedLocator.elf
  
@@ -480,14 +313,21 @@ arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
 arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
+ 120272	    132	 106364	 226768	  375d0	RecordedLocator.elf
 Finished building: default.size.stdout
  
 Finished building: RecordedLocator.bin
  
 Finished building: RecordedLocator.list
  
-19:01:14 **** Incremental Build of configuration Debug for project RecordedLocator ****
+01:02:39 **** Incremental Build of configuration Debug for project RecordedLocator ****
+make -j8 all 
+arm-none-eabi-size   RecordedLocator.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 120272	    132	 106364	 226768	  375d0	RecordedLocator.elf
+Finished building: default.size.stdout
+ 
+01:04:58 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
 arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o"
 arm-none-eabi-gcc "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.o"
@@ -511,44 +351,25 @@ arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_
 arm-none-eabi-gcc "../Core/Src/stm32f4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_hal_msp.o"
 arm-none-eabi-gcc "../Core/Src/stm32f4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_it.o"
 arm-none-eabi-gcc "../Core/Src/system_stm32f4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DARM_MATH_CM4 -DSTM32F446xx -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/system_stm32f4xx.d" -MT"Core/Src/system_stm32f4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/system_stm32f4xx.o"
+../Core/Src/main.c:59:0: warning: "DEBUG" redefined
+ #define DEBUG 8
+ 
+<command-line>:0:0: note: this is the location of the previous definition
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:181:40: warning: passing argument 2 of 'HAL_ADCEx_MultiModeStart_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-   HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
-                                        ^~~~~~~
-In file included from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:552:0,
-                 from ../Core/Inc/stm32f4xx_hal_conf.h:292,
+../Core/Src/main.c:220:22: warning: unused variable 'status' [-Wunused-variable]
+    HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+                      ^~~~~~
+../Core/Src/main.c: In function 'send_angles':
+../Core/Src/main.c:748:29: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
+  HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+                             ^~~~~
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:404:0,
                  from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:30,
                  from ../Core/Inc/main.h:31,
                  from ../Core/Src/main.c:21:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:274:19: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
- HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:207:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:32: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:91: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                       ~~~~~~~~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c:212:113: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-      fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-                                                                                                    ~~~~~~~~~~~~~^~~~~~
-../Core/Src/main.c: In function 'find_tdoa':
-../Core/Src/main.c:733:66: warning: passing argument 4 of 'arm_max_f32' from incompatible pointer type [-Wincompatible-pointer-types]
-  arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
-                                                                  ^
-In file included from ../Core/Src/main.c:30:0:
-../Core/Inc/arm_math.h:7645:8: note: expected 'uint32_t * {aka long unsigned int *}' but argument is of type 'uint16_t * {aka short unsigned int *}'
-   void arm_max_f32(
-        ^~~~~~~~~~~
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:696:19: note: expected 'uint8_t * {aka unsigned char *}' but argument is of type 'int8_t * {aka signed char *}'
+ HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+                   ^~~~~~~~~~~~~~~~~
 arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list"  -larm_cortexM4lf_math -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: RecordedLocator.elf
  
@@ -556,17 +377,17 @@ arm-none-eabi-objdump -h -S  RecordedLocator.elf  > "RecordedLocator.list"
 arm-none-eabi-objcopy  -O binary  RecordedLocator.elf  "RecordedLocator.bin"
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
+ 120272	    132	 106364	 226768	  375d0	RecordedLocator.elf
 Finished building: default.size.stdout
  
 Finished building: RecordedLocator.bin
  
 Finished building: RecordedLocator.list
  
-19:04:30 **** Incremental Build of configuration Debug for project RecordedLocator ****
+01:06:01 **** Incremental Build of configuration Debug for project RecordedLocator ****
 make -j8 all 
 arm-none-eabi-size   RecordedLocator.elf 
    text	   data	    bss	    dec	    hex	filename
- 120328	    136	  98168	 218632	  35608	RecordedLocator.elf
+ 120272	    132	 106364	 226768	  375d0	RecordedLocator.elf
 Finished building: default.size.stdout
  

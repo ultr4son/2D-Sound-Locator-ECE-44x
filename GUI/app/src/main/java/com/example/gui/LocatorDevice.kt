@@ -1,14 +1,20 @@
 package com.example.gui
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
+import android.provider.SyncStateContract
+import android.widget.Toast
+import com.hoho.android.usbserial.driver.CdcAcmSerialDriver
+import com.hoho.android.usbserial.driver.ProbeTable
 import com.hoho.android.usbserial.driver.UsbSerialPort
 import com.hoho.android.usbserial.driver.UsbSerialPort.*
 import com.hoho.android.usbserial.driver.UsbSerialProber
 import com.hoho.android.usbserial.util.SerialInputOutputManager
-import java.lang.Exception
 import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 
@@ -27,7 +33,7 @@ interface Locator {
     fun stopRecord()
     fun clearRecord()
 
-    fun setFrequencyRange(min: Short, max: Short)
+    fun setFrequencyRange(min: Short, max: Short):Number
 
     fun setLocationMode(mode: LocationMode)
     fun setLocationEnable(state: LocationState)
@@ -83,7 +89,6 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
             fun fromByte(code: Byte) = map[code]
             fun isCommand(code: Byte) = code in map
         }
-
     }
 
     init {
@@ -115,32 +120,32 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
         }
     }
     override fun startRecord() {
-        port.write(byteArrayOf(PhoneToLocatorCommand.START_RECORD.commandCode), TIMEOUT)
+        port.write(byteArrayOf(PhoneToLocatorCommand.START_RECORD.commandCode, 0, 0, 0, 0), TIMEOUT)
     }
 
     override fun stopRecord() {
-        port.write(byteArrayOf(PhoneToLocatorCommand.STOP_RECORD.commandCode), TIMEOUT)
+        port.write(byteArrayOf(PhoneToLocatorCommand.STOP_RECORD.commandCode, 0, 0, 0, 0), TIMEOUT)
     }
 
     override fun clearRecord() {
-        port.write(byteArrayOf(PhoneToLocatorCommand.CLEAR_RECORD.commandCode), TIMEOUT)
+        port.write(byteArrayOf(PhoneToLocatorCommand.CLEAR_RECORD.commandCode, 0, 0, 0, 0), TIMEOUT)
     }
 
-    override fun setFrequencyRange(min: Short, max: Short) {
+    override fun setFrequencyRange(min: Short, max: Short):Number {
         val minBuffer = ByteBuffer.allocate(Short.SIZE_BYTES).putShort(min)
         val maxBuffer = ByteBuffer.allocate(Short.SIZE_BYTES).putShort(max)
 
-        port.write(byteArrayOf(PhoneToLocatorCommand.SET_FREQUENCY_RANGE.commandCode) + minBuffer.array() + maxBuffer.array(), TIMEOUT)
+        return port.write(byteArrayOf(PhoneToLocatorCommand.SET_FREQUENCY_RANGE.commandCode) + minBuffer.array() + maxBuffer.array(), TIMEOUT)
     }
 
     override fun setLocationMode(mode: LocationMode) {
-        port.write(byteArrayOf(PhoneToLocatorCommand.SET_LOCATION_MODE.commandCode, mode.code), TIMEOUT)
+        port.write(byteArrayOf(PhoneToLocatorCommand.SET_LOCATION_MODE.commandCode, mode.code, 0, 0, 0), TIMEOUT)
     }
 
     override fun setLocationEnable(state: LocationState) {
         when(state) {
-            LocationState.ON -> port.write(byteArrayOf(PhoneToLocatorCommand.START_LOCATING.commandCode), TIMEOUT)
-            LocationState.OFF -> port.write(byteArrayOf(PhoneToLocatorCommand.STOP_LOCATING.commandCode), TIMEOUT)
+            LocationState.ON -> port.write(byteArrayOf(PhoneToLocatorCommand.START_LOCATING.commandCode, 0, 0, 0, 0), TIMEOUT)
+            LocationState.OFF -> port.write(byteArrayOf(PhoneToLocatorCommand.STOP_LOCATING.commandCode, 0, 0, 0, 0), TIMEOUT)
         }
     }
 
@@ -149,16 +154,20 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
 
 }
 fun bytesToAngles(bytes:ByteArray): Pair<Int, Int>? {
-    if(bytes.size != Short.SIZE_BYTES * 2) {
+    if(bytes.size != Byte.SIZE_BYTES * 2) {
         return null
     }
 
-    val x = ByteBuffer.wrap(bytes.sliceArray(IntRange(0, Short.SIZE_BYTES - 1))).short.toInt()
-    val y = ByteBuffer.wrap(bytes.sliceArray(IntRange(Short.SIZE_BYTES, Short.SIZE_BYTES * 2 - 1))).short.toInt()
+    val x = bytes[0].toInt()//ByteBuffer.wrap(bytes.sliceArray(IntRange(0, Byte.SIZE_BYTES - 1))).char.toInt()
+    val y = bytes[1].toInt()//ByteBuffer.wrap(bytes.sliceArray(IntRange(Byte.SIZE_BYTES, Byte.SIZE_BYTES * 2 - 1))).char.toInt()
 
     return Pair<Int,Int>(x, y)
 }
-
+fun getCustomProber(): UsbSerialProber? {
+    val customTable = ProbeTable()
+    customTable.addProduct(0x0483, 0x374B, CdcAcmSerialDriver::class.java) // e.g. Digispark CDC
+    return UsbSerialProber(customTable)
+}
 /**
  * Create a connection between the phone and locator device
  * @param context: main activity context
@@ -168,19 +177,44 @@ fun bytesToAngles(bytes:ByteArray): Pair<Int, Int>? {
  * @return A Locator interface object
  */
 fun connectToLocator(context: Context, onCoordnates: (Pair<Int, Int>?) -> Unit, onError: (String?) -> Unit, onOther: (ByteArray?) -> Unit): Locator? {
-    // Find all available drivers from attached devices.
     val manager = context.getSystemService(Context.USB_SERVICE) as UsbManager?
-    val availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager)
-    if (availableDrivers.isEmpty()) {
+    var device : UsbDevice? = null
+    for (v in manager?.getDeviceList()!!.values) device = v
+    if(device == null) {
+        Toast.makeText(context, "no devices", Toast.LENGTH_SHORT).show()
+        return null
+    }
+    // Find all available drivers from attached devices.
+    var driver = UsbSerialProber.getDefaultProber().probeDevice(device)
+    if (driver == null) {
+//        Toast.makeText(context, "Using custom driver", Toast.LENGTH_SHORT).show()
+        driver = getCustomProber()?.probeDevice(device)
+        if(driver == null) {
+            Toast.makeText(context, "No devices found", Toast.LENGTH_SHORT).show()
+            return null
+        }
+    }
+
+
+    if(!manager.hasPermission(driver.getDevice())) {
+        val usbPermissionIntent = PendingIntent.getBroadcast(context, 0, Intent(BuildConfig.APPLICATION_ID + ".GRANT_USB"), 0)
+        manager.requestPermission(driver.device, usbPermissionIntent)
+        if(manager.hasPermission(driver.getDevice())) {
+            Toast.makeText(context, "Has permission", Toast.LENGTH_SHORT).show()
+        }
         return null
     }
 
     // Open a connection to the first available driver.
-    val driver = availableDrivers[0]
-    val connection = manager!!.openDevice(driver.device)
-        ?:
-        return null
+        val connection = manager!!.openDevice(driver.device)
+                ?: null;
+        if(connection != null) {
 
-    val port = driver.ports[0] // Most devices have just one port (port 0)
-    return LocatorSerial(context as Activity, port, connection, onCoordnates, onError, {}, onOther)
+            val port = driver.ports[0] // Most devices have just one port (port 0)
+            return LocatorSerial(context as Activity, port, connection, onCoordnates, onError, {}, onOther)
+
+
+    }
+//    Toast.makeText(context, "Unable to open device", Toast.LENGTH_SHORT).show()
+    return null
 }

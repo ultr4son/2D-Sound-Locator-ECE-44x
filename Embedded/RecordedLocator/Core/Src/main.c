@@ -39,8 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLES 1024
-#define SIN_SAMPLING_RATE 21319.0
+#define SAMPLES 1536
+#define SIN_SAMPLING_RATE 67092.0
 #define SIN_FREQUENCY 200
 #define SIN_RECORDING_FREQUENCY 200
 #define DIFF_THRESHOLD 30
@@ -56,6 +56,7 @@
 #define START_LOCATING 5
 #define STOP_LOCATING 6
 #define SET_COORDNATES 7
+#define DEBUG 8
 
 #define MODE_RECORDING 0
 #define MODE_FREQUENCY 1
@@ -102,7 +103,7 @@ float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thre
 float32_t tdoa_to_angle(float32_t tdoa, float32_t sensor_distance, float32_t speed);
 uint8_t frequency_is_present(uint16_t* ADC_a, uint32_t low_thresh, uint32_t high_thresh);
 float32_t find_tdoa(uint16_t* ADC_a, uint16_t* ADC_b);
-void send_angles(uint16_t angle_tb, uint16_t angle_lr);
+void send_angles(int8_t angle_tb, int8_t angle_lr);
 
 /* USER CODE END PFP */
 
@@ -112,9 +113,22 @@ uint16_t ADC_top[SAMPLES];
 uint16_t ADC_bottom[SAMPLES];
 uint16_t ADC_right[SAMPLES];
 uint16_t ADC_left[SAMPLES];
-uint16_t ADC_all[SAMPLES * 4 * 2];
+uint16_t ADC_all[SAMPLES * 4];
 uint16_t sample_period = 0;
 uint16_t sample_rate = 0;
+
+float32_t a_float[SAMPLES * 2];
+float32_t b_float[SAMPLES * 2];
+float32_t a_mag[SAMPLES / 2];
+
+float32_t a_phase[SAMPLES];
+float32_t b_phase[SAMPLES];
+
+
+
+
+int8_t tb_last = 0;
+int8_t lr_last = 0;
 
 union int_float recording[SAMPLES / 2];
 float32_t recording_autocorrelation[SAMPLES];
@@ -128,8 +142,11 @@ uint8_t startLocating = 0;
 uint8_t start_recording = 0;
 uint8_t location_mode = MODE_FREQUENCY;
 
-uint32_t fL = F_MIN;
-uint32_t fH = F_MAX;
+uint16_t fL = F_MIN;
+uint16_t fH = F_MAX;
+
+uint8_t command[5];
+
 
 /* USER CODE END 0 */
 
@@ -178,7 +195,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   HAL_ADC_Start(&hadc2);
-  HAL_ADCEx_MultiModeStart_DMA(&hadc1, ADC_all, SAMPLES * 4);
+  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -198,40 +215,10 @@ int main(void)
   while (1)
   {
 
-	  uint8_t command;
-	  HAL_StatusTypeDef status = HAL_UART_Receive(&huart2, &command, 1, 0);
-
-	  if(status == HAL_UART_ERROR_NONE && command == SET_FREQUENCY_RANGE) {
-		  uint8_t fLSetting[sizeof(uint32_t)];
-		  if(HAL_UART_Receive(&huart2, fLSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
-			  fL = (fLSetting[3] >> 24) & 0xFF | (fLSetting[2] >> 16) & 0xFF | (fLSetting[1] >> 8) & 0xFF | fLSetting[0] & 0xFF;
-		  }
-
-		  uint8_t fHSetting[sizeof(uint32_t)];
-		  if(HAL_UART_Receive(&huart2, fHSetting, sizeof(uint32_t), 0) == HAL_UART_ERROR_NONE) {
-			  fH = (fHSetting[3] >> 24) & 0xFF | (fHSetting[2] >> 16) & 0xFF | (fHSetting[1] >> 8) & 0xFF | fHSetting[0] & 0xFF;
-		  }
-
-	  }
-	  if(status == HAL_UART_ERROR_NONE && command == START_LOCATING) {
-		  startLocating = 1;
-	  }
-	  if(status == HAL_UART_ERROR_NONE && command == STOP_LOCATING) {
-		  startLocating = 0;
-	  }
-
-	  if(status == HAL_UART_ERROR_NONE && command == START_RECORD) {
-		  start_recording = 1;
-	  }
-	  if(status == HAL_UART_ERROR_NONE && command == STOP_RECORD) {
-		  start_recording = 0;
-	  }
-	  if(status == HAL_UART_ERROR_NONE && command == SET_LOCATION_MODE) {
-		  uint8_t mode_setting;
-		  if(HAL_UART_Receive(&huart2, &mode_setting, sizeof(uint8_t), 0) == HAL_UART_ERROR_NONE && (mode_setting == MODE_RECORDING || mode_setting == MODE_FREQUENCY)) {
-			 location_mode = mode_setting;
-		  }
-	  }
+//	  uint8_t command_all[ 1 + sizeof(uint16_t) + sizeof(uint16_t)];
+//	  memset(command_all, -1, 1 + sizeof(uint16_t) + sizeof(uint16_t));
+	  HAL_StatusTypeDef status = HAL_UART_Receive_IT(&huart2, command, 5);
+//HAL_UART_Receive_IT(&huart2, command_all, 1 + sizeof(uint16_t) + sizeof(uint16_t));
 
 	  if(location_mode == MODE_RECORDING) {
 		  if(start_recording) {
@@ -243,13 +230,13 @@ int main(void)
 		  if(startLocating) {
 
 			  if(recording_is_present(ADC_top)) {
-				  float32_t diff_tb = do_fft(ADC_top, ADC_bottom, 0, INT_MAX);
-				  float32_t diff_lr = do_fft(ADC_right, ADC_left, 0, INT_MAX);
-
-				  uint16_t angle_tb = (uint16_t) tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED);
-				  uint16_t angle_lr = (uint16_t) tdoa_to_angle(diff_lr, SENSOR_DISTANCE, SPEED);
-
-				  send_angles(angle_tb, angle_lr);
+//				  float32_t diff_tb = do_fft(ADC_top, ADC_bottom, 0, INT_MAX);
+//				  float32_t diff_lr = do_fft(ADC_right, ADC_left, 0, INT_MAX);
+//
+//				  uint16_t angle_tb = (uint16_t) tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED);
+//				  uint16_t angle_lr = (uint16_t) tdoa_to_angle(diff_lr, SENSOR_DISTANCE, SPEED);
+//
+//				  send_angles(angle_tb, angle_lr);
 
 			  }
 
@@ -258,23 +245,44 @@ int main(void)
 	  }
 	  if(location_mode == MODE_FREQUENCY) {
 		  if(startLocating) {
+//			  frequency_is_present(ADC_top, fL, fH);
+//			  frequency_is_present(ADC_bottom, fL, fH);
+//			  frequency_is_present(ADC_left, fL, fH);
+//			  frequency_is_present(ADC_right, fL, fH);
 			  if(frequency_is_present(ADC_top, fL, fH)) {
 				  float32_t diff_tb = find_tdoa(ADC_top, ADC_bottom);
+				  float32_t diff_lr = find_tdoa(ADC_left, ADC_right);
 
-				  int16_t tdoa = (int16_t) (diff_tb * 1000.0);
-				  uint8_t data[] = {(tdoa >> 8) & 0xFF, tdoa & 0xFF};
-				    HAL_UART_Transmit(&huart2, data, 2, 1000);
 
-				  //uint16_t angle_tb = (uint16_t) tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED);
+				  int8_t angle_tb = (int8_t) (tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED) * (180.0/M_PI) - 90.0);
+				  int8_t angle_lr = (int8_t) (tdoa_to_angle(diff_lr, SENSOR_DISTANCE, SPEED) * (180.0/M_PI) - 90.0);
 
-				  //send_angles(angle_tb, 0);
 
+
+				  send_angles(angle_tb, angle_lr);
 			  }
-
-//			  uint16_t diff_tb = (uint16_t) do_fft(ADC_top, ADC_bottom, fL, fH) * (180/M_PI) - 90;
-//			  uint16_t diff_lr = (uint16_t) do_fft(ADC_right, ADC_left, fL, fH) * (180/M_PI) - 90;
+//
+//			  float32_t diff_tb_f = (do_fft(ADC_top, ADC_bottom, fL, fH) * (180.0/M_PI) - 90.0);
+//			  float32_t diff_lr_f = -(do_fft(ADC_right, ADC_left, fL, fH) * (180.0/M_PI) - 90.0);
+//
+//			  int8_t diff_tb;
+//			  int8_t diff_lr;
+//			  if(diff_tb_f == NAN || diff_lr_f == NAN) {
+//				  diff_tb = tb_last;
+//				  diff_lr = lr_last;
+//			  }
+//			  else {
+//				  diff_tb = (int8_t) diff_tb_f;
+//				  diff_lr = (int8_t) diff_lr_f;
+//
+//				  tb_last = diff_tb;
+//				  lr_last = diff_lr;
+//			  }
+//
 //
 //			  send_angles(diff_tb, diff_lr);
+
+
 
 
 			  //uint16_t angle_tb = (uint16_t) tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED);
@@ -386,7 +394,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_8;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -442,7 +450,7 @@ static void MX_ADC2_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_6;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -691,8 +699,6 @@ uint8_t recording_is_present(uint16_t* ADC_a) {
 }
 
 uint8_t frequency_is_present(uint16_t* ADC_a, uint32_t low_thresh, uint32_t high_thresh) {
-	static float32_t a_float[SAMPLES*2];
-	static float32_t a_mag[SAMPLES / 2];
 	memset(a_float, 0, SAMPLES * 2 * sizeof(float32_t));
 	memset(a_mag, 0, SAMPLES / 2  * sizeof(float32_t));
 	to_float(ADC_a, a_float, SAMPLES);
@@ -715,8 +721,6 @@ uint8_t frequency_is_present(uint16_t* ADC_a, uint32_t low_thresh, uint32_t high
 
 float32_t find_tdoa(uint16_t* ADC_a, uint16_t* ADC_b) {
 	static float32_t samples_correlation[SAMPLES * 2];
-	static float32_t a_float[SAMPLES];
-	static float32_t b_float[SAMPLES];
 	memset(a_float, 0, SAMPLES * sizeof(float32_t));
 	memset(b_float, 0, SAMPLES * sizeof(float32_t));
 	memset(samples_correlation, 0, SAMPLES * sizeof(float32_t));
@@ -727,29 +731,26 @@ float32_t find_tdoa(uint16_t* ADC_a, uint16_t* ADC_b) {
 
 	arm_correlate_f32(a_float, SAMPLES, b_float, SAMPLES, samples_correlation);
 
-	static uint16_t max_correlation_i;
+	static uint32_t max_correlation_i;
 	static float32_t max_correlation;
 
 	arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
 
-	return (max_correlation_i - (SAMPLES * 2))/SIN_SAMPLING_RATE;
+	return (((float32_t)max_correlation_i) - (SAMPLES))/SIN_SAMPLING_RATE;
 
 
 }
 
-void send_angles(uint16_t angle_tb, uint16_t angle_lr) {
-	uint8_t data[] = {SET_COORDNATES, angle_lr & 0xFF, (angle_lr >> 8) & 0xFF, angle_tb & 0xFF, (angle_tb >> 8) & 0xFF};
-    HAL_UART_Transmit(&huart2, (uint8_t*)data, 5, 1000);
-
+void send_angles(int8_t angle_tb, int8_t angle_lr) {
+	uint8_t data[] = {SET_COORDNATES};
+    HAL_UART_Transmit(&huart2, (uint8_t*)data, 1, 1000);
+	int8_t data2[] = {angle_tb, angle_lr};
+	HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+	//printf("%d, %d\n\r", angle_tb, angle_lr);
 }
 
 float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thresh) {
 
-	static float32_t a_float[SAMPLES*2];
-	static float32_t b_float[SAMPLES*2];
-	static float32_t a_mag[SAMPLES / 2];
-	static float32_t a_phase[SAMPLES];
-	static float32_t b_phase[SAMPLES];
 	memset(a_float, 0, SAMPLES * 2 * sizeof(float32_t));
 	memset(b_float, 0, SAMPLES * 2 * sizeof(float32_t));
 	memset(a_mag, 0, SAMPLES / 2  * sizeof(float32_t));
@@ -764,7 +765,7 @@ float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thre
 
 	//calculate phase for each bin
 	for(int i = 0; i < SAMPLES * 2; i+=2) {
-		a_phase[i/2] = atan(a_float[i + 1] / a_float[i]);
+		a_phase[i/2] = atan2(a_float[i + 1], a_float[i]);
 	}
 
 	arm_cfft_init_f32(&fft_instance, SAMPLES);
@@ -772,7 +773,7 @@ float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thre
 
 	//calculate phase for each bin
 	for(int i = 0; i < SAMPLES * 2; i+=2) {
-		b_phase[i/2] = atan(b_float[i + 1] / b_float[i]);
+		b_phase[i/2] = atan2(b_float[i + 1],  b_float[i]);
 	}
 
 	float32_t max;
@@ -812,18 +813,43 @@ void to_float(uint16_t* int_array, float32_t* float_array, uint32_t length) {
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 
+	  HAL_ADC_Stop(&hadc2);
+	  HAL_ADCEx_MultiModeStop_DMA(&hadc1);
 
-	//These might be wrong
 	for(int i = 0; i < SAMPLES * 4; i += 4) {
 		ADC_top[i/4] = ADC_all[i];
-		ADC_right[i/4] = ADC_all[i+1];
-		ADC_left[i/4] = ADC_all[i+2];
+		ADC_left[i/4] = ADC_all[i+1];
+		ADC_right[i/4] = ADC_all[i+2];
 		ADC_bottom[i/4] = ADC_all[i+3];
 	}
-	int i = 0;
+	HAL_ADC_Start(&hadc2);
+	HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 4);
 }
 
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
+
+}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	  if(command[0] == SET_FREQUENCY_RANGE) {
+		  fL = ((uint16_t)(command[1] << 8)) | command[2];
+		  fH = ((uint16_t)(command[3] << 8)) | command[4];
+	  }
+	  if(command[0] == START_LOCATING) {
+		  startLocating = 1;
+	  }
+	  if(command[0] == STOP_LOCATING) {
+		  startLocating = 0;
+	  }
+
+	  if(command[0] == START_RECORD) {
+		  start_recording = 1;
+	  }
+	  if(command[0] == STOP_RECORD) {
+		  start_recording = 0;
+	  }
+	  if(command[0] == SET_LOCATION_MODE) {
+		  location_mode = command[1];
+	  }
 
 }
 /* USER CODE END 4 */

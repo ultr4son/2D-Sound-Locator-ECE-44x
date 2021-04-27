@@ -27,6 +27,7 @@ import androidx.core.view.marginLeft
 import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.android.synthetic.main.activity_main.*
+import java.nio.ByteBuffer
 import java.security.AccessController.getContext
 import java.util.Collections.min
 import kotlin.math.max
@@ -122,6 +123,15 @@ class MainActivity : AppCompatActivity() {
         }
         frequencySelect.setOnRangeSeekBarChangeListener { bar, number, number2 ->
             locator?.setFrequencyRange(number.toShort(), number2.toShort())
+//            Toast.makeText(this, "Set to " + number.toString() + " " + number2.toString(), Toast.LENGTH_SHORT).show()
+
+        }
+        connectButton.setOnClickListener {
+            locator = connectToLocator(this, ::onCoordnates , ::onRunError, ::onNewData)
+            if(locator != null) {
+                initLocator()
+                Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
@@ -141,11 +151,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initLocator() {
-        locator?.setLocationEnable(asLocationState(isLocating))
-        locator?.setLocationMode(if(recordModeSwitch.isChecked) LocationMode.RECORDING else LocationMode.FREQUENCY)
-        locator?.setFrequencyRange(frequencySelect.selectedMinValue.toShort(), frequencySelect.selectedMaxValue.toShort())
-        locator?.stopRecord()
-        locator?.clearRecord()
+//        locator?.setLocationEnable(asLocationState(isLocating))
+//        locator?.setLocationMode(if(recordModeSwitch.isChecked) LocationMode.RECORDING else LocationMode.FREQUENCY)
+//        locator?.setFrequencyRange(frequencySelect.selectedMinValue.toShort(), frequencySelect.selectedMaxValue.toShort())
+//        locator?.stopRecord()
+//        locator?.clearRecord()
     }
     fun asLocationState(locating: Boolean): LocationState {
         return if(locating) LocationState.ON else LocationState.OFF
@@ -200,7 +210,7 @@ class MainActivity : AppCompatActivity() {
     fun anglesToScreenTranslation(coordnates: Pair<Int, Int>): Pair<Float, Float> {
         val boundsX = viewFinder.width / 2
         val boundsY = viewFinder.height / 2
-        return Pair(boundsX + boundsX * (coordnates.first / (fovX)), boundsY + boundsY * (coordnates.second / (fovY)))
+        return Pair(boundsX + boundsX * (coordnates.first / (fovX)), boundsY - boundsY * (coordnates.second / (fovY)))
     }
 
     fun onCoordnates(coordnates: Pair<Int, Int>?) {
@@ -251,24 +261,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onNewData(data: ByteArray?) {
-        if(data != null && data.size > 0) {
-            if(LocatorSerial.PhoneToLocatorCommand.isCommand(data[0])) {
-                Toast.makeText(this, data.size.toString() + " " + LocatorSerial.PhoneToLocatorCommand.fromByte(data[0]).toString(), Toast.LENGTH_SHORT).show()
+        if(data != null && data[0].compareTo(8) == 0) {
+            if(data.size < 5) {
+                Toast.makeText(this, data.size.toString(), Toast.LENGTH_SHORT).show()
+                return
             }
-            else if(LocatorSerial.LocatorToPhoneCommand.isCommand(data[0])) {
-                Toast.makeText(this,
-                    data.size.toString() + " " + LocatorSerial.LocatorToPhoneCommand.fromByte(data[0])
-                        .toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            else {
-                Toast.makeText(this, "Invalid code " + data[0].toString(), Toast.LENGTH_SHORT).show()
-            }
+            val data1 = data.sliceArray(IntRange(1, data.size - 1))
+            val x = ByteBuffer.wrap(data1.sliceArray(IntRange(0, Short.SIZE_BYTES - 1))).short.toInt()
+            val y = ByteBuffer.wrap(data1.sliceArray(IntRange(Short.SIZE_BYTES, Short.SIZE_BYTES * 2 - 1))).short.toInt()
+
+            var s = ""
+            s +=  x.toString() + " " + y.toString()
+            Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
         }
-        else {
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show()
-        }
-    }
+//        if(data != null && data.size > 0) {
+//            if(LocatorSerial.PhoneToLocatorCommand.isCommand(data[0])) {
+//                Toast.makeText(this, data.size.toString() + " " + LocatorSerial.PhoneToLocatorCommand.fromByte(data[0]).toString(), Toast.LENGTH_SHORT).show()
+//            }
+//            else if(LocatorSerial.LocatorToPhoneCommand.isCommand(data[0])) {
+//                Toast.makeText(this,
+//                    data.size.toString() + " " + LocatorSerial.LocatorToPhoneCommand.fromByte(data[0])
+//                        .toString(),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//            else {
+//                Toast.makeText(this, "Invalid code " + data[0].toString(), Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//        else {
+//            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show()
+//        }
+   }
 
 }

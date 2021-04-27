@@ -25,8 +25,8 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:visibility="visible"
-        app:absoluteMaxValue="2000"
-        app:absoluteMinValue="20"
+        app:absoluteMaxValue="20"
+        app:absoluteMinValue="2000"
         app:layout_constraintBottom_toTopOf="@+id/stopRecordingButton"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -116,6 +116,15 @@
         android:textColor="#FFFFFF"
         android:thumbTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/connectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
