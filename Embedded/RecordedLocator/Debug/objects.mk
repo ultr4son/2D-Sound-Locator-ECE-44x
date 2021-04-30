@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -larm_cortexM4lf_math
+LIBS := -lAcousticSL_CM4F_wc32_ot -larm_cortexM4lf_math
 

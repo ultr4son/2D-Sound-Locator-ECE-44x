@@ -55,7 +55,7 @@ main-build: RecordedLocator.elf secondary-outputs
 
 # Tool invocations
 RecordedLocator.elf: $(OBJS) $(USER_OBJS) C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld
-	arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\GCC" -L"C:\Users\catsr\source\repos\CMSIS\CMSIS\DSP\Lib\ARM" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "RecordedLocator.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RecordedLocator.map" -Wl,--gc-sections -static -L"C:\Users\catsr\source\repos\2D-Sound-Locator-ECE-44x\Embedded\RecordedLocator\lib" -L"C:\Users\catsr\Downloads\en.x-cube-memsmic1\STM32CubeExpansion_MEMSMIC1_V5.5.0\Middlewares\ST\STM32_AcousticSL_Library\Lib" -L"C:\Users\catsr\Downloads\en.x-cube-memsmic1\STM32CubeExpansion_MEMSMIC1_V5.5.0\Middlewares\ST\STM32_AcousticBF_Library\Lib" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

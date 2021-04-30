@@ -29,7 +29,6 @@
 #include  <sys/unistd.h> // STDOUT_FILENO, STDERR_FILENO
 #include "arm_math.h"
 
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -39,8 +38,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SAMPLES 1536
-#define SIN_SAMPLING_RATE 67092.0
+#define SAMPLES 1024
+#define SIN_SAMPLING_RATE 153284.0
 #define SIN_FREQUENCY 200
 #define SIN_RECORDING_FREQUENCY 200
 #define DIFF_THRESHOLD 30
@@ -80,6 +79,8 @@ ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
 DMA_HandleTypeDef hdma_adc1;
 
+CRC_HandleTypeDef hcrc;
+
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -92,6 +93,7 @@ static void MX_DMA_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_ADC2_Init(void);
+static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 static void to_float(uint16_t*, float32_t*, uint32_t);
 void do_recording();
@@ -104,6 +106,7 @@ float32_t tdoa_to_angle(float32_t tdoa, float32_t sensor_distance, float32_t spe
 uint8_t frequency_is_present(uint16_t* ADC_a, uint32_t low_thresh, uint32_t high_thresh);
 float32_t find_tdoa(uint16_t* ADC_a, uint16_t* ADC_b);
 void send_angles(int8_t angle_tb, int8_t angle_lr);
+int8_t get_angle(int8_t, int8_t*, uint8_t*);
 
 /* USER CODE END PFP */
 
@@ -114,8 +117,6 @@ uint16_t ADC_bottom[SAMPLES];
 uint16_t ADC_right[SAMPLES];
 uint16_t ADC_left[SAMPLES];
 uint16_t ADC_all[SAMPLES * 4];
-uint16_t sample_period = 0;
-uint16_t sample_rate = 0;
 
 float32_t a_float[SAMPLES * 2];
 float32_t b_float[SAMPLES * 2];
@@ -124,6 +125,10 @@ float32_t a_mag[SAMPLES / 2];
 float32_t a_phase[SAMPLES];
 float32_t b_phase[SAMPLES];
 
+int8_t tb_avg_buffer[10];
+int8_t lr_avg_buffer[10];
+int8_t tb_avg_i = 0;
+int8_t lr_avg_i = 0;
 
 
 
@@ -136,7 +141,6 @@ float32_t recording_max_correlation;
 //arm_fir_instance_f32 matched_filter;
 //float32_t matched_filter_state[SAMPLES / 2 + SAMPLES];
 arm_cfft_instance_f32 fft_instance;
-
 
 uint8_t startLocating = 0;
 uint8_t start_recording = 0;
@@ -168,6 +172,7 @@ int main(void)
   /* USER CODE BEGIN Init */
   arm_cfft_init_f32(&fft_instance, SAMPLES);
 
+
  // arm_cfft_f32(&fft_instance, testInput_f32_10khz, 0, 1);
 //  arm_cmplx_mag_f32(testInput_f32_10khz, testOutput, 2048);
 //  float32_t maxValue;
@@ -192,8 +197,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
+  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
   HAL_ADC_Start(&hadc2);
   HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 2);
   /* USER CODE END 2 */
@@ -245,43 +250,44 @@ int main(void)
 	  }
 	  if(location_mode == MODE_FREQUENCY) {
 		  if(startLocating) {
-//			  frequency_is_present(ADC_top, fL, fH);
-//			  frequency_is_present(ADC_bottom, fL, fH);
-//			  frequency_is_present(ADC_left, fL, fH);
-//			  frequency_is_present(ADC_right, fL, fH);
+			  frequency_is_present(ADC_top, fL, fH);
+			  frequency_is_present(ADC_bottom, fL, fH);
+			  frequency_is_present(ADC_left, fL, fH);
+			  frequency_is_present(ADC_right, fL, fH);
 			  if(frequency_is_present(ADC_top, fL, fH)) {
+
 				  float32_t diff_tb = find_tdoa(ADC_top, ADC_bottom);
 				  float32_t diff_lr = find_tdoa(ADC_left, ADC_right);
 
 
-				  int8_t angle_tb = (int8_t) (tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED) * (180.0/M_PI) - 90.0);
-				  int8_t angle_lr = (int8_t) (tdoa_to_angle(diff_lr, SENSOR_DISTANCE, SPEED) * (180.0/M_PI) - 90.0);
+				  int8_t angle_tb = (int8_t) (tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED) * (180.0/M_PI));
+				  int8_t angle_lr = (int8_t) (tdoa_to_angle(diff_lr, SENSOR_DISTANCE, SPEED) * (180.0/M_PI));
 
 
 
-				  send_angles(angle_tb, angle_lr);
+				  send_angles(get_angle(angle_tb, tb_avg_buffer, &tb_avg_i), get_angle(angle_lr, lr_avg_buffer, &lr_avg_i));
 			  }
-//
+
 //			  float32_t diff_tb_f = (do_fft(ADC_top, ADC_bottom, fL, fH) * (180.0/M_PI) - 90.0);
 //			  float32_t diff_lr_f = -(do_fft(ADC_right, ADC_left, fL, fH) * (180.0/M_PI) - 90.0);
 //
 //			  int8_t diff_tb;
 //			  int8_t diff_lr;
-//			  if(diff_tb_f == NAN || diff_lr_f == NAN) {
-//				  diff_tb = tb_last;
-//				  diff_lr = lr_last;
-//			  }
-//			  else {
+////			  if(diff_tb_f == NAN || diff_lr_f == NAN) {
+////				  diff_tb = tb_last;
+////				  diff_lr = lr_last;
+////			  }
+////			  else {
 //				  diff_tb = (int8_t) diff_tb_f;
 //				  diff_lr = (int8_t) diff_lr_f;
 //
 //				  tb_last = diff_tb;
 //				  lr_last = diff_lr;
-//			  }
-//
-//
-//			  send_angles(diff_tb, diff_lr);
-
+////		  }
+////
+////
+//		  send_angles(diff_tb, diff_lr);
+////
 
 
 
@@ -394,7 +400,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_8;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -450,7 +456,7 @@ static void MX_ADC2_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_6;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -466,6 +472,32 @@ static void MX_ADC2_Init(void)
   /* USER CODE BEGIN ADC2_Init 2 */
 
   /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
 
 }
 
@@ -625,8 +657,24 @@ int _write(int file, char *data, int len)
 
 float32_t tdoa_to_angle(float32_t tdoa, float32_t sensor_distance, float32_t speed) {
 	float32_t a = (speed * tdoa) / sensor_distance;
-	float32_t angle = acos(a);
+	float32_t angle = asin(a);
 	return angle;
+}
+
+int8_t get_angle(int8_t angle, int8_t* angle_avg, uint8_t* avg_i) {
+	angle_avg[*avg_i] = angle;
+	*avg_i = (*avg_i) + 1;
+	if(*avg_i > 10) {
+		*avg_i = 0;
+	}
+
+	int16_t sum = 0;
+
+	for(int i = 0; i < 10; i++) {
+		sum += angle_avg[i];
+	}
+
+	return sum / 10;
 }
 
 void do_recording() {
@@ -721,8 +769,8 @@ uint8_t frequency_is_present(uint16_t* ADC_a, uint32_t low_thresh, uint32_t high
 
 float32_t find_tdoa(uint16_t* ADC_a, uint16_t* ADC_b) {
 	static float32_t samples_correlation[SAMPLES * 2];
-	memset(a_float, 0, SAMPLES * sizeof(float32_t));
-	memset(b_float, 0, SAMPLES * sizeof(float32_t));
+	memset(a_float, 0, SAMPLES * 2 * sizeof(float32_t));
+	memset(b_float, 0, SAMPLES * 2 * sizeof(float32_t));
 	memset(samples_correlation, 0, SAMPLES * sizeof(float32_t));
 
 
@@ -762,6 +810,7 @@ float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thre
 	arm_cfft_init_f32(&fft_instance, SAMPLES);
 	arm_cfft_f32(&fft_instance, a_float, 0, 1);
 	arm_cmplx_mag_f32(a_float, a_mag, SAMPLES / 2);
+	a_mag[0] = 0;
 
 	//calculate phase for each bin
 	for(int i = 0; i < SAMPLES * 2; i+=2) {
@@ -822,6 +871,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 		ADC_right[i/4] = ADC_all[i+2];
 		ADC_bottom[i/4] = ADC_all[i+3];
 	}
+
 	HAL_ADC_Start(&hadc2);
 	HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 4);
 }
@@ -850,6 +900,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	  if(command[0] == SET_LOCATION_MODE) {
 		  location_mode = command[1];
 	  }
+
 
 }
 /* USER CODE END 4 */
