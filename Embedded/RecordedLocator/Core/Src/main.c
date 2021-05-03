@@ -28,7 +28,6 @@
 #include <string.h>
 #include  <sys/unistd.h> // STDOUT_FILENO, STDERR_FILENO
 #include "arm_math.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -39,7 +38,6 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define SAMPLES 1024
-#define SIN_SAMPLING_RATE 44728.0
 #define SIN_FREQUENCY 200
 #define DIFF_THRESHOLD 30
 #define AVG_WINDOW 5
@@ -63,6 +61,9 @@
 #define SENSOR_DISTANCE 0.04
 #define SPEED 343.0
 
+#define ADC_SLOW 0
+#define ADC_FAST 1
+
 union int_float {
 	uint16_t int_val;
 	float32_t float_val;
@@ -79,8 +80,6 @@ ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
 DMA_HandleTypeDef hdma_adc1;
 
-CRC_HandleTypeDef hcrc;
-
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -93,7 +92,6 @@ static void MX_DMA_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_ADC2_Init(void);
-static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 static void to_float(uint16_t*, float32_t*, uint32_t);
 
@@ -129,6 +127,11 @@ void send_angles(int8_t angle_tb, int8_t angle_lr);
 
 //Perfrom rolling average on given angle and past angle values
 int8_t get_angle(int8_t, int8_t*, uint8_t*);
+
+void set_adc_fast();
+void set_adc_slow();
+
+void do_samples(uint8_t);
 
 /* USER CODE END PFP */
 
@@ -167,6 +170,9 @@ uint16_t fH = F_MAX;
 
 uint8_t command[5];
 
+uint8_t samples_done = 0;
+
+float32_t sampling_frequency = 153284.0;
 
 /* USER CODE END 0 */
 
@@ -204,14 +210,14 @@ int main(void)
   MX_USART2_UART_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
-  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start(&hadc2);
-  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 2);
+  HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
 
   while (1)
   {
@@ -243,8 +249,12 @@ int main(void)
 	  }
 	  if(location_mode == MODE_FREQUENCY) {
 		  if(startLocating) {
-			  if(frequency_is_present(ADC_top, fL, fH)) {
+			  set_adc_slow();
+			  while(samples_done == 0) {};
 
+			  if(frequency_is_present(ADC_right, fL, fH)) {
+				  set_adc_fast();
+				  while(samples_done == 0) {};
 				  float32_t diff_tb = find_tdoa(ADC_top, ADC_bottom);
 				  float32_t diff_lr = find_tdoa(ADC_left, ADC_right);
 
@@ -256,6 +266,7 @@ int main(void)
 			  }
 		  }
 	  }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -329,7 +340,7 @@ static void MX_ADC1_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ENABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -357,7 +368,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_8;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -396,7 +407,7 @@ static void MX_ADC2_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.ScanConvMode = ENABLE;
   hadc2.Init.ContinuousConvMode = ENABLE;
@@ -413,7 +424,7 @@ static void MX_ADC2_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_6;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_144CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -429,32 +440,6 @@ static void MX_ADC2_Init(void)
   /* USER CODE BEGIN ADC2_Init 2 */
 
   /* USER CODE END ADC2_Init 2 */
-
-}
-
-/**
-  * @brief CRC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_CRC_Init(void)
-{
-
-  /* USER CODE BEGIN CRC_Init 0 */
-
-  /* USER CODE END CRC_Init 0 */
-
-  /* USER CODE BEGIN CRC_Init 1 */
-
-  /* USER CODE END CRC_Init 1 */
-  hcrc.Instance = CRC;
-  if (HAL_CRC_Init(&hcrc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN CRC_Init 2 */
-
-  /* USER CODE END CRC_Init 2 */
 
 }
 
@@ -553,6 +538,69 @@ int _write(int file, char *data, int len)
    return (status == HAL_OK ? len : 0);
 }
 
+void set_adc_fast() {
+  HAL_ADC_Stop(&hadc2);
+  HAL_ADCEx_MultiModeStop_DMA(&hadc1);
+
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+								  |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+    {
+		Error_Handler();
+	}
+	samples_done = 0;
+	sampling_frequency = 153284.0;
+
+	HAL_Delay(2);
+	HAL_ADC_Start(&hadc2);
+	HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 4);
+}
+
+void set_adc_slow() {
+	  HAL_ADC_Stop(&hadc2);
+	  HAL_ADCEx_MultiModeStop_DMA(&hadc1);
+
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+								  |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
+	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV8;
+
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+    {
+		Error_Handler();
+	}
+	samples_done = 0;
+	sampling_frequency = 39220.0;
+
+	HAL_Delay(2);
+	HAL_ADC_Start(&hadc2);
+	HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 4);
+
+
+}
+
+void do_samples(uint8_t mode) {
+	if(mode == ADC_SLOW) {
+		set_adc_slow();
+	}
+	else if(mode == ADC_FAST) {
+		set_adc_fast();
+	}
+
+	HAL_ADC_Start(&hadc2);
+	HAL_ADCEx_MultiModeStart_DMA(&hadc2, ADC_all, SAMPLES * 4);
+	samples_done = 0;
+	while(!samples_done) {}
+}
 
 float32_t tdoa_to_angle(float32_t tdoa, float32_t sensor_distance, float32_t speed) {
 	float32_t a = (speed * tdoa) / sensor_distance;
@@ -578,7 +626,7 @@ int8_t get_angle(int8_t angle, int8_t* angle_avg, uint8_t* avg_i) {
 
 void do_recording() {
 	for(int i = 0; i < SAMPLES / 2; i++) {
-		recording[i].int_val =  (uint16_t) ((sin(2 * M_PI * SIN_RECORDING_FREQUENCY * ((double)i / SIN_SAMPLING_RATE)) + 1) * (double) ((1023 + 1) / 2));	}
+//		recording[i].int_val =  (uint16_t) ((sin(2 * M_PI * SIN_RECORDING_FREQUENCY * ((double)i / SIN_SAMPLING_RATE)) + 1) * (double) ((1023 + 1) / 2));	}
 	}
 }
 
@@ -657,7 +705,7 @@ uint8_t frequency_is_present(uint16_t* ADC_a, uint32_t low_thresh, uint32_t high
 	arm_max_f32(a_mag, SAMPLES / 2, &max, &index);
 
 
-	int frequency = (index * SIN_SAMPLING_RATE) / SAMPLES / 2;
+	int frequency = (index * sampling_frequency) / SAMPLES / 2;
 	return frequency >= low_thresh && frequency <= high_thresh;
 
 
@@ -680,7 +728,7 @@ float32_t find_tdoa(uint16_t* ADC_a, uint16_t* ADC_b) {
 
 	arm_max_f32(samples_correlation, SAMPLES * 2, &max_correlation, &max_correlation_i);
 
-	return (((float32_t)max_correlation_i) - (SAMPLES))/SIN_SAMPLING_RATE;
+	return (((float32_t)max_correlation_i) - (SAMPLES))/sampling_frequency;
 
 
 }
@@ -725,7 +773,7 @@ float32_t do_fft(uint16_t* ADC_a, uint16_t* ADC_b, int low_thresh, int high_thre
 	uint32_t index;
 	arm_max_f32(a_mag, SAMPLES / 2, &max, &index);
 
-	int frequency = (index * SIN_SAMPLING_RATE) / SAMPLES / 2;
+	int frequency = (index * sampling_frequency) / SAMPLES / 2;
 	if(frequency >= low_thresh && frequency <= high_thresh) {
 		float32_t a_phase_max = a_phase[index];
 		float32_t b_phase_max = b_phase[index];
@@ -767,7 +815,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 		ADC_right[i/4] = ADC_all[i+2];
 		ADC_bottom[i/4] = ADC_all[i+3];
 	}
-
+	samples_done = 1;
 	HAL_ADC_Start(&hadc2);
 	HAL_ADCEx_MultiModeStart_DMA(&hadc1, (uint32_t*)ADC_all, SAMPLES * 4);
 }

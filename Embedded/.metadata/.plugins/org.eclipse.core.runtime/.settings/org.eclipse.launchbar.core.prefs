@@ -5,4 +5,4 @@ configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Locator Debug,or
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Locator\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Locator\ Debug/activeLaunchTarget=null\:---
-org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:RecordedLocator\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:RecordedLocator\ Debug/activeLaunchMode=debug
