@@ -81,8 +81,6 @@ class MainActivity : AppCompatActivity() {
         recordModeSwitch.setOnClickListener {
             if(recordModeSwitch.isChecked) {
                 startRecordingButton.visibility = VISIBLE;
-                stopRecordingButton.visibility = VISIBLE;
-                eraseRecordingButton.visibility = VISIBLE;
 
                 frequencySelect.visibility = INVISIBLE
 
@@ -90,8 +88,6 @@ class MainActivity : AppCompatActivity() {
             }
             else  {
                 startRecordingButton.visibility = INVISIBLE;
-                stopRecordingButton.visibility = INVISIBLE;
-                eraseRecordingButton.visibility = INVISIBLE;
 
                 frequencySelect.visibility = VISIBLE;
 
@@ -115,12 +111,6 @@ class MainActivity : AppCompatActivity() {
         startRecordingButton.setOnClickListener {
             locator?.startRecord()
         }
-        stopRecordingButton.setOnClickListener {
-            locator?.stopRecord()
-        }
-        eraseRecordingButton.setOnClickListener {
-            locator?.clearRecord()
-        }
         frequencySelect.setOnRangeSeekBarChangeListener { bar, number, number2 ->
             locator?.setFrequencyRange(number.toShort(), number2.toShort())
 //            Toast.makeText(this, "Set to " + number.toString() + " " + number2.toString(), Toast.LENGTH_SHORT).show()
@@ -140,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         if(intent.action.equals("android.hardware.usb.action.USB_DEVICE_ATTACHED")) {
             Toast.makeText(this, "Usb device", Toast.LENGTH_SHORT).show()
 
-            locator = connectToLocator(this, ::onCoordnates , ::onRunError, ::onNewData)
+            locator = connectToLocator(this, ::onCoordnates , ::onRunError, ::onRecordingStopped, ::onNewData)
             if(locator != null) {
                 initLocator()
                 Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
@@ -213,6 +203,9 @@ class MainActivity : AppCompatActivity() {
         return Pair(boundsX + boundsX * (coordnates.first / (fovX)), boundsY - boundsY * (coordnates.second / (fovY)))
     }
 
+    fun onRecordingStopped() {
+        Toast.makeText(this, "Recording full", Toast.LENGTH_SHORT).show()
+    }
     fun onCoordnates(coordnates: Pair<Int, Int>?) {
         if(isLocating && coordnates != null) {
             val currentTimeMillis = System.currentTimeMillis()

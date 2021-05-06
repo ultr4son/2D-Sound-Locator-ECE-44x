@@ -83,7 +83,9 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
     }
     enum class LocatorToPhoneCommand(val commandCode: Byte) {
         //Set angle display to new angle: COMMAND_CODE(1) | X(2) | Y(2)
-        SET_COORDNATES(7);
+        SET_COORDNATES(7),
+        DEBUG(8),
+        RECORDING_DONE(9);
         companion object {
             private val map = values().associateBy(LocatorToPhoneCommand::commandCode)
             fun fromByte(code: Byte) = map[code]
@@ -106,6 +108,9 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
             if(data[0].equals(LocatorToPhoneCommand.SET_COORDNATES.commandCode)) {
                 context.runOnUiThread {onCoordnates(bytesToAngles(data.sliceArray(IntRange(1, data.size - 1))))}
 
+            }
+            else if(data[0].equals(LocatorToPhoneCommand.RECORDING_DONE.commandCode)) {
+                context.runOnUiThread {onRecordingStopped()};
             }
             else {
                 context.runOnUiThread {onOther(data)}
@@ -176,7 +181,7 @@ fun getCustomProber(): UsbSerialProber? {
  * @param onOther: Called when the locator sends something that is not coordnates or an error code
  * @return A Locator interface object
  */
-fun connectToLocator(context: Context, onCoordnates: (Pair<Int, Int>?) -> Unit, onError: (String?) -> Unit, onOther: (ByteArray?) -> Unit): Locator? {
+fun connectToLocator(context: Context, onCoordnates: (Pair<Int, Int>?) -> Unit, onError: (String?) -> Unit, onRecordingStopped: () -> Unit,onOther: (ByteArray?) -> Unit): Locator? {
     val manager = context.getSystemService(Context.USB_SERVICE) as UsbManager?
     var device : UsbDevice? = null
     for (v in manager?.getDeviceList()!!.values) device = v
@@ -211,7 +216,7 @@ fun connectToLocator(context: Context, onCoordnates: (Pair<Int, Int>?) -> Unit, 
         if(connection != null) {
 
             val port = driver.ports[0] // Most devices have just one port (port 0)
-            return LocatorSerial(context as Activity, port, connection, onCoordnates, onError, {}, onOther)
+            return LocatorSerial(context as Activity, port, connection, onCoordnates, onError, onRecordingStopped, onOther)
 
 
     }
