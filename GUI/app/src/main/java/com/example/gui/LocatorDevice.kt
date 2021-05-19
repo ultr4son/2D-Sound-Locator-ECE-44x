@@ -99,6 +99,9 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
         port.setDTR(true); // for arduino, ...
         port.setRTS(true);
         val ioManager = SerialInputOutputManager(port, this)
+        ioManager.readTimeout = 10
+        ioManager.readBufferSize = 3
+        ioManager.writeBufferSize = 5
         Executors.newSingleThreadExecutor().submit(ioManager)
 
     }
@@ -109,7 +112,7 @@ class LocatorSerial (val context: Activity,val port: UsbSerialPort, connection: 
                 context.runOnUiThread {onCoordnates(bytesToAngles(data.sliceArray(IntRange(1, data.size - 1))))}
 
             }
-            else if(data[0].equals(LocatorToPhoneCommand.RECORDING_DONE.commandCode)) {
+            else if(data[0].equals(LocatorToPhoneCommand.RECORDING_DONE.commandCode) && data.size == 3) {
                 context.runOnUiThread {onRecordingStopped()};
             }
             else {

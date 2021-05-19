@@ -152,8 +152,8 @@ float32_t b_phase[SAMPLES];
 
 int8_t tb_avg_buffer[AVG_WINDOW];
 int8_t lr_avg_buffer[AVG_WINDOW];
-int8_t tb_avg_i = 0;
-int8_t lr_avg_i = 0;
+uint8_t tb_avg_i = 0;
+uint8_t lr_avg_i = 0;
 
 
 uint16_t recording[SAMPLES];
@@ -234,8 +234,8 @@ int main(void)
 			  for(int i = 0; i < SAMPLES; i++) {
 				  recording[i] = ADC_top[i];
 			  }
-			  uint8_t data = RECORDING_FULL;
-			  HAL_UART_Transmit(&huart2, &data, 1, 100);
+			  uint8_t data[] = {RECORDING_FULL,0 ,0};
+			  HAL_UART_Transmit(&huart2, data, 3, 100);
 			  convert_recording();
 			  autocorrelate_recording();
 		  }
@@ -244,13 +244,16 @@ int main(void)
 			  if(recording_is_present(ADC_top)) {
 				  do_samples(ADC_FAST);
 				  float32_t diff_tb = find_tdoa(ADC_top, ADC_bottom);
-				  float32_t diff_lr = find_tdoa(ADC_right, ADC_left);
+				  float32_t diff_lr = find_tdoa(ADC_left, ADC_right);
+
 
 				  int8_t angle_tb = (int8_t) (tdoa_to_angle(diff_tb, SENSOR_DISTANCE, SPEED) * (180.0/M_PI));
 				  int8_t angle_lr = (int8_t) (tdoa_to_angle(diff_lr, SENSOR_DISTANCE, SPEED) * (180.0/M_PI));
 
-				  send_angles(angle_lr, angle_tb);
+				  send_angles(get_angle(angle_lr, lr_avg_buffer, &lr_avg_i), get_angle(angle_tb, tb_avg_buffer, &tb_avg_i));
 
+			  } else {
+				  send_angles(get_angle(0, lr_avg_buffer, &lr_avg_i), get_angle(0, tb_avg_buffer, &tb_avg_i));
 			  }
 
 
@@ -270,6 +273,9 @@ int main(void)
 				  int8_t angle_lr = (int8_t) (tdoa_to_angle(diff_lr, SENSOR_DISTANCE, SPEED) * (180.0/M_PI));
 
 				  send_angles(angle_lr, angle_tb);
+			  }
+			  else {
+				  send_angles(0, 0);
 			  }
 		  }
 	  }
@@ -560,7 +566,7 @@ void set_adc_fast() {
 	}
 	sampling_frequency = 153284.0;
 
-	HAL_Delay(5);
+	HAL_Delay(10);
 }
 
 void set_adc_slow() {
@@ -579,7 +585,7 @@ void set_adc_slow() {
 	}
 	sampling_frequency = 39220.0;
 
-	HAL_Delay(5);
+	HAL_Delay(10);
 
 
 }
@@ -777,10 +783,8 @@ float32_t find_tdoa(uint16_t* ADC_a, uint16_t* ADC_b) {
 }
 
 void send_angles(int8_t angle_tb, int8_t angle_lr) {
-	uint8_t data[] = {SET_COORDNATES};
-    HAL_UART_Transmit(&huart2, (uint8_t*)data, 1, 1000);
-	int8_t data2[] = {angle_tb, angle_lr};
-	HAL_UART_Transmit(&huart2, data2, sizeof(int8_t) * 2, 1000);
+	int8_t data[] = {SET_COORDNATES, angle_tb, angle_lr};
+    HAL_UART_Transmit(&huart2, data, 3, 1000);
 	//printf("%d, %d\n\r", angle_tb, angle_lr);
 }
 

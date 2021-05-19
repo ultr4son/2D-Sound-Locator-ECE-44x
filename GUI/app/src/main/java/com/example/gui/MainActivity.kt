@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     Manifest.permission.CAMERA)
             }
         }
-        locator = connectToLocator(this,::onCoordnates, ::onRunError, ::onNewData)
+        locator = connectToLocator(this,::onCoordnates, ::onRunError, ::onRecordingStopped, ::onNewData)
         if(locator != null) {
             initLocator()
             Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
         }
         connectButton.setOnClickListener {
-            locator = connectToLocator(this, ::onCoordnates , ::onRunError, ::onNewData)
+            locator = connectToLocator(this, ::onCoordnates , ::onRunError, ::onRecordingStopped, ::onNewData)
             if(locator != null) {
                 initLocator()
                 Toast.makeText(this, "Locator connected", Toast.LENGTH_SHORT).show()
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
     fun initLocator() {
 //        locator?.setLocationEnable(asLocationState(isLocating))
-//        locator?.setLocationMode(if(recordModeSwitch.isChecked) LocationMode.RECORDING else LocationMode.FREQUENCY)
+        locator?.setLocationMode(if(recordModeSwitch.isChecked) LocationMode.RECORDING else LocationMode.FREQUENCY)
 //        locator?.setFrequencyRange(frequencySelect.selectedMinValue.toShort(), frequencySelect.selectedMaxValue.toShort())
 //        locator?.stopRecord()
 //        locator?.clearRecord()
@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity() {
     fun anglesToScreenTranslation(coordnates: Pair<Int, Int>): Pair<Float, Float> {
         val boundsX = viewFinder.width / 2
         val boundsY = viewFinder.height / 2
-        return Pair(boundsX + boundsX * (coordnates.first / (fovX)), boundsY - boundsY * (coordnates.second / (fovY)))
+        return Pair(boundsX + boundsX * (coordnates.first / (fovX/2)), boundsY + boundsY * (coordnates.second / (fovY/2)))
     }
 
     fun onRecordingStopped() {
@@ -221,11 +221,11 @@ class MainActivity : AppCompatActivity() {
             coordnatesText.measure(0, 0)
             var translation = anglesToScreenTranslation(coordnates)
             if(translation.first > viewFinder.width - coordnatesText.measuredWidth || translation.second > viewFinder.height - coordnatesText.measuredHeight) {
-                translation = translation.copy(min(viewFinder.width.toFloat() - coordnatesText.measuredWidth, translation.first), min(viewFinder.height.toFloat() - coordnatesText.measuredHeight, translation.second))
+                translation = translation.copy(min(viewFinder.width.toFloat() + coordnatesText.measuredWidth, translation.first), min(viewFinder.height.toFloat() - coordnatesText.measuredHeight, translation.second))
                 coordnatesText.setTextColor(Color.YELLOW)
             }
-            else if(translation.first < coordnatesText.width || translation.second < coordnatesText.height) {
-                translation = translation.copy(max(coordnatesText.measuredWidth.toFloat(), translation.first), max(coordnatesText.measuredHeight.toFloat(), translation.second))
+            else if(translation.first < 0 || translation.second < 0) {
+                translation = translation.copy(max(0.0f, translation.first), max(0.0f, translation.second))
                 coordnatesText.setTextColor(Color.YELLOW)
             }
             else {
@@ -254,19 +254,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onNewData(data: ByteArray?) {
-        if(data != null && data[0].compareTo(8) == 0) {
-            if(data.size < 5) {
-                Toast.makeText(this, data.size.toString(), Toast.LENGTH_SHORT).show()
-                return
-            }
-            val data1 = data.sliceArray(IntRange(1, data.size - 1))
-            val x = ByteBuffer.wrap(data1.sliceArray(IntRange(0, Short.SIZE_BYTES - 1))).short.toInt()
-            val y = ByteBuffer.wrap(data1.sliceArray(IntRange(Short.SIZE_BYTES, Short.SIZE_BYTES * 2 - 1))).short.toInt()
-
-            var s = ""
-            s +=  x.toString() + " " + y.toString()
-            Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
-        }
+//        if(data != null) {
+//            var s = ""
+//            for(d in data) {
+//                s += d.toString() + " "
+//            }
+//            Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+//        }
 //        if(data != null && data.size > 0) {
 //            if(LocatorSerial.PhoneToLocatorCommand.isCommand(data[0])) {
 //                Toast.makeText(this, data.size.toString() + " " + LocatorSerial.PhoneToLocatorCommand.fromByte(data[0]).toString(), Toast.LENGTH_SHORT).show()
